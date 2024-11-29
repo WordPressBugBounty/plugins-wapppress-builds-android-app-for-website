@@ -42,7 +42,7 @@ class wappPress_admin_setting extends wappPress {
 
 		$dirPlgUrl  = trailingslashit( esc_url(plugins_url('wapppress-builds-android-app-for-website')) );
 
-		$pageTitle = __( 'WappPress', 'WappPress' );
+		$pageTitle = __( 'WappPress', 'wapppress-builds-android-app-for-website' );
 
 		$maPlgin = 'wapppressplugin';
 
@@ -60,17 +60,17 @@ class wappPress_admin_setting extends wappPress {
 
 		// Create main menu 
 
-		$mainMenu = add_menu_page( $pageTitle,  __( 'wappPress BASIC', 'wappPress' ), 'manage_options', $maPlgin, array( $this, 'maker_basic_page' ),$plgIcon  );
+		$mainMenu = add_menu_page( $pageTitle,  __( 'wappPress BASIC', 'wapppress-builds-android-app-for-website' ), 'manage_options', $maPlgin, array( $this, 'maker_basic_page' ),$plgIcon  );
 
 		global $submenu;
 
 		// Settings page sub menu
 
-		$subSettingMenu = add_submenu_page($maPlgin, __( 'Settings', 'wappPress' ), __( 'Settings', 'wappPress' ),  'manage_options', $maSett, array( $this, 'maker_settings_page' ));
+		$subSettingMenu = add_submenu_page($maPlgin, __( 'Settings', 'wapppress-builds-android-app-for-website' ), __( 'Settings', 'wapppress-builds-android-app-for-website' ),  'manage_options', $maSett, array( $this, 'maker_settings_page' ));
 		
-		$subPushMenu = add_submenu_page($maPlgin, __( 'Push Notification', 'wappPress' ), __( 'Push Notification', 'wappPress' ),  'manage_options', $maPush, array( $this, 'maker_push_page' ));
+		$subPushMenu = add_submenu_page($maPlgin, __( 'Push Notification', 'wapppress-builds-android-app-for-website' ), __( 'Push Notification', 'wapppress-builds-android-app-for-website' ),  'manage_options', $maPush, array( $this, 'maker_push_page' ));
 
-		$subThemeMenu = add_submenu_page($maPlgin, __( 'Themes', 'wappPress' ), __( 'Themes', 'wappPress' ),  'manage_options', $maTheme, array( $this, 'maker_theme_page' ));
+		$subThemeMenu = add_submenu_page($maPlgin, __( 'Themes', 'wapppress-builds-android-app-for-website' ), __( 'Themes', 'wapppress-builds-android-app-for-website' ),  'manage_options', $maTheme, array( $this, 'maker_theme_page' ));
 
 				
 
@@ -460,9 +460,10 @@ class wappPress_admin_setting extends wappPress {
 
 														 $theme_val = $theme_val == 'option-none' ? '' : esc_attr( $theme_val ); 
 
-													echo	$the[ $theme_val ] = '<option id="'.$src.'" value="'. $theme_val .'" '. selected( @$options['wapppress_theme_setting'],$theme_val, false) .'>'. esc_html( $theme_name ) .'</option>
+														$the[$theme_val]  = '<option id="'.$src.'" value="'. $theme_val .'" '. selected( @$options['wapppress_theme_setting'],$theme_val, false) .'>'. esc_html( $theme_name ) .'</option>
 
 														'."\n"; 
+														echo esc_html($the[$theme_val]) ;
 
 														} ?>
 
@@ -1517,7 +1518,7 @@ if (isset($_POST['type']) && sanitize_text_field($_POST['type']) === 'api_create
     // Sanitizing form inputs
     $name = sanitize_text_field($_POST['name']);
     $email = sanitize_email($_POST['semail']);
-    $website = curl_site_url();
+    $website = wapp_site_url();
     $dirPlgUrl1 = esc_url_raw($_POST['dirPlgUrl1']);
     $ap = sanitize_text_field($_POST['ap']);
     $ip = sanitize_text_field($_POST['ip']);
@@ -1599,8 +1600,8 @@ if (isset($_POST['type']) && sanitize_text_field($_POST['type']) === 'api_create
     $domain_arr = explode('.', sanitize_text_field($domain_name));
     $domain_fname = sanitize_text_field($domain_arr[0]);
     $app_name = sanitize_text_field($_POST['app_name']);
-    $base64_app_logo = base64_encode(file_get_contents($app_logo_temp)); // Using file_get_contents for correct reading
-    $base64_app_splash = base64_encode(file_get_contents($app_splash_temp));
+    $base64_app_logo = base64_encode(wp_remote_get($app_logo_temp)); // Using file_get_contents for correct reading
+    $base64_app_splash = base64_encode(wp_remote_get($app_splash_temp));
 
     $data = array(
         "name" => sanitize_text_field($_POST['name']),
@@ -1729,7 +1730,7 @@ public function  get_app()
         return in_array('curl', get_loaded_extensions());
     }
 
-    $website = curl_site_url();
+    $website = wapp_site_url();
     $domain_name = get_domain($website);
     $domain_arr = explode('.', sanitize_text_field($domain_name));
     $domain_fname = sanitize_text_field($domain_arr[0]);
@@ -1899,7 +1900,7 @@ if (isset($_POST['type']) && sanitize_text_field($_POST['type']) === 'push_form'
         return esc_url_raw($pageURL . $subDirURL);
     }
 
-    $website = curl_site_url();    
+    $website = wapp_site_url();    
     $domain_name = get_domain_name($website);
 
     // Collecting POST data after sanitization
@@ -2076,7 +2077,7 @@ public function search_post_results() {
 
 		if( !(isset($searchVal,$nonceVal) && wp_verify_nonce($nonceVal, 'wapppress_group-options' ) ) ){
 
-			wp_send_json_error( '<p>'. __( 'Security check failed', 'wapppress' ) .'</p>' );
+			wp_send_json_error( '<p>'. __( 'Security check failed', 'wapppress-builds-android-app-for-website' ) .'</p>' );
 
 		}	
 
@@ -2084,7 +2085,7 @@ public function search_post_results() {
 
 		if ( empty( $searchVal ) ){
 
-			wp_send_json_error( '<p>'. __( 'Please Try Again', 'wapppress' ) .'</p>' );
+			wp_send_json_error( '<p>'. __( 'Please Try Again', 'wapppress-builds-android-app-for-website' ) .'</p>' );
 
 		}
 
@@ -2105,13 +2106,13 @@ public function search_post_results() {
 
 		if ( empty( $allResults ) ){
 
-			wp_send_json_error( '<p>'. __('No Results Found', 'wapppress' ) .'</p>' );
+			wp_send_json_error( '<p>'. __('No Results Found', 'wapppress-builds-android-app-for-website' ) .'</p>' );
 
 		}
 
 		if ( !empty( $allResults ) ){
 
-			$str = '<p>'. __('Please choose a page', 'wapppress' ) .'</p>';
+			$str = '<p>'. __('Please choose a page', 'wapppress-builds-android-app-for-website' ) .'</p>';
 
 			$str .= '<ol>';
 
