@@ -1,6 +1,4 @@
 /* CSS Document */
-
-	
 @font-face {
     font-family: 'open_sansregular';
     src: url('../fonts/opensans-regular_0-webfont.eot');
@@ -1518,3 +1516,224 @@ body.modal-open {
 }
 
 /*-- Additional Settings End --*/
+/*-- Front Section New Design --*/
+* {
+	box-sizing: border-box;
+	margin: 0px;
+	padding: 0px;	
+}
+html, body, address, blockquote, div, dl, form, h1, h2, h3, h4, h5, h6, ol, p, pre, table, ul, dd, dt, li, tbody, td, tfoot, th, thead, tr, button, del, ins, map, object, a, abbr, acronym, b, bdo, big, br, cite, code, dfn, em, i, img, kbd, q, samp, small, span, strong, sub, sup, tt, var, legend, fieldset, p {
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+a, input, select, textarea {
+	outline: none;
+	margin: 0;
+	padding: 0;
+}
+img, fieldset {
+	border: 0;
+}
+a, button, input {
+	outline: none;
+	border: none;
+	transition:all 0.5s ease 0s;
+	-webkit-transition:all 0.5s ease 0s;
+	-moz-transition:all 0.5s ease 0s;
+	-ms-transition:all 0.5s ease 0s;
+	-o-transition:all 0.5s ease 0s;
+}
+a:hover, button:hover, input:hover {
+	transition:all 0.5s ease 0s;
+	-webkit-transition:all 0.5s ease 0s;
+	-moz-transition:all 0.5s ease 0s;
+	-ms-transition:all 0.5s ease 0s;
+	-o-transition:all 0.5s ease 0s;
+}
+img {
+	max-width: 100%;
+	height: auto;
+	width: auto;
+	vertical-align: middle;
+	border: none;
+	outline: none;
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+	display: block;
+	margin: 0;
+	padding: 0;
+}
+div, h1, h2, h3, h4, h5, span, p, input, form, img, hr, img, a {
+	margin: 0;
+	padding: 0;
+	border: none;
+	text-decoration:none;
+	font-family: "Raleway", serif;
+}
+.clear {
+	clear: both;
+}
+body {
+	font-family: "Raleway", serif;
+}
+section.wapppress_section {
+    position: relative;
+    text-align: center;
+	padding:0 0 100px;
+}
+.wapppress_box1 {
+    display: inline-block;
+    vertical-align: top;
+    width: 476px;
+    margin: 0 20px;
+    background-image: url(../images/mobile.png);
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    padding: 80px 50px 60px;
+    background-position: top center;
+	position: relative;
+}
+.wapppress_box1:after {
+    position: absolute;
+    content: "";
+    background-image: url(../images/shadow.png);
+    width: 100%;
+    height: 63px;
+    background-size: auto;
+    background-repeat: no-repeat;
+    bottom: -48px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    z-index: -9;
+}
+.wapppress_box1 h3 {
+    display: block;
+    font-family: "Raleway", serif;
+    font-size: 25px;
+    font-weight: 700;
+    line-height: 29.35px;
+    text-align: center;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #FFFFFF;
+    background-color: #638C6D;
+    box-shadow: 0px 4px 14px 0px #00000026;
+    border-radius: 20px;
+    padding: 20px 15px;
+}
+.wapppress_box1 h3 span {
+    font-size: 45px;
+    line-height: 50px;
+}
+.wapppress_box1 ul {
+    display: block;
+    padding: 20px 0 0;
+}
+.wapppress_box1 ul li {
+    display: block;
+    font-family: "Raleway", serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 28px;
+    text-align: left;
+    background-image: url(../images/tick.png);
+    background-repeat: no-repeat;
+    background-position: 0 3px;
+    padding: 0 0 0 30px;
+    margin: 0 0 10px;
+}
+.wapppress_box1 ul li b {
+    display: block;
+    font-family: "Raleway", serif;
+    font-size: 19px;
+    font-weight: 900;
+    line-height: 27px;
+    text-align: left;
+    color: #C84C05;
+}
+.wapppress_box1 ul li small {
+    display: block;
+    font-family: "Raleway", serif;
+	color:#000000;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    text-align: left;
+}
+.wapppress_box1 button {
+    display: block;
+    font-family: "Raleway", serif;
+    color: #FFFFFF;
+    font-size: 29px;
+    font-weight: 900;
+    line-height: 34px;
+    text-align: center;
+    background: #C84C05;
+    border: 6px solid #FFFFFF;
+    box-shadow: 0px 4px 4px 0px #00000040;
+    border-radius: 20px;
+    height: 120px;
+    text-transform: uppercase;
+    padding: 0 15px;
+    width: 100%;
+    margin: 20px 0 0;
+}
+.wapppress_box1 button:hover {
+	color: #C84C05;
+	background: #FFFFFF;
+	border: 6px solid #C84C05;
+}
+section.build_app_section {
+    position: relative;
+    padding: 50px 0;
+}
+.build_app_box {
+    background: #638C6D;
+    border-radius: 15px;
+    padding: 20px 20px;
+    width: 1024px;
+    display: table;
+    margin: 0 auto;
+}
+.build_app_text1 {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 8px 0 0;
+}
+.build_app_text1 figure {
+    display: inline-block;
+	vertical-align: middle;
+}
+.build_app_text1 p {
+    display: inline-block;
+    vertical-align: middle;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 34px;
+    padding-left: 10px;
+}
+.build_app_box button {
+    display: inline-block;
+    vertical-align: middle;
+    float: right;
+    color: #ffffff;
+    font-size: 21px;
+    font-weight: 900;
+    text-align: center;
+    background: #C84C05;
+    border: 3px solid #FFFFFF;
+    box-shadow: 0px 4px 4px 0px #0000001F;
+    width: 190px;
+    height: 50px;
+    text-transform: uppercase;
+    border-radius: 10px;
+}
+.build_app_box button:hover {
+	color: #C84C05;
+	background: #FFFFFF;
+	border: 3px solid #C84C05;
+}

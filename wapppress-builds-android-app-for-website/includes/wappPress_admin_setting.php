@@ -85,182 +85,67 @@ class wappPress_admin_setting extends wappPress {
 	require_once(  'header.php' );
 
 	?>
-
-	<div class="contant-section1">
-
-	<div class="section">
-
-		<div class="wrapper">
-
-			<div class="contant-section">
-
-				<h5>
-
-				<img src="<?php echo esc_url(plugins_url( '../images/img1.png',  __FILE__ )) ?>" title="img1" alt="img1"/> &nbsp; <i>Build Android App in real-time for any wordpress website</i>
-
-				</h5>
-
-				<h3>
-
-				WappPress <span>BASIC VERSION<span> &nbsp; &nbsp;<strong>(free)</strong>
-
-				</h3>
-
-				<p>
-
-					With WappPress Basic Version you will enjoy following features
-
-				</p>
-
-				<div class="inner-contant">
-
-					<div class="list-sec">
-
-						<ul>
-							<li>Push Notification <span style='color: red;display: inline;float: none;'>(New)</span></li>
-							<li>Monetize Your App  with Google AdMob Interstitial Ads <span style='color: red;display: inline;float: none;'>(New)</span></li>
-							<li><strong style='color: red;'>Android App Validity - 15 Days</strong></li>
-							<li>Select different home page for Mobile app</li>
-
-							<li>Select Different theme for website & mobile app   </li>
-
-							<li>Select and customize launcher icon</li>
-
-							<li>Upload your own custom icon</li>
-
-							<li>Select and customize splash screen</li>
-
-							<li>Upload your own splash screen </li>
-
-							<span style='font-size:10px;margin-left:20px;'>( You can upload your own splash screen image, this will be used to capture the user's attention for a short time as a promotion or lead-in)</span><br /><br />
-
-							<li>Ads Free - i.e. no ads/brand name include inside</li>
-
-							<li>Allow to Build Android App in Real Time</li>
-
-							
-
-						</ul>
-
-						<span><a href="<?php echo esc_url(admin_url('admin.php?page=wapppresssettings')); ?>"><img src="<?php echo esc_url(plugins_url( '../images/btn.png',  __FILE__ )) ?>" title="" alt=""/></a></span>
-
-					</div>
-
-					<div class="img-box img-box2">
-
-						<img src="<?php echo esc_url(plugins_url( '../images/mob.png',  __FILE__ )) ?>" title="" alt=""/>
-
-					</div>
-
-					<div class="clear">
-
-					</div>
-
+	
+<section class="build_app_section">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12">
+				<div class="build_app_box">
+					<div class="build_app_text1">
+						<figure><img src="<?php echo esc_url(plugins_url( '../images/img1.png',  __FILE__ )) ?>" alt="img" /></figure>
+						<p>Build Android App in real-time for any wordpress website</p>
+					</div>					
+					<a href="<?php echo esc_url(admin_url('admin.php?page=wapppresssettings')); ?>"><button>Build APP</button></a>
 				</div>
-
-				<div class="sec-2">
-
-					<div class="left-heading">
-
-						<h3>
-
-						WappPress <span class="pro-version">PRO VERSION</span>
-
-						</h3>
-
-					</div>
-
-					<div class="right-heading">
-
-						<h3><span>(FOR JUST &nbsp;<strong>$24</strong> &nbsp; ONLY )</span></h3>
-
-					</div>
-
-					<div class="clear">
-
-					</div>
-
-					<p>
-
-						Use WappPress Pro Version to enjoy following features
-
-					</p>
-
-					<div class="inner-contant">
-
-						<div class="list-sec1">
-
-							<ul>
-								<li>Push Notification <span style='color: red;display: inline;float: none;'>(New)</span></li>
-								<li>Monetize Your App  with Google AdMob Interstitial Ads <span style='color: red;display: inline;float: none;'>(New)</span></li>
-								<li><strong style='color: red;'>Android App Validity - Unlimited Time</strong></li>
-								<li>Select different home page for Mobile app</li>
-
-								<li>Select Different theme for website & mobile app</li>
-
-								<li>Select and customize launcher icon</li>
-
-								<li>Upload your own custom icon</li>
-
-								<li>Select and customize splash screen</li>
-
-								<li>Upload your own splash screen </li>
-
-								<span style='font-size:10px;float:left;margin-left:24px;'>( You can upload your own splash screen image, this will be used to capture the user's attention for a short time as a promotion or lead-in)</span><br /><br />
-
-								
-								<li>Ads Free - i.e. no ads/brand name include inside</li>
-
-								<li>Allow to Build Android App in Real Time</li>
-
-							</ul>
-
-							
-
-							<span><a href="http://goo.gl/bcEb25" target='_blank'  ><img src="<?php echo esc_url(plugins_url( '../images/btn2.png',  __FILE__ )) ?>" title="" alt=""/></a></span>
-
-							<span>
-
-							<h2>$24 <strong>Only</strong></h2>
-
-							</span>
-
-						</div>
-
-						<div class="img-box">
-
-							<img src="<?php echo esc_url(plugins_url( '../images/mob.png',  __FILE__ )) ?>" title="" alt=""/>
-
-						</div>
-
-						<div class="clear">
-
-						</div>
-
-					</div>
-
-				</div>
-
-				<div class="sec-3">
-
-					<h3> Publish App </h3>
-
-					<p>
-
-						If you need any help regarding publishing your app on Google Play <span><a href="mailto:info@wapppress.com">contact US</a></span>
-
-					</p>
-
-				</div>
-
 			</div>
-
 		</div>
-
-	</div>	
-
-	</div>	
-
+	</div>
+</section>
+<section class="wapppress_section">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12">
+				<div class="wapppress_box1">
+					<h3>WappPress BASIC VERSION <span>(free)</span></h3>
+					<ul>
+						<li>Push Notification (New)</li>
+						<li>Monetize Your App with Google AdMob Interstitial Ads (New)</li>
+						<li><b>Android App Validity - 15 Days</b></li>
+						<li>Select different home page for Mobile app</li>
+						<li>Select Different theme for website & mobile app</li>
+						<li>Select and customize launcher icon</li>
+						<li>Upload your own custom icon</li>
+						<li>Select and customize splash screen</li>
+						<li>Upload your own splash screen
+						<small>( You can upload your own splash screen image, this will be used to capture the user's attention for a short time as a promotion or lead-in)</small></li>
+						<li>Ads Free - i.e. no ads/brand name include inside</li>
+						<li>Allow to Build Android App in Real Time</li>
+					</ul>
+					<a href="<?php echo esc_url(admin_url('admin.php?page=wapppresssettings')); ?>"><button>Build APP</button></a>
+				</div>
+				<div class="wapppress_box1">
+					<h3><b>WappPress</b> PRO VERSION FOR JUST <span>$24</span> ONLY</h3>
+					<ul>
+						<li>Push Notification (New)</li>
+						<li>Monetize Your App with Google AdMob Interstitial Ads (New)</li>
+						<li><b>Android App Validity-Unlimited Time</b></li>
+						<li>Select different home page for Mobile app</li>
+						<li>Select Different theme for website & mobile app</li>
+						<li>Select and customize launcher icon</li>
+						<li>Upload your own custom icon</li>
+						<li>Select and customize splash screen</li>
+						<li>Upload your own splash screen
+						<small>( You can upload your own splash screen image, this will be used to capture the user's attention for a short time as a promotion or lead-in)</small></li>
+						<li>Ads Free - i.e. no ads/brand name include inside</li>
+						<li>Allow to Build Android App in Real Time</li>
+					</ul>
+					<a href="http://goo.gl/bcEb25" target='_blank'  ><button>Buy PRO Version</button></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+	
 	
 
 	<!---=== Pro PopUp Div  Start ===--->
@@ -598,6 +483,7 @@ class wappPress_admin_setting extends wappPress {
 						</div>
 
 					</div>
+					
 
 					<div class="wrap-right mobileFrame">
 
@@ -1457,14 +1343,20 @@ $dirPath1  = trailingslashit( plugin_dir_path( __FILE__ ) );
 
 //Create App 
 
-public function  create_app(){$p  = trailingslashit( plugin_dir_path( __FILE__ ) );
-
-$plugin_path = str_replace('includes/', '', esc_url_raw($p)); // Escaped the path
-
+public function  create_app()
+{
+	 // Verify the nonce
+    if ( ! check_ajax_referer( 'wapppress_nonce', 'security', false ) ) {
+        wp_send_json_error( 'Invalid nonce' );
+        wp_die();
+    }
+	
 // These functions modify PHP settings, so no escaping needed here
-ini_set('memory_limit', '2048M');
-set_time_limit(300);
-
+	 if (function_exists('ini_set')) {
+		ini_set('memory_limit', '2048M');
+		set_time_limit(300);
+	} 
+	 
 // Upload Launcher Icon Start
 if (!empty($_FILES['app_logo']) && !empty($_FILES['app_logo']['name'])) {
     $app_logo_name = '';
@@ -1474,7 +1366,7 @@ if (!empty($_FILES['app_logo']) && !empty($_FILES['app_logo']['name'])) {
     if ($_FILES['app_logo']['error'] === UPLOAD_ERR_OK) {
         $app_logo_name = sanitize_file_name($_FILES['app_logo']['name']); // Sanitized filename
         $app_logo_temp = sanitize_text_field($_FILES['app_logo']['tmp_name']); // Sanitized temporary name
-    }
+    }else{ echo "0"; exit;}
 }
 // Upload Launcher Icon End
 
@@ -1489,44 +1381,127 @@ if (!empty($_FILES['app_logo']) && !empty($_FILES['app_logo']['name'])) {
         if ($_FILES['app_splash_image']['error'] === UPLOAD_ERR_OK) {
             $app_splash_image = time() . "_" . sanitize_file_name($_FILES['app_splash_image']['name']); // Sanitized filename
             $app_splash_temp = sanitize_text_field($_FILES['app_splash_image']['tmp_name']); // Sanitized temp name
-        }
+        }else{ echo "0"; exit;}
     }
 }
 // Upload Splash Image End
-
+ 
 // Android API Form Start
 if (isset($_POST['type']) && sanitize_text_field($_POST['type']) === 'api_create_form') {
-    // Get Current Website URL
-    function curl_site_url() {
-        $pageURL = 'http';
-        if (isset($_SERVER['HTTPS']) && $_SERVER["HTTPS"] == "on") {
-            $pageURL .= "s";
-        }
-        $pageURL .= "://";
-        if ($_SERVER["SERVER_PORT"] != "80") {
-            $pageURL .= sanitize_text_field($_SERVER["SERVER_NAME"]) . ":" . sanitize_text_field($_SERVER["SERVER_PORT"]);
-        } else {
-            $pageURL .= sanitize_text_field($_SERVER["SERVER_NAME"]);
-        }
-        $subDirURL = '';
-        if (!empty($_SERVER['SCRIPT_NAME'])) {
-            $subDirURL .= esc_url_raw(str_replace("/wp-admin/admin-ajax.php", "", sanitize_text_field($_SERVER['SCRIPT_NAME'])));
-        }
-        return esc_url_raw($pageURL . $subDirURL); // Escaped final URL
-    }
-
-    // Sanitizing form inputs
+	    // Sanitizing form inputs
     $name = sanitize_text_field($_POST['name']);
     $email = sanitize_email($_POST['semail']);
-    $website = wapp_site_url();
+	if (function_exists('wapp_site_url')) {
+		$website = wapp_site_url();
+	} else {
+		$website = site_url(); // Or use home_url()
+	}
+	//wp_send_json_success("0~test"); exit;
     $dirPlgUrl1 = esc_url_raw($_POST['dirPlgUrl1']);
     $ap = sanitize_text_field($_POST['ap']);
     $ip = sanitize_text_field($_POST['ip']);
     $file = sanitize_text_field($_POST['file']);
 
-    function wcurlrequest($ac, $d_name, $an, $data) {
-        set_time_limit(300);
+    // Sanitizing and escaping data
+	$domain_name =  $this->get_domain($website);	
+	//wp_send_json_success("0~test"); exit;
+    $domain_arr = explode('.', sanitize_text_field($domain_name));
+    $domain_fname = sanitize_text_field($domain_arr[0]);
+    $app_name = sanitize_text_field($_POST['app_name']);
+	//wp_send_json_success("0~test"); exit;
 
+	//get and encode logo
+	$response_logo = file_get_contents($app_logo_temp);
+	if (is_wp_error($response_logo)) {
+		// Log the error for debugging
+		//error_log('Error fetching image: ' . $response_logo->get_error_message());
+		wp_send_json_success("0~test". $response_logo->get_error_message().$app_logo_temp); exit;
+
+	} else {
+		$base64_app_logo = base64_encode(file_get_contents($app_logo_temp));
+	}
+	//get and encode splash
+    $response_splash = file_get_contents($app_splash_temp);
+	if (is_wp_error($response_splash)) {
+		// Log the error for debugging
+		//error_log('Error fetching image: ' . $response_splash->get_error_message());
+		wp_send_json_success("0~test". $response_splash->get_error_message().$app_splash_temp); exit;
+
+	} else {
+		$base64_app_splash = base64_encode(file_get_contents($app_splash_temp));
+	}
+
+    $data = array(
+        "name" => sanitize_text_field($_POST['name']),
+        "app_name" => $app_name,
+        "base64_app_logo" => $base64_app_logo,
+        "base64_app_splash" => $base64_app_splash,
+        "email" => sanitize_email($_POST['semail']),
+        "license" => sanitize_text_field($_POST['license']),
+        "interstitial_unit_id" => sanitize_text_field($_POST['interstitial_unit_id']),
+        "banner_unit_id" => sanitize_text_field($_POST['banner_unit_id']),
+        "website" => esc_url_raw($website),
+        "domain_name" => $domain_name,
+        "domain_fname" => $domain_fname,
+        "app_site_url" => esc_url_raw($dirPlgUrl1),
+    );
+
+    $custom_launcher_logo = sanitize_text_field($_POST['custom_launcher_logo']);
+    $custom_splash_logo = sanitize_text_field($_POST['custom_splash_logo']);
+
+    if (isset($custom_launcher_logo) && $custom_launcher_logo == '0') {
+        $data['app_launcher_logo_name'] = 'ic_launcher.png';
+        $data['app_push_icon'] = 'ic_stat_gcm.png';
+    } elseif (isset($custom_launcher_logo) && $custom_launcher_logo == '1') {
+        $data['app_logo_color'] = sanitize_text_field($_POST['app_logo_color']);
+        $data['app_logo_text_color'] = sanitize_text_field($_POST['app_logo_text_color']);
+        $data['app_logo_text'] = sanitize_text_field($_POST['app_logo_text']);
+        $data['app_logo_text_font_family'] = sanitize_text_field($_POST['app_logo_text_font_family']);
+        $data['app_logo_text_font_size'] = sanitize_text_field($_POST['app_logo_text_font_size']);
+    }
+
+    if (isset($custom_splash_logo) && $custom_splash_logo == '0') {
+        $data['app_splash_screen_name'] = 'splash_screen.png';
+    } elseif (isset($custom_splash_logo) && $custom_splash_logo == '1') {
+        $data['app_splash_color'] = sanitize_text_field($_POST['app_splash_color']);
+        $data['app_splash_text'] = sanitize_text_field($_POST['app_splash_text']);
+        $data['app_splash_text_color'] = sanitize_text_field($_POST['app_splash_text_color']);
+        $data['app_splash_text_font_family'] = sanitize_text_field($_POST['app_splash_text_font_family']);
+        $data['app_splash_text_font_size'] = sanitize_text_field($_POST['app_splash_text_font_size']);
+    }
+	
+	  $this->wcurlrequest($ip . $ap . $file, $domain_name, $app_name, $data);
+		
+}
+// Android API Form End
+
+}
+ // Function to extract domain
+ public function get_domain($url)
+ {
+	   $pieces = wp_parse_url(esc_url_raw($url));
+		$domain = isset($pieces['host']) ? sanitize_text_field($pieces['host']) : '';
+
+		if (preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,10})$/i', $domain, $regs)) {
+			function isLetter($domain_name) {
+				return preg_match('/^\s*[a-z,A-Z]/', $domain_name) > 0;
+			}
+
+			if (isLetter($regs['domain'])) {
+				return sanitize_text_field($regs['domain']);
+			} else {
+				return "com_" . sanitize_text_field($regs['domain']);
+			}
+		}
+		return false;
+ }
+public function wcurlrequest($ac, $d_name, $an, $data)
+ {
+		if (function_exists('ini_set')) 
+		{
+			 set_time_limit(300);
+		}
+       
         $fields = '';
         foreach ($data as $key => $value) {
             $fields .= sanitize_text_field($key) . '=' . sanitize_text_field($value) . '&';
@@ -1570,266 +1545,61 @@ if (isset($_POST['type']) && sanitize_text_field($_POST['type']) === 'api_create
             }
         } else {
             setcookie('wapppress_proxy', 'true', time() + (DAY_IN_SECONDS * 100));
-            $str = "0~test";
+            $str = "0~test---uv-".$result;
             wp_send_json_success($str);
             exit();
         }
+ }
+
+//Create App end
+
+public function  create_push_app()
+{
+ // Verify the nonce
+    if ( ! check_ajax_referer( 'wapppress_nonce', 'security', false ) ) {
+        wp_send_json_error( 'Invalid nonce' );
+        wp_die();
     }
-
-    // Function to extract domain
-    function get_domain($url) {
-        $pieces = wp_parse_url(esc_url_raw($url));
-        $domain = isset($pieces['host']) ? sanitize_text_field($pieces['host']) : '';
-
-        if (preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,10})$/i', $domain, $regs)) {
-            function isLetter($domain_name) {
-                return preg_match('/^\s*[a-z,A-Z]/', $domain_name) > 0;
-            }
-
-            if (isLetter($regs['domain'])) {
-                return sanitize_text_field($regs['domain']);
-            } else {
-                return "com_" . sanitize_text_field($regs['domain']);
-            }
-        }
-        return false;
-    }
-
-    // Sanitizing and escaping data
-    $domain_name = get_domain($website);
-    $domain_arr = explode('.', sanitize_text_field($domain_name));
-    $domain_fname = sanitize_text_field($domain_arr[0]);
-    $app_name = sanitize_text_field($_POST['app_name']);
-    $base64_app_logo = base64_encode(wp_remote_get($app_logo_temp)); // Using file_get_contents for correct reading
-    $base64_app_splash = base64_encode(wp_remote_get($app_splash_temp));
-
-    $data = array(
-        "name" => sanitize_text_field($_POST['name']),
-        "app_name" => $app_name,
-        "base64_app_logo" => $base64_app_logo,
-        "base64_app_splash" => $base64_app_splash,
-        "email" => sanitize_email($_POST['semail']),
-        "license" => sanitize_text_field($_POST['license']),
-        "interstitial_unit_id" => sanitize_text_field($_POST['interstitial_unit_id']),
-        "banner_unit_id" => sanitize_text_field($_POST['banner_unit_id']),
-        "website" => esc_url_raw($website),
-        "domain_name" => $domain_name,
-        "domain_fname" => $domain_fname,
-        "app_site_url" => esc_url_raw($dirPlgUrl1),
-    );
-
-    $custom_launcher_logo = sanitize_text_field($_POST['custom_launcher_logo']);
-    $custom_splash_logo = sanitize_text_field($_POST['custom_splash_logo']);
-
-    if (isset($custom_launcher_logo) && $custom_launcher_logo == '0') {
-        $data['app_launcher_logo_name'] = 'ic_launcher.png';
-        $data['app_push_icon'] = 'ic_stat_gcm.png';
-    } elseif (isset($custom_launcher_logo) && $custom_launcher_logo == '1') {
-        $data['app_logo_color'] = sanitize_text_field($_POST['app_logo_color']);
-        $data['app_logo_text_color'] = sanitize_text_field($_POST['app_logo_text_color']);
-        $data['app_logo_text'] = sanitize_text_field($_POST['app_logo_text']);
-        $data['app_logo_text_font_family'] = sanitize_text_field($_POST['app_logo_text_font_family']);
-        $data['app_logo_text_font_size'] = sanitize_text_field($_POST['app_logo_text_font_size']);
-    }
-
-    if (isset($custom_splash_logo) && $custom_splash_logo == '0') {
-        $data['app_splash_screen_name'] = 'splash_screen.png';
-    } elseif (isset($custom_splash_logo) && $custom_splash_logo == '1') {
-        $data['app_splash_color'] = sanitize_text_field($_POST['app_splash_color']);
-        $data['app_splash_text'] = sanitize_text_field($_POST['app_splash_text']);
-        $data['app_splash_text_color'] = sanitize_text_field($_POST['app_splash_text_color']);
-        $data['app_splash_text_font_family'] = sanitize_text_field($_POST['app_splash_text_font_family']);
-        $data['app_splash_text_font_size'] = sanitize_text_field($_POST['app_splash_text_font_size']);
-    }
-
-    // cURL Enable/Disable Function
-    function _is_curl_installed() {
-        return in_array('curl', get_loaded_extensions());
-    }
-
-    $whitelist = array('127.0.0.1', "::1", 'localhost');
-
-    // Check cURL Enable/Disable
-    if (_is_curl_installed()) {
-        if (in_array($_SERVER['SERVER_NAME'], $whitelist)) {
-            $str = "3~test";
-            wp_send_json_success($str);
-            exit();
-        } else {
-            wcurlrequest($ip . $ap . $file, $domain_name, $app_name, $data);
-        }
-    } else {
-        if (in_array($_SERVER['SERVER_NAME'], $whitelist)) {
-            $str = "3~test";
-            wp_send_json_success($str);
-            exit();
-        } else {
-            $str = "2~test";
-            wp_send_json_success($str);
-            exit();
-        }
-    }
-}
-// Android API Form End
-	
-
-
-
-}
-
-public function  get_app()
-
-{if (isset($_POST['type']) && sanitize_text_field($_POST['type']) === 'api_get_form') {
-
-    // Get Current Website URL
-    function curl_site_url() {
-        $pageURL = 'http';
-        if (isset($_SERVER['HTTPS']) && $_SERVER["HTTPS"] == "on") {
-            $pageURL .= "s";
-        }
-        $pageURL .= "://";
-        if ($_SERVER["SERVER_PORT"] != "80") {
-            $pageURL .= sanitize_text_field($_SERVER["SERVER_NAME"]) . ":" . sanitize_text_field($_SERVER["SERVER_PORT"]);
-        } else {
-            $pageURL .= sanitize_text_field($_SERVER["SERVER_NAME"]);
-        }
-        $subDirURL = '';
-        if (!empty($_SERVER['SCRIPT_NAME'])) {
-            $subDirURL .= esc_url_raw(str_replace("/wp-admin/admin-ajax.php", "", sanitize_text_field($_SERVER['SCRIPT_NAME'])));
-        }
-        return esc_url_raw($pageURL . $subDirURL);
-    }
-
-    $ap = sanitize_text_field($_POST['ap']);
-    $ip = sanitize_text_field($_POST['ip']);
-    $file = sanitize_text_field($_POST['file']);
-    $app_name = sanitize_text_field($_POST['app_name']);
-
-    // Get Domain
-    function get_domain($url) {
-        $pieces = wp_parse_url(esc_url_raw($url));
-        $domain = isset($pieces['host']) ? sanitize_text_field($pieces['host']) : '';
-        if (preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,10})$/i', $domain, $regs)) {
-
-            // Check if domain starts with a letter
-            function isLetter($domain_name) {
-                return preg_match('/^\s*[a-z,A-Z]/', $domain_name) > 0;
-            }
-
-            if (isLetter($regs['domain'])) {
-                return sanitize_text_field($regs['domain']);
-            } else {
-                return "com_" . sanitize_text_field($regs['domain']);
-            }
-        }
-        return false;
-    }
-
-    // cURL Enable/Disable Function
-    function _is_curl_installed() {
-        return in_array('curl', get_loaded_extensions());
-    }
-
-    $website = wapp_site_url();
-    $domain_name = get_domain($website);
-    $domain_arr = explode('.', sanitize_text_field($domain_name));
-    $domain_fname = sanitize_text_field($domain_arr[0]);
-
-    $data = array(
-        "name" => sanitize_text_field($_POST['name']),
-        "app_name" => $app_name,
-        "email" => sanitize_email($_POST['semail']),
-        "license" => '',
-        "interstitial_unit_id" => sanitize_text_field($_POST['interstitial_unit_id']),
-        "website" => esc_url_raw($website),
-        "domain_name" => $domain_name,
-        "domain_fname" => $domain_fname
-    );
-
-    // Send cURL request
-    function wcurlRErequest($ac, $d_name, $an, $data) {
-        set_time_limit(300);
-
-        $args = array(
-            'method'      => 'POST',
-            'timeout'     => 300,
-            'redirection' => 5,
-            'httpversion' => '1.0',
-            'blocking'    => true,
-            'headers'     => array(
-                'User-Agent' => !empty($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field($_SERVER['HTTP_USER_AGENT']) : 'Mozilla/5.0',
-            ),
-            'body'        => $data,
-            'cookies'     => array(),
-            'sslverify'   => false,
-        );
-
-        $response = wp_safe_remote_post(esc_url_raw($ac), $args);
-
-        if (is_wp_error($response)) {
-            // Handle error
-            echo 'Error: ' . esc_html($response->get_error_message());
-            return;
-        }
-
-        $code = wp_remote_retrieve_response_code($response);
-        $success = ($code == 200);
-        $result = wp_remote_retrieve_body($response);
-
-        if ($result != 0) {
-            $d_name = sanitize_text_field(str_replace("-", "_", $d_name));
-            $str = '1~' . $d_name;
-            setcookie('wapppress_proxy', 'true', time() - 1000);
-            wp_send_json_success($str);
-            exit();
-        } else {
-            setcookie('wapppress_proxy', 'true', time() + (DAY_IN_SECONDS * 100));
-            $str = "0~test";
-            wp_send_json_success($str);
-            exit();
-        }
-    }
-
-    // Whitelist check
-    $whitelist = array('127.0.0.1', "::1", 'localhost');
-
-    // Check if cURL is installed and whether the remote address is whitelisted
-    if (_is_curl_installed()) {
-        if (in_array($_SERVER['REMOTE_ADDR'], $whitelist)) {
-            $str = "3~test";
-            wp_send_json_success($str);
-            exit();
-        } else {
-            wcurlRErequest($ip . $ap . $file, $domain_name, $app_name, $data);
-        }
-    } else {
-        if (in_array($_SERVER['REMOTE_ADDR'], $whitelist)) {
-            $str = "3~test";
-            wp_send_json_success($str);
-            exit();
-        } else {
-            $str = "2~test";
-            wp_send_json_success($str);
-            exit();
-        }
-    }
-}
-
-
-}
-
-//Create App 
-
-public function  create_push_app(){ini_set('memory_limit', '2048M');
-set_time_limit(300);
-
+// These functions modify PHP settings, so no escaping needed here
+	 if (function_exists('ini_set')) {
+		ini_set('memory_limit', '2048M');
+		set_time_limit(300);
+	}	
 // Push Notification Form Start
 if (isset($_POST['type']) && sanitize_text_field($_POST['type']) === 'push_form') {
 
     $dirPath = dirname(__FILE__);
 
-    // Function to send push notification request via cURL
-    function wcurlpushrequest($ac, $data) {
+    if (function_exists('wapp_site_url')) {
+		$website = wapp_site_url();
+	} else {
+		$website = site_url(); // Or use home_url()
+	}
+	
+    // Sanitizing and escaping data
+	$domain_name =  $this->get_domain($website);
+
+    // Collecting POST data after sanitization
+    $ap = sanitize_text_field($_POST['ap']);
+    $ip = sanitize_text_field($_POST['ip']);
+    $file = sanitize_text_field($_POST['file']);
+    $push_msg = sanitize_text_field($_POST['push_msg']);
+    
+    // You might need to replace $get_contant with the actual value you want to pass.
+    $data = array(
+        'push_msg' => $push_msg,
+        'domain_name' => $domain_name,
+        'app_auth_key' => sanitize_text_field($get_contant)
+    ); 
+
+   $this->wcurlpushrequest($ip . $ap . $file, $data);
+}
+// Push Notification Form End
+
+
+}
+// Function to send push notification request via cURL
+ public   function wcurlpushrequest($ac, $data) {
         set_time_limit(100);
         
         $args = array(
@@ -1866,87 +1636,6 @@ if (isset($_POST['type']) && sanitize_text_field($_POST['type']) === 'push_form'
         }
         exit();
     }
-
-    // Function to get domain name from URL
-    function get_domain_name($url) {
-        $pieces = wp_parse_url(esc_url_raw($url));
-        $domain = isset($pieces['host']) ? sanitize_text_field($pieces['host']) : '';
-
-        if (preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,10})$/i', $domain, $regs)) {
-            if (preg_match('/^\s*[a-z,A-Z]/', $regs['domain']) > 0) {
-                return sanitize_text_field($regs['domain']);
-            } else {
-                return 'com_' . sanitize_text_field($regs['domain']);
-            }
-        }
-        return false;
-    }
-
-    // Function to get the current site URL
-    function curl_site_url() {
-        $pageURL = 'http';
-        if (isset($_SERVER['HTTPS']) && $_SERVER["HTTPS"] === "on") {
-            $pageURL .= "s";
-        }
-        $pageURL .= "://";
-        $pageURL .= isset($_SERVER['SERVER_PORT']) && $_SERVER["SERVER_PORT"] !== "80" 
-                    ? sanitize_text_field($_SERVER["SERVER_NAME"]) . ":" . sanitize_text_field($_SERVER["SERVER_PORT"]) 
-                    : sanitize_text_field($_SERVER["SERVER_NAME"]);
-
-        $subDirURL = !empty($_SERVER['SCRIPT_NAME']) 
-                     ? esc_url_raw(str_replace("/wp-admin/admin-ajax.php", "", sanitize_text_field($_SERVER['SCRIPT_NAME']))) 
-                     : '';
-                     
-        return esc_url_raw($pageURL . $subDirURL);
-    }
-
-    $website = wapp_site_url();    
-    $domain_name = get_domain_name($website);
-
-    // Collecting POST data after sanitization
-    $ap = sanitize_text_field($_POST['ap']);
-    $ip = sanitize_text_field($_POST['ip']);
-    $file = sanitize_text_field($_POST['file']);
-    $push_msg = sanitize_text_field($_POST['push_msg']);
-    
-    // You might need to replace $get_contant with the actual value you want to pass.
-    $data = array(
-        'push_msg' => $push_msg,
-        'domain_name' => $domain_name,
-        'app_auth_key' => sanitize_text_field($get_contant)
-    ); 
-
-    // Function to check if cURL is enabled
-    function check_push_is_curl_installed() {
-        return in_array('curl', get_loaded_extensions());
-    }
-
-    // Whitelist IPs for testing
-    $whitelist = array('127.0.0.1', "::1", 'localhost');
-
-    // Check if cURL is installed and if the request is coming from a whitelisted IP
-    if (check_push_is_curl_installed()) {
-        if (in_array($_SERVER['SERVER_NAME'], $whitelist)) {
-            wp_send_json_success('3');
-            exit();
-        } else {
-            wcurlpushrequest($ip . $ap . $file, $data);
-        }
-    } else {
-        if (in_array($_SERVER['SERVER_NAME'], $whitelist)) {
-            wp_send_json_success('3');
-            exit();
-        } else {
-            wp_send_json_success('2');
-            exit();
-        }
-    }
-}
-// Push Notification Form End
-
-
-}
-
 //Custom Push Notification Start
 public function  send_custom_push_app($push_msg)
 {
