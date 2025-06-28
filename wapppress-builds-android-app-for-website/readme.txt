@@ -1,9 +1,9 @@
-=== WappPress - Create Mobile App for any WordPress site with our Mobile App Builder in just 1 minute ===
+=== WappPress - Create Mobile App for any WordPress site with our Flutter Mobile App Builder in just 1 minute ===
 Contributors: WappPress
 Tags: create app, wordpress to app, mobile app builder, native mobile app, app creator, app builder, build app, create app, website to app, Android App, app for WordPress, Mobile App, mobile app plugin, Native Mobile App
 Requires at least: 5.0.1
-Tested up to: 6.8.1
-Stable tag: 6.0.7
+Tested up to: 6.8
+Stable tag: 6.0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 

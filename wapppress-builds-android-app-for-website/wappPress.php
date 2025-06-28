@@ -3,7 +3,7 @@
 Plugin Name: WappPress-Basic
 Plugin URI: http://wapppress.com
 Description: A WordPress mobile app plugin that makes it easy to build android apps for WordPress website. WappPress converts any WordPress site into Android App in just 1 click and 1 minute
-Version: 6.0.7
+Version: 6.0.8
 Author: WappPress Team
 Author URI: http://wapppress.com
 License:           GPL v2 or later
@@ -146,16 +146,16 @@ License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 		wp_enqueue_script( 'wp-selector', plugins_url( 'js/wp-selector.js',  __FILE__ ), array('jquery'));
 		wp_enqueue_script( 'jquery.validate', plugins_url( 'js/jquery.validate.js',  __FILE__ ), array('jquery'));
 		wp_enqueue_script( 'additional-methods.min', plugins_url( 'js/additional-methods.min.js',  __FILE__ ), array('jquery'));
-		//wp_enqueue_script( 'admin-script.min', plugins_url( 'js/admin-script.min.js',  __FILE__ ), array('jquery'));
-		wp_enqueue_script( 'jquery.Jcrop.min', plugins_url( 'js/jquery.Jcrop.min.js',  __FILE__ ), array('jquery'));
-		// Enqueue custom script
+			wp_enqueue_script( 'jquery.Jcrop.min', plugins_url( 'js/jquery.Jcrop.min.js',  __FILE__ ), array('jquery'));
+		// Enqueue custom script		
 		wp_enqueue_script(
 			'wapppress-custom-js',
 			plugin_dir_url(__FILE__) . 'js/admin-script.min.js',
 			array('jquery'),
-			'1.0',
+			filemtime(plugin_dir_path(__FILE__) . 'js/admin-script.min.js'),
 			true
 		);
+
 		 // Pass data to JavaScript
 		wp_localize_script('wapppress-custom-js', 'wapppressPluginData', array(
 			'ajaxUrl' => admin_url('admin-ajax.php'),

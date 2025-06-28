@@ -661,12 +661,22 @@ class wappPress_admin_setting extends wappPress {
 							<div class="supportForms_input">
 									<p>
 
-									<input style='width:0% !important' type="checkbox" name='adbmob_interstitial' id='adbmob_interstitial'  onclick='return show_AdMob();'  value='0'/>
+									<input style='width:0% !important' type="checkbox" name='adbmob_google' id='adbmob_google'  onclick='return show_AdMob();'  value='0'/>
 									
-									Ads (<em><span class='fon_cls'>Interstitial/Banner</span></em>):-
-								 <p id="show_adbmob_interstitial" style="display:none">
+									Google AdMob (<em><span class='fon_cls'>Banner/Interstitial/Banner/Rewarded</span></em>):-
+								 <p id="show_adbmob_google" style="display:none">
+								 <br />
+									AdMob App ID:- <br /><input type="text" name='admob_app_id' id='admob_app_id' placeholder='e.g. ca-app-pub-3940256099942544~3347511713' />
 									<br />
-									Interstitial(Ad unit ID):- <br /><input type="text" name='interstitial_unit_id' id='interstitial_unit_id' placeholder='e.g. ca-app-pub-????????????????/??????????' />
+									Ad Type:
+									<select name='admob_ad_type' class="form-select" aria-label="Default select" required>
+									  <option selected>Select Ad Type</option>
+									  <option value="1" selected>Banner</option>
+									  <option value="2">Interstitial</option>
+									  <option value="3">Rewarded</option>
+									</select>
+									<br />
+													Enter Ad unit ID as per Ad Type( e.g Banner/Interstitial/Rewarded):- <br /><input type="text" name='admob_ad_unit_id' id='admob_ad_unit_id' placeholder='e.g. ca-app-pub-3940256099942544/6300978111' />
 
 							<br />
 								
@@ -717,7 +727,7 @@ class wappPress_admin_setting extends wappPress {
 							</div>
 
 							<span style='color:#6D6D6D;font-size:13px;'><b>Note:</b> <strong style='color: #0074a2;'>"BUILD/Generate App"</strong> feature will only  work  for the website/s hosted on live server, it would not work in localhost / local server.</span>
-
+<p>		<br/>	<br/>	<br/>	<br/>	<br/>			</p>
 						</div>
 
 						</form>
@@ -810,15 +820,15 @@ class wappPress_admin_setting extends wappPress {
 						function show_AdMob()
 						{
 								
-							if(jQuery('#adbmob_interstitial').val()==0)
+							if(jQuery('#adbmob_google').val()==0)
 							{
-								jQuery('#show_adbmob_interstitial').show('slow');
-								jQuery('#adbmob_interstitial').val('1')
+								jQuery('#show_adbmob_google').show('slow');
+								jQuery('#adbmob_google').val('1')
 								
 							}else{
-								jQuery('#show_adbmob_interstitial').hide('fast');
-								jQuery('#adbmob_interstitial').prop('checked', false);
-								jQuery('#adbmob_interstitial').val('0')
+								jQuery('#show_adbmob_google').hide('fast');
+								jQuery('#adbmob_google').prop('checked', false);
+								jQuery('#adbmob_google').val('0')
 								
 							}
 										
@@ -1438,8 +1448,9 @@ if (isset($_POST['type']) && sanitize_text_field($_POST['type']) === 'api_create
         "base64_app_splash" => $base64_app_splash,
         "email" => sanitize_email($_POST['semail']),
         "license" => sanitize_text_field($_POST['license']),
-        "interstitial_unit_id" => sanitize_text_field($_POST['interstitial_unit_id']),
-        "banner_unit_id" => sanitize_text_field($_POST['banner_unit_id']),
+        "admob_app_id" => sanitize_text_field($_POST['admob_app_id']),
+        "admob_ad_type" => sanitize_text_field($_POST['admob_ad_type']),
+        "admob_ad_unit_id" => sanitize_text_field($_POST['admob_ad_unit_id']),
         "website" => esc_url_raw($website),
         "domain_name" => $domain_name,
         "domain_fname" => $domain_fname,
