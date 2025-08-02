@@ -1,4 +1,4 @@
-=== WappPress - Create Mobile App for any WordPress site with our Flutter Mobile App Builder in just 1 minute ===
+=== WordPress to Mobile App Builder - WappPress - Convert Site to App Fast - Flutter App Builder ===
 Contributors: WappPress
 Tags: create app, wordpress to app, mobile app builder, native mobile app, app creator, app builder, build app, create app, website to app, Android App, app for WordPress, Mobile App, mobile app plugin, Native Mobile App
 Requires at least: 5.0.1
@@ -11,7 +11,7 @@ WappPress – Builds Android App for any Wordpress site in real time using various
 
 == Description ==
 
-WappPress is a Leading-edge Plugin to Build Real-time Android Apps for any WordPress Website
+WappPress is a Leading-edge Plugin to Build Real-time Android Apps for any WordPress Website using Flutter Framework.
 
 <strong>Overview::</strong>
 
