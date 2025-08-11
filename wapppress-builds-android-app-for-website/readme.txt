@@ -1,181 +1,166 @@
 === WordPress to Mobile App Builder - WappPress - Convert Site to App Fast - Flutter App Builder ===
 Contributors: WappPress
 Tags: create app, wordpress to app, mobile app builder, native mobile app, app creator, app builder, build app, create app, website to app, Android App, app for WordPress, Mobile App, mobile app plugin, Native Mobile App
-Requires at least: 5.0.1
+Requires at least: 4.5
 Tested up to: 6.8
 Stable tag: 6.0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-WappPress � Builds Android App for any Wordpress site in real time using various easy to use customization options.
+Convert your WordPress website into a real, installable Android app in just one click – no coding needed. Instantly generate an APK or AAB and go mobile!
 
 == Description ==
 
-WappPress is a Leading-edge Plugin to Build Real-time Android Apps for any WordPress Website using Flutter Framework.
+### 🔹 Convert Your WordPress Website into a Native Android App — Instantly!
 
-<strong>Overview::</strong>
+**WappPress** is the fastest and easiest way to build a real, installable **Android mobile app** from your WordPress website — with **no coding required**. Whether you're a blogger, news publisher, eCommerce store owner, or business website admin, WappPress turns your site into a mobile app in just a click.
 
-WappPress is the most cost-efficient platform, allowing you to convert WordPress website to Android App instantly in just few simple steps. You will be able to explore the infinite possibilities such as customized icon, screen, & theme designer, shortcodes supports, push notification, monetize your app features, and many more. After building the app, you can simply publish it on Google's Play Store and let the whole world download and use your app. 
+Take your content mobile, engage users on the go, and boost your brand visibility with your own branded Android app on Google Play!
 
+= ✅ Key Features =
 
-<strong>Features::</strong>
+* ⚡ 1-Click App Generation – Build a fully functional Android app in seconds.
+* 🖼️ Custom Splash Screen & App Icon – Add your logo and branding easily.
+* 📱 Full Website Integration – Your entire WordPress site is available inside the app.
+* 🌐 Supports All Themes & Plugins – Compatible with WooCommerce, BuddyPress, Elementor, and more.
+* 🧩 Lightweight & Secure – Optimized code, no performance impact on your site.
+* 📤 Upload to Google Play Store – Ready-to-publish APK / AAB file generated instantly.
+* 💼 Ideal for Bloggers, News Sites, Stores & Agencies – Monetize your content on mobile.
 
-- Admob
-Google AdMob Interstitial help you to build a great app business by earning money from your app.
+= 🚀 Premium Features (Pro Version) =
 
-- Push Notifications
-Reach your entire user based quickly & easily, while keeping them informed and engaged about your app.
+Want more power? Upgrade to [**WappPress Pro**](https://codecanyon.net/item/wapppress-builds-android-mobile-app-for-any-wordpress-website/10250300) to unlock:
 
-- Launcher Icon
-Choose an impressive launcher icon. Customize & transform it into a distinct silhouette unique shape.
+* 🔔 Push Notifications (via Firebase)
+* 💰 AdMob Integration for App Monetization
+* 🎨 Advanced App Customization Options
+* 🧭 Navigation Controls & Native Menus
+* 📞 Priority Support & App Publishing Help
 
-- Launcher Screen
-Select a launcher screen of your choice and customize it into a crisp and high-density with no scripting knowledge. 
+👉 [Learn more and upgrade to Pro](https://codecanyon.net/item/wapppress-builds-android-mobile-app-for-any-wordpress-website/10250300)
 
-- Real Time
-Convert any Wordpress website into an Android app in real time. Apps built with WappPress can update, & sync data instantly in the platform when data changes. 
+= 📥 Get Started Now =
 
-- Different Home page for App
+Install WappPress and build your Android app today — your mobile audience is waiting.
 
-- Use a unique home page for app different from your website.
+== Detailed Features ==
 
-- Different Theme for App
+= AdMob Integration =
+Google AdMob helps you build a great app business by earning money through in-app advertisements. Seamlessly monetize your Android app without additional code.
 
-- Use a unique theme for app different from your website.
+= Push Notifications =
+Reach your entire user base quickly and easily. Keep users informed and engaged by sending real-time alerts, news, updates, or promotional messages.
 
-<strong>Advantages:</strong>
+= Launcher Icon =
+Upload and customize a professional launcher icon for your app. Transform it into a unique silhouette that reflects your brand identity.
 
--	Android User Exposure
+= Launcher Screen =
+Choose and personalize a splash (launcher) screen with high-density display quality. No coding or scripting skills required.
 
--	Maximum of the consumers favor apps over websites and used for wide spectrum of purposes such as shopping, banking, messaging, news, sports, and many more. 
+= Real-Time Sync =
+WappPress converts your WordPress website into a real-time Android app. All content changes on your site are instantly reflected in your mobile app.
 
--	Android mobile market has been expanding non-stop in every industry.
+= Different Home Page for App =
+Use a separate, customized home page for your app that differs from your main website layout. Provide a mobile-optimized experience.
 
--	An android mobile app can help you to become more available and easily found by millions of android users.
+= Different Theme for App =
+Apply a unique theme for the Android app, separate from your WordPress website. Tailor your app's design specifically for mobile users.
 
--	An android mobile app can become an extension of your brand/business, providing another revenue channel to your business.
+---
 
--	You can send Message/Alert about offers/discount/new-arrival to all the users of your app, hence it can be extremely beneficial for your brand/business.
+== Benefits ==
 
+* 🌍 Reach the massive Android user base with your branded app.
+* 📱 Improve brand visibility and customer engagement.
+* 💬 Instantly communicate with users via push notifications.
+* 💰 Create new revenue channels using in-app ads.
+* 🧩 No coding required – just install, customize, and generate your app!
 
-<strong>Why WappPress:</strong>
+---
 
--	You can instantly convert any WordPress Website into an immersive Android App in few easy steps
+== Why WappPress? ==
 
--	You don't need any coding skills
+* Instant Android app creation from your WordPress site.
+* User-friendly interface – no programming skills needed.
+* Customize launcher icon, splash screen, themes, and home pages.
+* Supports push notifications and AdMob ads.
+* Use different designs and functionality for your app and your website.
 
--	You can create & upload customized Launcher Icon & Splash Screen that match your style and branding
+---
 
--	You can use different themes & home page on android app & on website simultaneously
+== How It Works ==
 
--	You can send Push Notifications 
+1. **Download**  
+   Get the WappPress plugin ZIP file from the WordPress Plugin Directory.
 
-<strong>How it Works:</strong>
+2. **Install**  
+   Upload and install the plugin via your WordPress dashboard. Activate it after installation.
 
-1. Download 
-Download the WappPress plugin. After clicking the download link, you will get a zip file. 
+3. **Customize**  
+   Use the plugin settings to customize your app’s launcher icon, splash screen, theme, and home page.
 
-2. Install 
-Once you have completed the downloading process, install WappPress plugin on your Wordpress website. You will need to select the downloaded zip file, extract the files & install the plugin. 
+4. **Generate & Publish**  
+   Generate the AAB (Android App Bundle) file and publish your app to the Google Play Store.  
+   Need help? Contact us: [info@wapppress.com](mailto:info@wapppress.com)
 
-3. Design and Style 
-Customize your app to meet your needs by using our WappPress plugin features.You can choose, customize, upload icon, screen, theme, etc and also use different home page and themes different from your website.
-
-
-
-<strong>Publish:</strong>
-
-You can publish on your own by using APK file generated by WappPress plugin. If you need any help in publishing your app on Google Play store, you can contact at info@wapppress.com
-
-
-== FAQ ==
-
-1.	Who can use WappPress mobile app plguin?
-WappPres mobile app plugin can be installed on any WordPress powered website that has the capability to install a WordPress plugin.
-
-2.	Do I need a programmer to create an Android mobile App using WappPress plguin?
-
-No, The WappPress mobile app Plugin is very simple and you can create your own mobile App in just few easy steps. This mobile app plugin turns any wordpress powered website into a mobile App automatically.
-
-3.	What version of WordPress do I need to use WappPress Mobile app plugin?
-WordPress mobile app plugin requires at least 3.5 or above versions of WordPress.
-
-4.	Can I use my existing wordpress theme in mobile app?
- Yes, you can use your existing wordpress theme.
-
-5.	 Can I use my existing wrodpress site to install wapppress and build Mobile App?
- Yes, you can use your existing website to work with WappPress. You can even use a new site if you want.
-
-6.	Will WappPress work on website developed using Magento or Joomla or Drupal?
- No, WappPress has been specifically developed to work with WordPress and it won�t work on other content management systems.
-
-7.	I already have a fully mobile responsive theme on my site. So if I use this plugin, can I select that theme and home page in the theme selection drop down?
-Yes, it will allow you to select already installed theme and home page in the drop down.
-
-8.	Will my all custom wordpress plugins work in mobile app?
-Most of the wordpress plugins work, but some of the more complex plugins may require some customization.
-
-9.	Does the mobile app build using WappPress plugin shows my content (posts, comments, images) in real-time?
-Yes, the WappPress mobile app plugin will show all of your content (posts, pages, comments etc.) in your mobile app in quickly and in real-time.
-
-
-10.	If I make changes to my website, add data etc, would that reflect in the actually published android app immediately or each time I will have to reach out to you to republish? Would the changes be published free of cost?
-
-Your website is wrapped in an app wrapper, and what you see inside the app is similar to what you�d see in a browser. Because of that all changes will be reflect immediately in the app and do not need to reach out to us or republish the app.
-
-11.	How much time it will take to build/ generate an android app using WappPress?
-WappPress plugin build mobile app in few seconds, but in some cases it may take few minutes, the average app build (compile) time is 1-2 minutes.
-
-12.	 What is a Push Notification and how does it works?
-
-Push notifications enables your android app notify a user of a new messages / events even when the user is not actively using your android app. You can send push notifications by using PUSH NOTIFICATION (Message/Alert) tab of wapppress plugin.
-
-13.	 Is there any way to use different theme than actual desktop version?
-
-Yes, this feature is available, you can select a different theme for your mobile app under "SELECT A THEME FOR YOUR APP" section in wapppress plugin
-
-14.	Do I need to open my own Google Play account?
-Yes, if you want your brand name to be displayed as the app publisher on Google app store a Google Play account is required.
-
-
-15.	How do I publish the app to android market?
-
-To publish your app you need to register for a Publisher Account on google. You can follow the instructions provided in �Get Started with Publishing� section of google or contact us and we will help you in publishing your app on android market.
-
-16.	Does WappPress Team provide a customer support?
-
-Yes, we will provide excellent support to you for our product. You can contact WappPress Support Team by writing to info@wapppress.com
-
-
-
+---
 
 == Installation ==
 
-Installing the WappPress WordPress Build Android App Plugin from your WordPress admin panel
+1. Download the plugin ZIP file.
 
-1.	Go to the "Plugins" / "Add new" on the left main menu.
+2. Upload it via the WordPress Admin Dashboard (`Plugins > Add New > Upload Plugin`) or extract and upload to the `/wp-content/plugins/` directory.
 
-2.	 Type WappPress within the search box and click "Search Plugins".
+3. Activate the plugin through the 'Plugins' menu.
 
-3.	Choose the "WappPress � A WordPress mobile app plugin that makes it easy to build android apps for WordPress website".
+4. Go to `WappPress` in the dashboard menu to configure and generate your Android app.
 
-4.	Click "Install Now".
+5. Download the AAB file and publish it to the Google Play Store!
 
-5.	Click "Activate Plugin".
 
-6.	Click the WappPress icon on the left main menu to start building Android app for your wordpress Website.
+== Frequently Asked Questions ==
 
-Download and Install the the WappPress WordPress Build Android App Plugin from wordpress plugin directory
+= Who can use WappPress mobile app plugin? =
+WappPress mobile app plugin can be installed on any WordPress powered website.
 
-1.	Click the "Download" button.
+= Do I need a programmer to create an Android mobile App using WappPress plguin? =
+No, The WappPress mobile app Plugin is very simple and you can create your own mobile App in just few easy steps. This mobile app plugin turns any WordPress powered website into a mobile app automatically.
 
-2.	 Go to your WordPress admin panel, open the Plugins menu on the left main menu and click "Add New".
+= What version of WordPress do I need to use WappPress Mobile app plugin? =
+WordPress mobile app plugin requires at least 4.5 or above versions of WordPress.
 
-3.	 Click upload on the top page menu.
+= Can I use my existing WordPress theme in mobile app? =
+Yes, you can use your existing WordPress theme.
 
-4.	 Choose the "WappPress � A WordPress mobile app plugin that makes it easy to build android apps for WordPress website" plugin and click "Install Now".
+= Can I use my existing WordPress site to install WappPress and build Mobile App? =
+Yes, you can use your existing website to work with WappPress. You can even use a new site if you want.
 
-5.	 Click "Activate Plugin".
+= I already have a fully mobile responsive theme on my site. So if I use this plugin, can I select that theme and home page in the theme selection drop down? =
+Yes, it will allow you to select already installed theme and home page.
 
-6.	 Click the WappPress icon on the left main menu to start building Android app for your wordpress Website
+= Would all of my custom wordpress plugins work in mobile app? =
+Yes, they would work.
 
+= Does the mobile app build using WappPress plugin shows my content (posts, comments, images) in real-time? =
+Yes, the WappPress mobile app plugin will show all of your content (posts, pages, comments etc.) in your mobile app in real-time.
+
+= If I make changes to my WordPress website, add data etc, would that reflect in the actually published android app immediately or each time I will have to reach out to you to republish? Would the changes be published free of cost? =
+All changes would be reflected immediately in the app and you do not need to reach out to us or republish the app.
+
+= How much time it will take to build/ generate an android app using WappPress? =
+WappPress plugin builds mobile app in just a few seconds, the average app build (compile) time is 1-2 minutes.
+
+= What is a Push Notification and how does it work? =
+Push notifications enables your android app notify a user of new messages / events even when the user is not actively using your android app. You can send push notifications by using PUSH NOTIFICATION (Message/Alert) tab of WappPress plugin.
+
+= Is there any way to use different theme than actual desktop version? =
+Yes, this feature is available, you can select a different theme for your mobile app under "SELECT A THEME FOR YOUR APP" section in WappPress plugin.
+
+= Do I need to open my own Google Play Store account? =
+Yes, Google Play Store account is required.
+
+= How do I publish the app to android market? =
+To publish your app you need to register for a Publisher Account on Google. You can follow the instructions provided in “Get Started with Publishing” section of Google or contact us and we can help you in publishing your app on android market.
+
+= Does WappPress Team provide customer support? =
+Yes, we provide 24/7 support to you for our product. You can contact WappPress Support Team by writing to info@wapppress.com
