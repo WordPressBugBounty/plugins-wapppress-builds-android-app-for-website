@@ -29,7 +29,11 @@ class wappPress_theme_switcher extends wappPress {
         if (isset($this->appSet) && $this->appSet !== null) {
             $this->appSet;
         } else {
-            $this->appSet = isset($_GET['wapppress']) && ($_GET['wapppress'] == 1 || isset($_COOKIE['wapppress_app'])) && ($_COOKIE['wapppress_app'] === 'true');
+           $this->appSet = (
+				(isset($_GET['wapppress']) && $_GET['wapppress'] == 1) ||
+				(isset($_COOKIE['wapppress_app']) && $_COOKIE['wapppress_app'] === 'true')
+			);
+
         }
 
         $wapppressSetting = get_option('WAPPPRESS_SETTINGS');

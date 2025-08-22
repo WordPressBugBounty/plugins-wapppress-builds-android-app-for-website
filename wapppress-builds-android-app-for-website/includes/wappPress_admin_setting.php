@@ -691,7 +691,7 @@ class wappPress_admin_setting extends wappPress {
 							<br/>	
 							<div class="supportForms_input">
 									<p>
-							<input style='width:0% !important' type="radio" name='app_type' id='app_type_aab'   checked  value='1'/>									
+							<input style='width:0% !important' type="radio" name='app_type' id='app_type_aab'     value='1'/>									
 									.aab (<em><span class='fon_cls'>Choose this option if you want to upload your app to Google play store.</span></em>)
 
 								</p>
@@ -699,17 +699,13 @@ class wappPress_admin_setting extends wappPress {
 							<div class="supportForms_input">
 									<p>
 
-									<input style='width:0% !important' type="radio" name='app_type' id='app_type_apk'   value='2'/>									
+									<input style='width:0% !important' type="radio" name='app_type' id='app_type_apk' checked   value='2'/>									
 									.apk (<em><span class='fon_cls'>Choose this option if you don't want to upload your app to Google play store.</span></em>)
 										</p>
 							</div>
 							
-							<br/>
-							<br />
-
 							
-
-							<br/>										
+																
 
 							<div class="clear">
 
@@ -725,7 +721,21 @@ class wappPress_admin_setting extends wappPress {
 								<span id='dwnloakId' style="display: block; margin-right: 160px;float:right;" ></span>
 										
 							</div>
+							<div id="apk-guide" style="display:none;" >
+							  <div class="apk-box">
+								<h2>How to install/test Your App(.apk)</h2>
+							<ol>
+								  <li>👉 Tap the <strong>Download button above</strong> to get your APK file.</li>
+								  <li>📷 Or open the <strong>Camera app</strong> on your Android phone and <strong>scan the QR code above</strong>.</li>
+								
+								  <li>Go to <strong>Settings → Security</strong> (or Privacy) → Enable <strong>Install unknown apps</strong>.</li>
+								  <li>Open the APK file from your <strong>Downloads</strong>.</li>
+								  <li>Tap <strong>Install</strong> and wait a few seconds.</li>
+								  <li>Tap <strong>Open</strong> and enjoy your app 🎉</li>
+								</ol>
 
+							  </div>
+							</div>
 							<span style='color:#6D6D6D;font-size:13px;'><b>Note:</b> <strong style='color: #0074a2;'>"BUILD/Generate App"</strong> feature will only  work  for the website/s hosted on live server, it would not work in localhost / local server.</span>
 <p>		<br/>	<br/>	<br/>	<br/>	<br/>			</p>
 						</div>

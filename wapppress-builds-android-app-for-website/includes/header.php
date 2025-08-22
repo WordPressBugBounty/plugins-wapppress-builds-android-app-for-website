@@ -110,6 +110,7 @@ jQuery(document).ready(function () {
 </div>
 </div-->
 <!------------------------------------------------------------------------------------->
+
 <div class="header">
 	<div class="wrapper">
 		<div class="inner-header">
