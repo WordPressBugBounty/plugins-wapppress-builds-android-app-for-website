@@ -110,32 +110,17 @@ jQuery(document).ready(function () {
 </div>
 </div-->
 <!------------------------------------------------------------------------------------->
+<!-- Header with Logo and Menu -->
+<div class="tab-h" style="display:block">
+   <div class="logo"><img src="<?php echo esc_url(plugins_url( '../images/logo.png',  __FILE__ )) ?>" alt=""></div>
+    <button class="tablinks <?php if(isset($_GET['page']) && $_GET['page']=='wapppresssettings'){ echo ' active '; } ?>" onclick="window.location.href='<?php echo esc_url(admin_url('admin.php?page=wapppresssettings')); ?>';">Settings & Build App</button>
+   <button class="tablinks <?php if(isset($_GET['page']) && $_GET['page']=='advancesettings'){ echo ' active '; } ?>" onclick="window.location.href='<?php echo esc_url(admin_url('admin.php?page=wapppresssettings#bulid')); ?>';">Build App</button>
+    <button class="tablinks <?php if(isset($_GET['page']) && $_GET['page']=='wapppresspush'){ echo ' active '; } ?>" onclick="window.location.href='<?php echo esc_url(admin_url('admin.php?page=wapppresspush')); ?>';">Push Notification <span>(Message)</span></button>
+	 <button class="tablinks" onclick="window.location.href='https://wapppresssupport.freshdesk.com';">Help/Support</button>
 
-<div class="header">
-	<div class="wrapper">
-		<div class="inner-header">
-			<div class="logo">
-				<a href="<?php echo esc_url(admin_url('admin.php?page=wapppresssettings')); ?>"><img src="<?php echo esc_url(plugins_url( '../images/logo.png',  __FILE__ )) ?>" title="" alt=""/></a>
-			</div>
-			
-			<div class="right-header">
-				<div class="navigation">
-					<ul>
-						<li <?php if(isset($_GET['page']) && $_GET['page']=='wapppresssettings'){ echo 'class="active"'; } ?>><a href="<?php echo esc_url(admin_url('admin.php?page=wapppresssettings')); ?>" >Settings & Build App </a></li>
-						<li <?php if(isset($_GET['page']) && $_GET['page']=='wapppresssettings#bulid'){ echo 'class="active"'; } ?>><a  href="<?php echo esc_url(admin_url('admin.php?page=wapppresssettings#bulid')); ?>" >Build Android App </a></li>						
-						<li <?php if(isset($_GET['page']) && $_GET['page']=='wapppresspush'){ echo 'class="active"'; } ?>><a  href="<?php echo esc_url(admin_url('admin.php?page=wapppresspush')); ?>">Push Notification </a></li>
-						<!--li <?php if(isset($_GET['page']) && $_GET['page']=='wapppresstheme'){ echo 'class="active"'; } ?>><a  href="<?php echo esc_url(admin_url('admin.php?page=wapppresstheme')); ?>">Themes </a></li-->
-						<li><a  href="https://wapppresssupport.freshdesk.com" target="_blank">Help/Support </a></li>
-					</ul>
-				</div>
-			</div>
-			<div class="clear">
-			</div>
-			
-		</div>
-	</div>
-	
+   
 </div>
+
 <?php 
 //
 	function curl_site_url() {

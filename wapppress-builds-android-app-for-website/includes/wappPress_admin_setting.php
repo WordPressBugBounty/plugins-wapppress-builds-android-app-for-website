@@ -228,12 +228,12 @@ class wappPress_admin_setting extends wappPress {
 	<?php } ?>
 
 	<div class="Section1">
-	<div class="container-fluid">
+	<div class="container-fluid" style="width:90%">
 		<div class="row">
 			<div class="col-lg-12 col-md-12 col-sm-12">
-				<div class="Section1_text">
+				<div class="Section1_text buy_app_box">
 					<p>You are using <b>WappPress BASIC VERSION (free)</b>, your Android App Validity is 15 days, <b>BUY PRO VERSION</b> to get app Validity for Unlimited Time</p>
-					<a href="http://goo.gl/bcEb25" target='_blank' style="color:#f89400"  ><button>BUY PRO VERSION $24 Only</button></a>
+					<a href="https://codecanyon.net/item/wapppress-builds-android-mobile-app-for-any-wordpress-website/10250300"  style="color:#f89400"  ><button>BUY PRO VERSION $24 Only</button></a>
 				</div>
 			</div>
 		</div>
@@ -249,10 +249,7 @@ class wappPress_admin_setting extends wappPress {
 				<!--div id='settings'>&nbsp;</div-->
 				<div class="setting-head">
 
-					<h3>SETTINGS</h3>
-
-					<img src="<?php echo esc_url(plugins_url( '../images/line.png',  __FILE__ )) ?>" title="" alt=""/>
-
+						<h2>ADVANCE SETTINGS [Optional]</h2>
 				</div>
 
 				
@@ -462,15 +459,18 @@ class wappPress_admin_setting extends wappPress {
 
 									<div class="save-btn">
 
-										<input id="submit" style='padding:0 !important'  type="image" src="<?php echo esc_url(plugins_url( '../images/btn3.png',  __FILE__ )) ?>" value="Save Changes" name="submit">
-
+										<input id="save_changes" class="submit-build btn btn-info btn-lg" type="submit"  value="Save Changes" name="save_changes"> 
+										
 									</div>
 
-									<div style='margin-top: 15px;'>
+									<div class="save-btn">
 
-									<a href='#bulid'><img src='<?php echo esc_url(plugins_url( '../images/btn6.png',  __FILE__ )) ?>' /></a>
-
+										<button type="button" class="btn btn-primary" onclick="window.location.href='<?php echo esc_url(admin_url('admin.php?page=wapppresssettings#bulid')); ?>';">↓  <i class="bi bi-chevron-down"></i></button>	
+										
 									</div>
+
+
+
 
 								</div>
 
@@ -481,7 +481,7 @@ class wappPress_admin_setting extends wappPress {
 							</div>
 
 						</div>
-
+						
 					</div>
 					
 
@@ -493,7 +493,6 @@ class wappPress_admin_setting extends wappPress {
 
 					</div>
 
-					
 
 					<div class="clear">
 
@@ -515,13 +514,13 @@ class wappPress_admin_setting extends wappPress {
 
 						<div class="setting-head" id='head'>
 
-							<h3>BUILD ANDROID APP</h3>
+								<h2>BUILD APP</h2>	
 							<?php
 							$current_user = wp_get_current_user();
 							$user_name=$current_user->user_login;
 							$user_email=$current_user->user_email;
 							?>
-							<img src="<?php echo esc_url(plugins_url( '../images/line.png',  __FILE__ )) ?>" title="" alt=""/>
+							
 
 						</div>						
 															
@@ -715,11 +714,20 @@ class wappPress_admin_setting extends wappPress {
 
 							<div class="sve_change_btn sve_change_btn2">
 											
-								<input id="submit" class='submit-build' type="image" src="<?php echo esc_url(plugins_url( '../images/btn4.png',  __FILE__ )) ?>" value="Save Changes" name="submit">
-								<span id="build-btn-load" ><img src="<?php echo esc_url(plugins_url( '../images/loading-img.gif',  __FILE__ )) ?>" /></span>	
-								
-								<span id='dwnloakId' style="display: block; margin-right: 160px;float:right;" ></span>
-										
+								<div class="row">								
+									<div class="col-md-6">
+									<input id="submit" class='submit-build btn btn-info btn-lg'  type="submit" value="Build / Generate App" name="submit">
+									</div>
+									<div class="col-md-6">
+										<span id="build-btn-load" style="display:none"><img src="<?php echo plugins_url( '../images/loading-img.gif',  __FILE__ ) ?>" /></span>	
+									
+										<span id='dwnloakId' style="display: block; float:right;" ></span>
+									</div>
+								</div>
+									<p>&nbsp;</p>
+								<p>
+								<em><span class='fon_cls'>(Click on "BUILD/Generate App" butoon  to create app for your website now. )</span></em>	
+								</p>	
 							</div>
 							<div id="apk-guide" style="display:none;" >
 							  <div class="apk-box">
@@ -1243,9 +1251,7 @@ $dirPath1  = trailingslashit( plugin_dir_path( __FILE__ ) );
 
 			<div class="setting-head">
 
-				<h3>Push Notifications</h3>
-
-				<img src="<?php echo esc_url(plugins_url( '../images/line.png',  __FILE__ )) ?>" title="" alt=""/>
+				<h2>Push Notifications</h2>	
 
 			</div>
 
@@ -1288,7 +1294,7 @@ $dirPath1  = trailingslashit( plugin_dir_path( __FILE__ ) );
 
 							<div class="sendAlert">
 
-								<input id="push_btn"  type="image" src="<?php echo esc_url(plugins_url( '../images/send-alert.png',  __FILE__ )) ?>" value="Send Alert" name="push_btn">&nbsp;
+							<input id="push_btn" class="submit-build btn btn-info btn-lg" type="submit" value="Send Alert" name="push_btn">
 
 							</div>
 

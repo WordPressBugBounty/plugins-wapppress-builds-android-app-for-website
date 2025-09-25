@@ -149,7 +149,7 @@ color:#000000;
 margin:32px 0;
 }
 .contant-section1{
-border:1px solid #dadada;
+/*border:1px solid #dadada;*/
 width:99.9%;
 background:#fff;
 }
@@ -438,10 +438,10 @@ height:384px;
 		margin:0;
 		padding:15px 20px;
 		font-size:14px;
-		background:#02bfef;
+		background:#2271b1;
 		border-radius:7px;
 		font-weight:normal;
-		color:#000;
+		color:#FFF;
 		font-family: 'open_sansregular';
 	}
 
@@ -1737,6 +1737,84 @@ section.build_app_section {
 	background: #FFFFFF;
 	border: 3px solid #C84C05;
 }
+/*-- New header Design --*/
+.buy_app_box button {
+    display: inline-block;
+    vertical-align: middle;
+    float: right;
+    color: #ffffff;
+    font-size: 21px;
+    font-weight: 900;
+    text-align: center;
+    background: #C84C05;
+    border: 3px solid #FFFFFF;
+    box-shadow: 0px 4px 4px 0px #0000001F;
+     height: 50px;
+    text-transform: uppercase;
+    border-radius: 10px;
+}
+.buy_app_box button:hover {
+	color: #C84C05;
+	background: #FFFFFF;
+	border: 3px solid #C84C05;
+}
+.tab-h {
+    background: #2271b1;
+    width: 90%;
+    display: table;
+    margin: 10px auto 10px;
+    padding: 2px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #2271b1;
+	padding-left: 15px;
+	 border-radius: 8px;
+	
+}
+.logo
+Specificity: (0,1,0)
+ {
+    display: inline-block;
+    float: left;
+    padding: 4px 0 0 0;
+    margin: 0 20px;
+}
+.tab-h button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+    color: #ffffff;
+    margin-top: 4px;
+}
+.tab-h button.active {
+    background-color: #1da7c9;
+}
+.button-box {
+    margin: 20px 0 0 0;
+}
+.button-box ul li {
+    display: inline-block;
+    vertical-align: top;
+    padding: 0 5px 0 0;
+}
+.custom-btn a {
+    color: #ffffff;
+}
+.setting-head h2 {
+    color: #ffffff;
+    font-size: 32px;
+    background: #2271b1;
+    font-weight: 700;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+/*********************************/
 #app-creation-overlay {
   position: fixed;
   top:0; left:0; right:0; bottom:0;
@@ -1773,4 +1851,224 @@ section.build_app_section {
   display:block; margin:15px auto 0;
   background:#4CAF50; color:#fff; border:none; padding:10px 20px;
   border-radius:6px; cursor:pointer;
+}
+.btn-info
+ {
+    color: #fff;
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+/*********************************/
+/************************************************************************************
+RESPONSIVE
+
+
+
+
+/************************************************************************************
+smaller than 1500
+*************************************************************************************/
+@media screen and (max-width: 1500px) {
+.custom-btn {
+    font-size: 19px;
+}
+}
+/************************************************************************************
+smaller than 1366
+*************************************************************************************/
+@media screen and (max-width: 1366px) {
+.custom-btn {
+    font-size: 19px;
+}
+}
+/************************************************************************************
+smaller than 1280
+*************************************************************************************/
+@media screen and (max-width: 1280px) {
+.fixme { 
+	background:url(../images/mo-1024.png) no-repeat;
+	width:355px;
+	height:558px;
+}
+.button-box ul li {
+    padding: 0 5px 21px 0;
+}
+.tab-h button{
+	font-size:12px;
+}
+.tab-h a {
+    font-size: 12px;
+}
+}
+/************************************************************************************
+smaller than 1100
+*************************************************************************************/
+@media screen and (max-width: 1100px) {
+.logo {
+    padding: 25px 0 0 0;
+    width: 14%;
+}
+}
+/************************************************************************************
+smaller than 1024
+*************************************************************************************/
+@media screen and (max-width: 1024px) {
+
+}
+/************************************************************************************
+smaller than 1022
+*************************************************************************************/
+@media screen and (max-width: 1022px) {
+.tab-h button {
+    width: 100%;
+	margin-bottom:5px;
+}
+.tab-h a {
+    width: 100%;
+	margin-bottom:5px;
+}
+.tab-h button {
+      border-bottom: 1px solid #ffffff;
+	   border-right:0;
+}
+.tab-h button:last-child{
+	border-bottom:0;
+}
+.btn01 {
+    text-align: center;
+}
+.logo {
+    width: 100%;
+    text-align: center;
+}
+}
+/************************************************************************************
+smaller than 980
+*************************************************************************************/
+@media screen and (max-width: 980px) {
+.lext-box{
+	width:100%;
+}
+.right-box{
+	width:100%;
+}
+.fixme { 
+	margin:60px auto 0;
+	width:355px;
+	height:558px;
+}
+#fixed{
+position:static !important}
+#fixed1{
+position:static !important}
+
+}
+/************************************************************************************
+smaller than 824
+*************************************************************************************/
+@media screen and (max-width: 824px) {
+
+}
+/************************************************************************************
+smaller than 800
+*************************************************************************************/
+@media screen and (max-width: 800px) {
+
+}
+/************************************************************************************
+smaller than 768
+*************************************************************************************/
+@media screen and (max-width: 768px) {
+
+}
+/************************************************************************************
+smaller than 767
+*************************************************************************************/
+@media screen and (max-width: 767px) {
+
+}
+/************************************************************************************
+smaller than 736
+*************************************************************************************/
+@media screen and (max-width: 736px) {
+
+}
+/************************************************************************************
+smaller than 667
+*************************************************************************************/
+@media screen and (max-width: 667px) {
+
+}
+/************************************************************************************
+smaller than 640
+*************************************************************************************/
+@media screen and (max-width: 640px) {
+.lext-box {
+    padding: 20px;
+}
+.btn-14 {
+    width: 100%;
+    text-align: center;
+}
+.form1 h2 {
+    font-size: 21px;
+}
+.boxIn h2{
+    font-size: 21px;
+}
+.custom-btn {
+    font-size: 21px;
+}
+    .button-box ul li {
+        padding: 0 5px 21px 0;
+        width: 100%;
+        text-align: center;
+    }
+.tab-h button {
+    width: 100%;
+	margin-bottom:5px;
+}
+}
+/************************************************************************************
+smaller than 568
+*************************************************************************************/
+@media screen and (max-width: 568px) {
+
+}
+/************************************************************************************
+smaller than 480
+*************************************************************************************/
+@media screen and (max-width: 480px) {
+
+
+}
+/************************************************************************************
+smaller than 414
+*************************************************************************************/
+@media screen and (max-width: 414px) {
+
+}
+/************************************************************************************
+smaller than 384
+*************************************************************************************/
+@media screen and (max-width: 384px) {
+
+}
+/************************************************************************************
+smaller than 375
+*************************************************************************************/
+@media screen and (max-width: 375px) {
+
+}
+/************************************************************************************
+smaller than 360
+*************************************************************************************/
+@media screen and (max-width: 360px) {
+
+}
+/************************************************************************************
+smaller than 320
+*************************************************************************************/
+@media screen and (max-width: 320px) {
+
 }

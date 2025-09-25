@@ -3,7 +3,7 @@
 Plugin Name: WappPress-Basic
 Plugin URI: http://wapppress.com
 Description: A WordPress mobile app plugin that makes it easy to build android apps for WordPress website. WappPress converts any WordPress site into Android App in just 1 click and 1 minute
-Version: 6.0.9
+Version: 6.9
 Author: WappPress Team
 Author URI: http://wapppress.com
 License:           GPL v2 or later
@@ -133,20 +133,15 @@ License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 	}
 	function admin_custom_scripts(){ 
 		//Plugins css files
+		wp_enqueue_style('bootstrap-css','https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css', array(),'5.3.3' );
 		wp_enqueue_style( 'styles-admin', plugins_url( 'css/styles-admin.css',  __FILE__ ) );
-		wp_enqueue_style( 'jquery.loader.min', plugins_url( 'css/jquery.loader.min.css',  __FILE__ ) );
 		wp_enqueue_style( 'wp-admin-wapp-style', plugins_url( 'css/wp-admin-wapp-style.css',  __FILE__ ) );
-		wp_enqueue_style( 'wp-slider', plugins_url( 'css/wp-slider.css',  __FILE__ ) );
 		wp_enqueue_style( 'media-queries', plugins_url( 'css/media-queries.css',  __FILE__ ) );
-		wp_enqueue_style( 'jquery.Jcrop.min', plugins_url( 'css/jquery.Jcrop.min.css',  __FILE__ ) );
 		
-		//Plugins js files		
-		wp_enqueue_script( 'jquery.loader.min', plugins_url( 'js/jquery.loader.min.js',  __FILE__ ), array('jquery'));
-		wp_enqueue_script( 'wp-slides.min.jquery', plugins_url( 'js/wp-slides.min.jquery.js',  __FILE__ ), array('jquery'));
-		wp_enqueue_script( 'wp-selector', plugins_url( 'js/wp-selector.js',  __FILE__ ), array('jquery'));
+		//Plugins js files	
+		wp_enqueue_script('bootstrap-js','https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js', array('jquery'),true );		
 		wp_enqueue_script( 'jquery.validate', plugins_url( 'js/jquery.validate.js',  __FILE__ ), array('jquery'));
 		wp_enqueue_script( 'additional-methods.min', plugins_url( 'js/additional-methods.min.js',  __FILE__ ), array('jquery'));
-			wp_enqueue_script( 'jquery.Jcrop.min', plugins_url( 'js/jquery.Jcrop.min.js',  __FILE__ ), array('jquery'));
 		// Enqueue custom script		
 		wp_enqueue_script(
 			'wapppress-custom-js',

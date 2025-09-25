@@ -2,8 +2,8 @@
 Contributors: WappPress
 Tags: create app, wordpress to app, mobile app builder, native mobile app, app creator, app builder, build app, create app, website to app, Android App, app for WordPress, Mobile App, mobile app plugin, Native Mobile App
 Requires at least: 4.5
-Tested up to: 6.8
-Stable tag: 6.0.8
+Tested up to: 6.9
+Stable tag: 6.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
