@@ -15,13 +15,7 @@ class wappPress_admin_setting extends wappPress {
 
 			add_action( 'wp_ajax_search_post_handler', array( $this, 'search_post_results' ) );
 
-			if ( isset( $_GET['clear_app_cookie'] ) && 'true' === $_GET['clear_app_cookie'] ) {
-
-				  self::reset_cookie();
-
-			}
-			
-				//Custom Post New
+			//Custom Post New
 		if(@$options['wapppress_push_post']=='on'){			
 			add_action( 'publish_post', 'send_push_on_new_post', 10, 3 );
 			}		
@@ -719,7 +713,10 @@ class wappPress_admin_setting extends wappPress {
 									<input id="submit" class='submit-build btn btn-info btn-lg'  type="submit" value="Build / Generate App" name="submit">
 									</div>
 									<div class="col-md-6">
-										<span id="build-btn-load" style="display:none"><img src="<?php echo plugins_url( '../images/loading-img.gif',  __FILE__ ) ?>" /></span>	
+										<span id="build-btn-load" style="display:none"> 
+										<img src="<?php echo esc_url( plugins_url( '../images/loading-img.gif', __FILE__ ) ); ?>" alt="<?php esc_attr_e( 'Loading...', 'wapppress-builds-android-app-for-website' ); ?>" />
+											</span>
+
 									
 										<span id='dwnloakId' style="display: block; float:right;" ></span>
 									</div>
@@ -1369,140 +1366,133 @@ $dirPath1  = trailingslashit( plugin_dir_path( __FILE__ ) );
 
 //Create App 
 
-public function  create_app()
-{
-	 // Verify the nonce
+// Create App
+public function create_app() {
+    // Verify the nonce
     if ( ! check_ajax_referer( 'wapppress_nonce', 'security', false ) ) {
         wp_send_json_error( 'Invalid nonce' );
         wp_die();
     }
-	
-// These functions modify PHP settings, so no escaping needed here
-	 if (function_exists('ini_set')) {
-		ini_set('memory_limit', '2048M');
-		set_time_limit(300);
-	} 
-	 
-// Upload Launcher Icon Start
-if (!empty($_FILES['app_logo']) && !empty($_FILES['app_logo']['name'])) {
-    $app_logo_name = '';
-    $new_app_logo_name = 'ic_launcher.png';
-    $push_icon_name = 'ic_stat_gcm.png';
 
-    if ($_FILES['app_logo']['error'] === UPLOAD_ERR_OK) {
-        $app_logo_name = sanitize_file_name($_FILES['app_logo']['name']); // Sanitized filename
-        $app_logo_temp = sanitize_text_field($_FILES['app_logo']['tmp_name']); // Sanitized temporary name
-    }else{ echo "0"; exit;}
-}
-// Upload Launcher Icon End
+    // Upload Launcher Icon Start
+    if ( isset( $_FILES['app_logo'] ) && ! empty( $_FILES['app_logo']['name'] ) ) {
+        $app_logo_name      = '';
+        $new_app_logo_name  = 'ic_launcher.png';
+        $push_icon_name     = 'ic_stat_gcm.png';
 
-// Upload Splash Image Start
-if (!empty($_FILES['app_logo']) && !empty($_FILES['app_logo']['name'])) {
-    $app_splash_image = '';
-    $new_app_splash_image1 = '';
+        if ( isset( $_FILES['app_logo']['error'] ) && $_FILES['app_logo']['error'] === UPLOAD_ERR_OK ) {
+            $app_logo_name = sanitize_file_name( wp_unslash( $_FILES['app_logo']['name'] ) );
+			$app_logo_temp ='';
+			if(isset( $_FILES['app_logo']['tmp_name'] ) )
+			{
+            $app_logo_temp = sanitize_text_field( wp_unslash( $_FILES['app_logo']['tmp_name'] ) );
+			}
+        } else {
+            wp_send_json_error( 'Invalid logo upload' );
+            wp_die();
+        }
+    }
+    // Upload Launcher Icon End
 
-    if (!empty($_FILES['app_splash_image']) && !empty($_FILES['app_splash_image']['name'])) {
+    // Upload Splash Image Start
+    if ( isset( $_FILES['app_splash_image'] ) && ! empty( $_FILES['app_splash_image']['name'] ) ) {
+        $app_splash_image    = '';
         $new_app_splash_image1 = 'splash_screen.png';
 
-        if ($_FILES['app_splash_image']['error'] === UPLOAD_ERR_OK) {
-            $app_splash_image = time() . "_" . sanitize_file_name($_FILES['app_splash_image']['name']); // Sanitized filename
-            $app_splash_temp = sanitize_text_field($_FILES['app_splash_image']['tmp_name']); // Sanitized temp name
-        }else{ echo "0"; exit;}
+        if ( isset( $_FILES['app_splash_image']['error'] ) && $_FILES['app_splash_image']['error'] === UPLOAD_ERR_OK ) {
+            $app_splash_image = time() . '_' . sanitize_file_name( wp_unslash( $_FILES['app_splash_image']['name'] ) );
+			$app_splash_temp  = '';
+			if(isset( $_FILES['app_splash_image']['tmp_name'] ) )
+			{
+             $app_splash_temp  = sanitize_text_field( wp_unslash( $_FILES['app_splash_image']['tmp_name'] ) );
+			}
+			
+           
+        } else {
+            wp_send_json_error( 'Invalid splash upload' );
+            wp_die();
+        }
     }
-}
-// Upload Splash Image End
- 
-// Android API Form Start
-if (isset($_POST['type']) && sanitize_text_field($_POST['type']) === 'api_create_form') {
-	    // Sanitizing form inputs
-    $name = sanitize_text_field($_POST['name']);
-    $email = sanitize_email($_POST['semail']);
-	if (function_exists('wapp_site_url')) {
-		$website = wapp_site_url();
-	} else {
-		$website = site_url(); // Or use home_url()
-	}
-	//wp_send_json_success("0~test"); exit;
-    $dirPlgUrl1 = esc_url_raw($_POST['dirPlgUrl1']);
-    $ap = sanitize_text_field($_POST['ap']);
-    $ip = sanitize_text_field($_POST['ip']);
-    $file = sanitize_text_field($_POST['file']);
+    // Upload Splash Image End
 
-    // Sanitizing and escaping data
-	$domain_name =  $this->get_domain($website);	
-	//wp_send_json_success("0~test"); exit;
-    $domain_arr = explode('.', sanitize_text_field($domain_name));
-    $domain_fname = sanitize_text_field($domain_arr[0]);
-    $app_name = sanitize_text_field($_POST['app_name']);
-	//wp_send_json_success("0~test"); exit;
+    // Android API Form Start
+    if ( isset( $_POST['type'] ) && sanitize_text_field( wp_unslash( $_POST['type'] ) ) === 'api_create_form' ) {
+        $name   = isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
+        $email  = isset( $_POST['semail'] ) ? sanitize_email( wp_unslash( $_POST['semail'] ) ) : '';
 
-	//get and encode logo
-	$response_logo = file_get_contents($app_logo_temp);
-	if (is_wp_error($response_logo)) {
-		// Log the error for debugging
-		//error_log('Error fetching image: ' . $response_logo->get_error_message());
-		wp_send_json_success("0~test". $response_logo->get_error_message().$app_logo_temp); exit;
+        if ( function_exists( 'wapp_site_url' ) ) {
+            $website = wapp_site_url();
+        } else {
+            $website = site_url();
+        }
 
-	} else {
-		$base64_app_logo = base64_encode(file_get_contents($app_logo_temp));
-	}
-	//get and encode splash
-    $response_splash = file_get_contents($app_splash_temp);
-	if (is_wp_error($response_splash)) {
-		// Log the error for debugging
-		//error_log('Error fetching image: ' . $response_splash->get_error_message());
-		wp_send_json_success("0~test". $response_splash->get_error_message().$app_splash_temp); exit;
+        $dirPlgUrl1 = isset( $_POST['dirPlgUrl1'] ) ? esc_url_raw( wp_unslash( $_POST['dirPlgUrl1'] ) ) : '';
+        $ap         = isset( $_POST['ap'] ) ? sanitize_text_field( wp_unslash( $_POST['ap'] ) ) : '';
+        $ip         = isset( $_POST['ip'] ) ? sanitize_text_field( wp_unslash( $_POST['ip'] ) ) : '';
+        $file       = isset( $_POST['file'] ) ? sanitize_text_field( wp_unslash( $_POST['file'] ) ) : '';
 
-	} else {
-		$base64_app_splash = base64_encode(file_get_contents($app_splash_temp));
-	}
+        $domain_name  = $this->get_domain( $website );
+        $domain_arr   = explode( '.', sanitize_text_field( $domain_name ) );
+        $domain_fname = isset( $domain_arr[0] ) ? sanitize_text_field( $domain_arr[0] ) : '';
+        $app_name     = isset( $_POST['app_name'] ) ? sanitize_text_field( wp_unslash( $_POST['app_name'] ) ) : '';
 
-    $data = array(
-        "name" => sanitize_text_field($_POST['name']),
-        "app_name" => $app_name,
-        "base64_app_logo" => $base64_app_logo,
-        "base64_app_splash" => $base64_app_splash,
-        "email" => sanitize_email($_POST['semail']),
-        "license" => sanitize_text_field($_POST['license']),
-        "admob_app_id" => sanitize_text_field($_POST['admob_app_id']),
-        "admob_ad_type" => sanitize_text_field($_POST['admob_ad_type']),
-        "admob_ad_unit_id" => sanitize_text_field($_POST['admob_ad_unit_id']),
-        "website" => esc_url_raw($website),
-        "domain_name" => $domain_name,
-        "domain_fname" => $domain_fname,
-        "app_site_url" => esc_url_raw($dirPlgUrl1),
-    );
+        // Get and encode logo
+        $base64_app_logo = '';
+        if ( ! empty( $app_logo_temp ) && file_exists( $app_logo_temp ) ) {
+            $base64_app_logo = base64_encode( file_get_contents( $app_logo_temp ) );
+        }
 
-    $custom_launcher_logo = sanitize_text_field($_POST['custom_launcher_logo']);
-    $custom_splash_logo = sanitize_text_field($_POST['custom_splash_logo']);
+        // Get and encode splash
+        $base64_app_splash = '';
+        if ( ! empty( $app_splash_temp ) && file_exists( $app_splash_temp ) ) {
+            $base64_app_splash = base64_encode( file_get_contents( $app_splash_temp ) );
+        }
 
-    if (isset($custom_launcher_logo) && $custom_launcher_logo == '0') {
-        $data['app_launcher_logo_name'] = 'ic_launcher.png';
-        $data['app_push_icon'] = 'ic_stat_gcm.png';
-    } elseif (isset($custom_launcher_logo) && $custom_launcher_logo == '1') {
-        $data['app_logo_color'] = sanitize_text_field($_POST['app_logo_color']);
-        $data['app_logo_text_color'] = sanitize_text_field($_POST['app_logo_text_color']);
-        $data['app_logo_text'] = sanitize_text_field($_POST['app_logo_text']);
-        $data['app_logo_text_font_family'] = sanitize_text_field($_POST['app_logo_text_font_family']);
-        $data['app_logo_text_font_size'] = sanitize_text_field($_POST['app_logo_text_font_size']);
+        $data = array(
+            'name'              => $name,
+            'app_name'          => $app_name,
+            'base64_app_logo'   => $base64_app_logo,
+            'base64_app_splash' => $base64_app_splash,
+            'email'             => $email,
+            'license'           => isset( $_POST['license'] ) ? sanitize_text_field( wp_unslash( $_POST['license'] ) ) : '',
+            'admob_app_id'      => isset( $_POST['admob_app_id'] ) ? sanitize_text_field( wp_unslash( $_POST['admob_app_id'] ) ) : '',
+            'admob_ad_type'     => isset( $_POST['admob_ad_type'] ) ? sanitize_text_field( wp_unslash( $_POST['admob_ad_type'] ) ) : '',
+            'admob_ad_unit_id'  => isset( $_POST['admob_ad_unit_id'] ) ? sanitize_text_field( wp_unslash( $_POST['admob_ad_unit_id'] ) ) : '',
+            'website'           => esc_url_raw( $website ),
+            'domain_name'       => $domain_name,
+            'domain_fname'      => $domain_fname,
+            'app_site_url'      => $dirPlgUrl1,
+        );
+
+        $custom_launcher_logo = isset( $_POST['custom_launcher_logo'] ) ? sanitize_text_field( wp_unslash( $_POST['custom_launcher_logo'] ) ) : '';
+        $custom_splash_logo   = isset( $_POST['custom_splash_logo'] ) ? sanitize_text_field( wp_unslash( $_POST['custom_splash_logo'] ) ) : '';
+
+        if ( $custom_launcher_logo === '0' ) {
+            $data['app_launcher_logo_name'] = 'ic_launcher.png';
+            $data['app_push_icon']          = 'ic_stat_gcm.png';
+        } elseif ( $custom_launcher_logo === '1' ) {
+            $data['app_logo_color']            = isset( $_POST['app_logo_color'] ) ? sanitize_text_field( wp_unslash( $_POST['app_logo_color'] ) ) : '';
+            $data['app_logo_text_color']       = isset( $_POST['app_logo_text_color'] ) ? sanitize_text_field( wp_unslash( $_POST['app_logo_text_color'] ) ) : '';
+            $data['app_logo_text']             = isset( $_POST['app_logo_text'] ) ? sanitize_text_field( wp_unslash( $_POST['app_logo_text'] ) ) : '';
+            $data['app_logo_text_font_family'] = isset( $_POST['app_logo_text_font_family'] ) ? sanitize_text_field( wp_unslash( $_POST['app_logo_text_font_family'] ) ) : '';
+            $data['app_logo_text_font_size']   = isset( $_POST['app_logo_text_font_size'] ) ? sanitize_text_field( wp_unslash( $_POST['app_logo_text_font_size'] ) ) : '';
+        }
+
+        if ( $custom_splash_logo === '0' ) {
+            $data['app_splash_screen_name'] = 'splash_screen.png';
+        } elseif ( $custom_splash_logo === '1' ) {
+            $data['app_splash_color']            = isset( $_POST['app_splash_color'] ) ? sanitize_text_field( wp_unslash( $_POST['app_splash_color'] ) ) : '';
+            $data['app_splash_text']             = isset( $_POST['app_splash_text'] ) ? sanitize_text_field( wp_unslash( $_POST['app_splash_text'] ) ) : '';
+            $data['app_splash_text_color']       = isset( $_POST['app_splash_text_color'] ) ? sanitize_text_field( wp_unslash( $_POST['app_splash_text_color'] ) ) : '';
+            $data['app_splash_text_font_family'] = isset( $_POST['app_splash_text_font_family'] ) ? sanitize_text_field( wp_unslash( $_POST['app_splash_text_font_family'] ) ) : '';
+            $data['app_splash_text_font_size']   = isset( $_POST['app_splash_text_font_size'] ) ? sanitize_text_field( wp_unslash( $_POST['app_splash_text_font_size'] ) ) : '';
+        }
+
+        $this->wcurlrequest( $ip . $ap . $file, $domain_name, $app_name, $data );
     }
-
-    if (isset($custom_splash_logo) && $custom_splash_logo == '0') {
-        $data['app_splash_screen_name'] = 'splash_screen.png';
-    } elseif (isset($custom_splash_logo) && $custom_splash_logo == '1') {
-        $data['app_splash_color'] = sanitize_text_field($_POST['app_splash_color']);
-        $data['app_splash_text'] = sanitize_text_field($_POST['app_splash_text']);
-        $data['app_splash_text_color'] = sanitize_text_field($_POST['app_splash_text_color']);
-        $data['app_splash_text_font_family'] = sanitize_text_field($_POST['app_splash_text_font_family']);
-        $data['app_splash_text_font_size'] = sanitize_text_field($_POST['app_splash_text_font_size']);
-    }
-	
-	  $this->wcurlrequest($ip . $ap . $file, $domain_name, $app_name, $data);
-		
+    // Android API Form End
 }
-// Android API Form End
 
-}
  // Function to extract domain
  public function get_domain($url)
  {
@@ -1524,11 +1514,7 @@ if (isset($_POST['type']) && sanitize_text_field($_POST['type']) === 'api_create
  }
 public function wcurlrequest($ac, $d_name, $an, $data)
  {
-		if (function_exists('ini_set')) 
-		{
-			 set_time_limit(300);
-		}
-       
+		 
         $fields = '';
         foreach ($data as $key => $value) {
             $fields .= sanitize_text_field($key) . '=' . sanitize_text_field($value) . '&';
@@ -1544,7 +1530,7 @@ public function wcurlrequest($ac, $d_name, $an, $data)
             'httpversion' => '1.0',
             'blocking'    => true,
             'headers'     => array(
-                'User-Agent' => !empty($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field($_SERVER['HTTP_USER_AGENT']) : 'Mozilla/5.0 (X11; U; Linux x86_64; pl-PL; rv:1.9.2.22) Gecko/20110905 Ubuntu/10.04 (lucid) Firefox/3.6.22',
+                'User-Agent' => !empty($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field(wp_unslash( $_SERVER['HTTP_USER_AGENT'])) : 'Mozilla/5.0 (X11; U; Linux x86_64; pl-PL; rv:1.9.2.22) Gecko/20110905 Ubuntu/10.04 (lucid) Firefox/3.6.22',
             ),
             'body'        => $fields,
             'cookies'     => array(),
@@ -1579,56 +1565,52 @@ public function wcurlrequest($ac, $d_name, $an, $data)
  }
 
 //Create App end
-
-public function  create_push_app()
-{
- // Verify the nonce
+public function create_push_app() {
+    // Verify the nonce
     if ( ! check_ajax_referer( 'wapppress_nonce', 'security', false ) ) {
         wp_send_json_error( 'Invalid nonce' );
         wp_die();
     }
-// These functions modify PHP settings, so no escaping needed here
-	 if (function_exists('ini_set')) {
-		ini_set('memory_limit', '2048M');
-		set_time_limit(300);
-	}	
-// Push Notification Form Start
-if (isset($_POST['type']) && sanitize_text_field($_POST['type']) === 'push_form') {
 
-    $dirPath = dirname(__FILE__);
+    // Push Notification Form Start
+    if ( isset( $_POST['type'] ) && sanitize_text_field( wp_unslash( $_POST['type'] ) ) === 'push_form' ) {
 
-    if (function_exists('wapp_site_url')) {
-		$website = wapp_site_url();
-	} else {
-		$website = site_url(); // Or use home_url()
-	}
-	
-    // Sanitizing and escaping data
-	$domain_name =  $this->get_domain($website);
+        $dirPath = dirname( __FILE__ );
 
-    // Collecting POST data after sanitization
-    $ap = sanitize_text_field($_POST['ap']);
-    $ip = sanitize_text_field($_POST['ip']);
-    $file = sanitize_text_field($_POST['file']);
-    $push_msg = sanitize_text_field($_POST['push_msg']);
-    
-    // You might need to replace $get_contant with the actual value you want to pass.
-    $data = array(
-        'push_msg' => $push_msg,
-        'domain_name' => $domain_name,
-        'app_auth_key' => sanitize_text_field($get_contant)
-    ); 
+        if ( function_exists( 'wapp_site_url' ) ) {
+            $website = wapp_site_url();
+        } else {
+            $website = site_url(); // Or use home_url()
+        }
 
-   $this->wcurlpushrequest($ip . $ap . $file, $data);
+        // Sanitizing and escaping data
+        $domain_name = $this->get_domain( $website );
+
+        // Collect POST data safely
+        $ap       = isset( $_POST['ap'] ) ? sanitize_text_field( wp_unslash( $_POST['ap'] ) ) : '';
+        $ip       = isset( $_POST['ip'] ) ? sanitize_text_field( wp_unslash( $_POST['ip'] ) ) : '';
+        $file     = isset( $_POST['file'] ) ? sanitize_text_field( wp_unslash( $_POST['file'] ) ) : '';
+        $push_msg = isset( $_POST['push_msg'] ) ? sanitize_text_field( wp_unslash( $_POST['push_msg'] ) ) : '';
+
+        // 🔹 Ensure $get_contant is defined somewhere or replace with correct value
+        $data = array(
+            'push_msg'     => $push_msg,
+            'domain_name'  => $domain_name,
+            'app_auth_key' => isset( $get_contant ) ? sanitize_text_field( $get_contant ) : '',
+        );
+
+        if ( ! empty( $ip ) && ! empty( $ap ) && ! empty( $file ) ) {
+            $this->wcurlpushrequest( $ip . $ap . $file, $data );
+        } else {
+            wp_send_json_error( 'Missing required parameters.' );
+        }
+    }
+    // Push Notification Form End
 }
-// Push Notification Form End
 
-
-}
 // Function to send push notification request via cURL
  public   function wcurlpushrequest($ac, $data) {
-        set_time_limit(100);
-        
+               
         $args = array(
             'method'      => 'POST',
             'timeout'     => 300,
@@ -1636,7 +1618,7 @@ if (isset($_POST['type']) && sanitize_text_field($_POST['type']) === 'push_form'
             'httpversion' => '1.0',
             'blocking'    => true,
             'headers'     => array(
-                'User-Agent' => !empty($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field($_SERVER['HTTP_USER_AGENT']) : 'Mozilla/5.0',
+                'User-Agent' => !empty($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field(wp_unslash( $_SERVER['HTTP_USER_AGENT'])) : 'Mozilla/5.0',
             ),
             'body'        => $data,
             'cookies'     => array(),
@@ -1694,35 +1676,6 @@ function get_domain_name_custom($url)
 	  return false;
 
 	}
-	function curl_site_url_custom() {
-
-		 $pageURL = 'http';
-
-		 if (isset($_SERVER['HTTPS']) && $_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
-
-		 $pageURL .= "://";
-
-		 if ($_SERVER["SERVER_PORT"] != "80") {
-
-		  $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"];
-
-		 } else {
-
-		  $pageURL .= $_SERVER["SERVER_NAME"];
-
-		 }
-
-		 $subDirURL='';
-
-		 if(!empty($_SERVER['SCRIPT_NAME'])){
-
-			 $subDirURL .= str_replace("/wp-admin/admin-ajax.php","",$_SERVER['SCRIPT_NAME']);
-
-		 }
-
-		 return $pageURL.$subDirURL;
-
-	}
 //Custom Push Notification Start
 
 	$dirPath = dirname(__FILE__);
@@ -1743,7 +1696,7 @@ $website =  wapp_site_url();
 		); 
 		$ac=$ip.$ap.$file;
 
-			set_time_limit(300);
+	
 
 			$fields = '';
 
@@ -1758,18 +1711,21 @@ $website =  wapp_site_url();
 		$url = $ac;
 	
 	$args = array(
-		'method'      => 'POST',
-		'timeout'     => 300,
-		'redirection' => 5,
-		'httpversion' => '1.0',
-		'blocking'    => true,
-		'headers'     => array(
-			'User-Agent' => !empty($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'Mozilla/5.0 (X11; U; Linux x86_64; pl-PL; rv:1.9.2.22) Gecko/20110905 Ubuntu/10.04 (lucid) Firefox/3.6.22',
-		),
-		'body'        => $fields,
-		'cookies'     => array(),
-		'sslverify'   => false,
-	);
+    'method'      => 'POST',
+    'timeout'     => 300,
+    'redirection' => 5,
+    'httpversion' => '1.0',
+    'blocking'    => true,
+    'headers'     => array(
+        'User-Agent' => ! empty( $_SERVER['HTTP_USER_AGENT'] )
+            ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) )
+            : 'Mozilla/5.0 (X11; U; Linux x86_64; pl-PL; rv:1.9.2.22) Gecko/20110905 Ubuntu/10.04 (lucid) Firefox/3.6.22',
+    ),
+    'body'        => $fields,
+    'cookies'     => array(),
+    'sslverify'   => false,
+);
+
 	
 	$response = wp_safe_remote_post($url, $args);
 
@@ -1784,116 +1740,93 @@ $website =  wapp_site_url();
 
 
 //Search Home Page  
-
 public function search_post_results() {
 
-	   $searchVal = sanitize_text_field($_POST['search_val']);
+    // Check if POST variables exist
+    $searchVal = isset($_POST['search_val']) ? sanitize_text_field(wp_unslash($_POST['search_val'])) : '';
+    $nonceVal  = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
 
-	   $nonceVal = sanitize_text_field($_POST['nonce']);
+    // Verify nonce
+    if ( empty($searchVal) || empty($nonceVal) || ! wp_verify_nonce($nonceVal, 'wapppress_group-options') ) {
+        wp_send_json_error('<p>' . __( 'Security check failed', 'wapppress-builds-android-app-for-website' ) . '</p>');
+    }
 
-		if( !(isset($searchVal,$nonceVal) && wp_verify_nonce($nonceVal, 'wapppress_group-options' ) ) ){
+    if ( empty( $searchVal ) ) {
+        wp_send_json_error('<p>' . __( 'Please Try Again', 'wapppress-builds-android-app-for-website' ) . '</p>');
+    }
 
-			wp_send_json_error( '<p>'. __( 'Security check failed', 'wapppress-builds-android-app-for-website' ) .'</p>' );
+    global $wpdb;
 
-		}	
+    $args = array(
+        'post_type'      => 'page',
+        'post_status'    => 'publish',
+        's'              => $searchVal,
+        'posts_per_page' => 10,
+        'fields'         => 'ids', // Get only post IDs
+    );
 
-		
+    $query = new WP_Query($args);
+    $allResults = $query->posts;
 
-		if ( empty( $searchVal ) ){
+    if ( empty( $allResults ) ) {
+        wp_send_json_error('<p>' . __('No Results Found', 'wapppress-builds-android-app-for-website' ) . '</p>');
+    }
 
-			wp_send_json_error( '<p>'. __( 'Please Try Again', 'wapppress-builds-android-app-for-website' ) .'</p>' );
+    // Build results list
+    $str = '<p>' . __('Please choose a page', 'wapppress-builds-android-app-for-website' ) . '</p>';
+    $str .= '<ol>';
+    foreach ( $allResults as $postID ) {
+        $str .= '<li><a href="javascript:void(0)" onclick="custom_page(' . esc_attr($postID) . ')" data-postID="' . esc_attr($postID) . '">'
+                . esc_html(get_the_title( $postID )) 
+                . '</a></li>';
+    }
+    $str .= '</ol>';
 
-		}
-
-		global $wpdb;
-
-		$args = array(
-			'post_type'      => 'page',
-			'post_status'    => 'publish',
-			's'              => $searchVal,
-			'posts_per_page' => 10,
-			'fields'         => 'ids' // Get only post IDs
-		);
-
-		$query = new WP_Query($args);
-
-		$allResults = $query->posts;
-		
-
-		if ( empty( $allResults ) ){
-
-			wp_send_json_error( '<p>'. __('No Results Found', 'wapppress-builds-android-app-for-website' ) .'</p>' );
-
-		}
-
-		if ( !empty( $allResults ) ){
-
-			$str = '<p>'. __('Please choose a page', 'wapppress-builds-android-app-for-website' ) .'</p>';
-
-			$str .= '<ol>';
-
-			foreach ( $allResults as $postID ) {
-
-				//$str .= '<li><a href="'. get_permalink( $postID ) .'"  data-postID="'. $postID .'">'. get_the_title( $postID ) .'</a></li>';
-				$str .= '<li><a href="javascript:void(0)" OnClick="custom_page('. $postID .')" data-postID="'. $postID .'">'. get_the_title( $postID ) .'</a></li>';
-
-			}
-
-			$str .= '</ol>';
-
-			wp_reset_postdata();
-
-			wp_send_json_success( $str );
-
-		}
+    wp_reset_postdata();
+    wp_send_json_success( $str );
+}
 
 
-	}
-
-	
-
-	public function reset_cookie() {
-
-		setcookie( 'wapppress_app', 'true', time() - DAY_IN_SECONDS );
-
-	}
 	///
-		function send_push_on_new_post( $post_id, $post  ) 
-		{
-			if ( strpos($_SERVER['HTTP_REFERER'], 'edit') !== false ) {
-				// your action or send PUSH goes here if the post is edited 
-					$post_title = $post->post_title;
-					$post_type  = $post->post_type ;
-					send_custom_push_app($post->post_title);						
-			} else {
-					// send Push if the post is just published
-					$post_title = $post->post_title;
-					$post_type  = $post->post_type ;
-					send_custom_push_app($post->post_title);							
-				}
-		}
-		function send_push_on_product( $new_status, $old_status, $post ) 
-		{
-			if ( 'product' !== $post->post_type ) {
-				return;
-			}
+function send_push_on_new_post( $post_id, $post ) {
+    // Ensure HTTP_REFERER exists and sanitize it
+    $referer = isset($_SERVER['HTTP_REFERER']) ? esc_url_raw(wp_unslash($_SERVER['HTTP_REFERER'])) : '';
 
-			if ( 'publish' !== $new_status ) {
-				return;
-			}
+    if ( strpos($referer, 'edit') !== false ) {
+        // Your action if the post is edited
+        $post_title = sanitize_text_field($post->post_title);
+        $post_type  = sanitize_text_field($post->post_type);
+        send_custom_push_app($post_title);
+    } else {
+        // Send push if the post is just published
+        $post_title = sanitize_text_field($post->post_title);
+        $post_type  = sanitize_text_field($post->post_type);
+        send_custom_push_app($post_title);
+    }
+}
+			
+function send_push_on_product( $new_status, $old_status, $post ) 
+{
+	if ( 'product' !== $post->post_type ) {
+		return;
+	}
 
-			if ( 'publish' === $old_status ) {
-				// 'Editing an existing product';
-				$post_title = $post->post_title;
-				$post_type  = $post->post_type ;
-				send_custom_push_app($post->post_title);
-			} else {
-				// 'Adding a new product';
-				$post_title = $post->post_title;
-				$post_type  = $post->post_type ;
-				send_custom_push_app($post->post_title);
-			}
-		}
+	if ( 'publish' !== $new_status ) {
+		return;
+	}
+
+	if ( 'publish' === $old_status ) {
+		// 'Editing an existing product';
+		$post_title = $post->post_title;
+		$post_type  = $post->post_type ;
+		send_custom_push_app($post->post_title);
+	} else {
+		// 'Adding a new product';
+		$post_title = $post->post_title;
+		$post_type  = $post->post_type ;
+		send_custom_push_app($post->post_title);
+	}
+}
 		
 }
 

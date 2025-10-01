@@ -2,19 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
-<title>WappPress::Basic</title>
+<title>WappPress</title>
 <script type="text/javascript">
 jQuery(document).ready(function($){
-	/* prepend menu icon */
-	jQuery('#nav-wrap').prepend('<div id="menu-icon">Menu</div>');
-	/* toggle nav */
-	jQuery("#menu-icon").on("click", function(){
-		jQuery("#nav").slideToggle();
-		jQuery(this).toggleClass("active");
-	});
+    /* prepend menu icon */
+    jQuery('#nav-wrap').prepend('<div id="menu-icon">Menu</div>');
+    /* toggle nav */
+    jQuery("#menu-icon").on("click", function(){
+        jQuery("#nav").slideToggle();
+        jQuery(this).toggleClass("active");
+    });
 });
-</script>
-<script type="text/javascript">
+
 jQuery(document).ready(function() {
     jQuery('.tabs .tab-links a').on('click', function(e)  {
         var currentAttrValue = jQuery(this).attr('href');
@@ -27,154 +26,75 @@ jQuery(document).ready(function() {
 });
 
 jQuery(document).ready(function () {
-	jQuery('#toggle-view span,#toggle-view h3').click(function () {
-	//$('#toggle-view h3').click(function () {
-		var text = jQuery(this).siblings('div.panel');
-		if (text.is(':hidden')) {
-			text.slideDown('200');
-			jQuery(this).siblings('span').html('<img src="<?php echo  esc_url(plugins_url( '../images/down_arrow.png',  __FILE__ )) ?>" alt="down-arrow"/> ');
-		} else {
-			text.slideUp('200');	
-			jQuery(this).siblings('span').html('<img src="<?php echo esc_url(plugins_url( '../images/arrow.png',  __FILE__ )) ?>" alt="up-arrow"/> ');			
-		}
-	});
+    jQuery('#toggle-view span,#toggle-view h3').click(function () {
+        var text = jQuery(this).siblings('div.panel');
+        if (text.is(':hidden')) {
+            text.slideDown('200');
+            jQuery(this).siblings('span').html('<img src="<?php echo  esc_url(plugins_url( '../images/down_arrow.png',  __FILE__ )) ?>" alt="down-arrow"/> ');
+        } else {
+            text.slideUp('200');    
+            jQuery(this).siblings('span').html('<img src="<?php echo esc_url(plugins_url( '../images/arrow.png',  __FILE__ )) ?>" alt="up-arrow"/> ');            
+        }
+    });
 });
 </script>
 </head>
 <body>
-<!------------------------------------------------------------------------------------->
+
 <style>
-.preview__header {
-    font-size: 12px !important;
-    height: 40px !important;
-    background-color: #262626 !important;
-    z-index: 100 !important;
-    line-height: 54px !important;
-    margin-bottom: 1px !important;
-}
-@media (max-width: 568px)
-.preview__envato-logo {
-    padding: 0 10px !important;
-}
-.preview__envato-logo {
-    float: left !important;
-    padding: 0 20px !important;
-}
-.preview__envato-logo a {
-    display: inline-block !important;
-    position: absolute !important;
-    top: 10px !important;
-    text-indent: -9999px !important;
-    height: 18px !important;
-    width: 152px !important;
-    background: url(https://public-assets.envato-static.com/assets/logos/envato_market-a5ace93f8482e885ae008eb481b9451d379599dfed24868e52b6b2d66f5cf633.svg) !important;
-    background-size: 152px 18px !important;
-}
-.preview__actions {
-    float: right !important;
-}
-.preview__action--buy, .preview__action--close {
-    display: inline-block !important;
-    padding: 0 20px !important;
-	padding-top:9px !important;
-	
-}
-.e-btn--3d.-color-primary {
-    -webkit-box-shadow: 0 2px 0 #6f9a37 !important;
-    box-shadow: 0 2px 0 #6f9a37 !important;
-    position: relative !important;
-}
-.e-btn--3d, .-color-primary.e-btn--outline {
-    background-color: #82b440 !important;
-	color: white !important;
-	border-radius: 15px !important;
-}
-.e-btn.-size-s, .-size-s.e-btn--3d, .-size-s.e-btn--outline, .e-btn, .e-btn--3d, .e-btn--outline {
-    font-size: 14px !important;
-    padding: 5px 20px !important;
-    line-height: 1.5 !important;
-}
+.preview__header { font-size:12px !important; height:40px !important; background-color:#262626 !important; z-index:100 !important; line-height:54px !important; margin-bottom:1px !important; }
+@media (max-width: 568px) { .preview__envato-logo { padding:0 10px !important; } }
+.preview__envato-logo { float:left !important; padding:0 20px !important; }
+.preview__envato-logo a { display:inline-block !important; position:absolute !important; top:10px !important; text-indent:-9999px !important; height:18px !important; width:152px !important; background:url(https://public-assets.envato-static.com/assets/logos/envato_market-a5ace93f8482e885ae008eb481b9451d379599dfed24868e52b6b2d66f5cf633.svg) !important; background-size:152px 18px !important; }
+.preview__actions { float:right !important; }
+.preview__action--buy, .preview__action--close { display:inline-block !important; padding:0 20px !important; padding-top:9px !important; }
+.e-btn--3d.-color-primary { -webkit-box-shadow:0 2px 0 #6f9a37 !important; box-shadow:0 2px 0 #6f9a37 !important; position:relative !important; }
+.e-btn--3d, .-color-primary.e-btn--outline { background-color:#82b440 !important; color:white !important; border-radius:15px !important; }
+.e-btn.-size-s, .-size-s.e-btn--3d, .-size-s.e-btn--outline, .e-btn, .e-btn--3d, .e-btn--outline { font-size:14px !important; padding:5px 20px !important; line-height:1.5 !important; }
 </style>
-<!--div id="wpadminbar" class="nojq" style="z-index:999999">
-		
-		<div class="preview__header" data-view="ctaHeader" data-item-id="10250300">
-  <div class="preview__envato-logo">
-    <a class="header-envato_market" href="https://codecanyon.net/item/wapppress-builds-android-mobile-app-for-any-wordpress-website/10250300">Envato Market</a>
-  </div>
+<?php
+// Generate a nonce for the admin page
+$tab_nonce = wp_create_nonce( 'wapppress_admin_tab' );
 
-  <div id="js-preview__actions" class="preview__actions">
-  <div class="preview__action--buy">
-    <a class="header-buy-now e-btn--3d -color-primary" href="https://codecanyon.net/item/wapppress-builds-android-mobile-app-for-any-wordpress-website/10250300">Buy now</a>
-  </div>
-</div>
-</div>
-</div-->
-<!------------------------------------------------------------------------------------->
-<!-- Header with Logo and Menu -->
-<div class="tab-h" style="display:block">
-   <div class="logo"><img src="<?php echo esc_url(plugins_url( '../images/logo.png',  __FILE__ )) ?>" alt=""></div>
-    <button class="tablinks <?php if(isset($_GET['page']) && $_GET['page']=='wapppresssettings'){ echo ' active '; } ?>" onclick="window.location.href='<?php echo esc_url(admin_url('admin.php?page=wapppresssettings')); ?>';">Settings & Build App</button>
-   <button class="tablinks <?php if(isset($_GET['page']) && $_GET['page']=='advancesettings'){ echo ' active '; } ?>" onclick="window.location.href='<?php echo esc_url(admin_url('admin.php?page=wapppresssettings#bulid')); ?>';">Build App</button>
-    <button class="tablinks <?php if(isset($_GET['page']) && $_GET['page']=='wapppresspush'){ echo ' active '; } ?>" onclick="window.location.href='<?php echo esc_url(admin_url('admin.php?page=wapppresspush')); ?>';">Push Notification <span>(Message)</span></button>
-	 <button class="tablinks" onclick="window.location.href='https://wapppresssupport.freshdesk.com';">Help/Support</button>
+// Verify nonce before checking $_GET['page']
+// Safely retrieve and sanitize _wpnonce
+// Get the raw nonce from $_GET
+// Get the raw nonce from $_GET
+$raw_nonce = isset($_GET['_wpnonce']) ? sanitize_text_field(wp_unslash($_GET['_wpnonce'])) : '';
 
-   
-</div>
+// Sanitize the nonce
+$sanitized_nonce = sanitize_text_field( $raw_nonce );
 
-<?php 
-//
-	function curl_site_url() {
-		 $pageURL = 'http';
-		 if (isset($_SERVER['HTTPS']) && $_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
-		 $pageURL .= "://";
-		 if ($_SERVER["SERVER_PORT"] != "80") {
-		  $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"];
-		 } else {
-		  $pageURL .= $_SERVER["SERVER_NAME"];
-		 }
-		 $subDirURL='';
-		 if(!empty($_SERVER['SCRIPT_NAME'])){
-			 $subDirURL .= str_replace("wp-admin/admin.php","",$_SERVER['SCRIPT_NAME']);
-		 }
-		 return $pageURL.$subDirURL;
-	}
-	function get_domain_name($url)
-	{
-	  $pieces = wp_parse_url($url);
-	  $domain_n='';
-	  $domain = isset($pieces['host']) ? $pieces['host'] : '';
-	  if(preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,10})$/i', $domain, $regs)) {
-		return $regs['domain'];
-	  }
-	  return false;
-	}
-	
-	function get_app_url($request_type='complile')
-	{
+// Verify the nonce
+$is_valid_nonce = ! empty($sanitized_nonce) && wp_verify_nonce( $sanitized_nonce, 'wapppress_admin_tab' );
 
-		$compile_id = COMPILE_ID;
+$current_page = isset($_GET['page']) && $is_valid_nonce ? sanitize_text_field( wp_unslash($_GET['page']) ) : '';
 
-							
 
-		$pageURL = wapp_site_url();
-
-			
-
-		$dirIncImg  = trailingslashit(esc_url(plugins_url('wapppress-builds-android-app-for-website')));						
-
-		
-
-		$domain_name = get_domain_name($pageURL); 
-
-		$auth = urlencode(base64_encode($domain_name.'~wapppress~'.$pageURL.'~wapppress~'.time()));
-
-		$compile_connector = '/api';
-
-		if($request_type=='complile'){$compile_params    = '/create-api.php?auth_key=';}else{ $compile_params    = '/create-api-push.php?auth_key=';}
-
-		return $compile_id.$compile_connector.$compile_params.$auth;
-
-	}
-
-	//
 ?>
+<div class="tab-h" style="display:block">
+    <div class="logo">
+        <img src="<?php echo esc_url( plugins_url( '../images/logo.png', __FILE__ ) ); ?>" alt="">
+    </div>
+
+    <button class="tablinks <?php echo ( $current_page === 'wapppresssettings' ) ? ' active' : ''; ?>" 
+        onclick="window.location.href='<?php echo esc_url( admin_url('admin.php?page=wapppresssettings&_wpnonce=' . $tab_nonce) ); ?>';">
+        Settings & Build App
+    </button>
+
+    <button class="tablinks <?php echo ( $current_page === 'advancesettings' ) ? ' active' : ''; ?>" 
+        onclick="window.location.href='<?php echo esc_url( admin_url('admin.php?_wpnonce=' . $tab_nonce.'&page=wapppresssettings#bulid') ); ?>';">
+        Build App
+    </button>
+
+    <button class="tablinks <?php echo ( $current_page === 'wapppresspush' ) ? ' active' : ''; ?>" 
+        onclick="window.location.href='<?php echo esc_url( admin_url('admin.php?page=wapppresspush&_wpnonce=' . $tab_nonce) ); ?>';">
+        Push Notification <span>(Message)</span>
+    </button>
+
+    <button class="tablinks" onclick="window.location.href='https://wapppress.freshdesk.com';">
+        Help/Support
+    </button>
+</div>
+
+

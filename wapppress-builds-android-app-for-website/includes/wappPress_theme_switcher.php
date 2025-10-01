@@ -1,4 +1,4 @@
-<?php 
+<?php
 class wappPress_theme_switcher extends wappPress {
 
     public $appSet = null;
@@ -7,7 +7,7 @@ class wappPress_theme_switcher extends wappPress {
     public $mainStylesheet = null;
     public $mainTheme = null;
     public $wappTheme = false;
-    public $wapp_customizer = false; // Define wapp_customizer as a class property
+    public $wapp_customizer = false;
 
     public function __construct() {
         add_action('plugins_loaded', array($this, 'admin_switch_theme'), 9999);
@@ -17,36 +17,55 @@ class wappPress_theme_switcher extends wappPress {
     }
 
     public function admin_switch_theme() {
-        $checkSwitch = (is_admin() && !$this->wappPress_customizer());
+        $checkSwitch = (is_admin() && ! $this->wappPress_customizer());
         if ($checkSwitch) {
             return;
         }
 
-        if (empty($this->appSet) && isset($_GET['wapppress']) && ($_GET['wapppress'] == 1)) {
-            setcookie('wapppress_app', 'true', time() + (DAY_IN_SECONDS * 30));
+        // Sanitize inputs
+        $wapppress        = isset($_GET['wapppress']) ? absint($_GET['wapppress']) : 0;
+        $wapppress_cookie = isset($_COOKIE['wapppress_app']) ? sanitize_text_field(wp_unslash($_COOKIE['wapppress_app'])) : '';
+        $theme            = isset($_GET['theme']) ? sanitize_text_field(wp_unslash($_GET['theme'])) : '';
+        $wp_customize     = isset($_GET['wp_customize']) ? absint($_GET['wp_customize']) : 0;
+        $nonce            = isset($_GET['_wpnonce']) ? sanitize_text_field(wp_unslash($_GET['_wpnonce'])) : '';
+
+        // Verify nonce if GET param is being used
+        if ($wapppress && ! wp_verify_nonce($nonce, 'wapppress_nonce_action')) {
+            return; // invalid nonce → stop
         }
 
-        if (isset($this->appSet) && $this->appSet !== null) {
-            $this->appSet;
-        } else {
-           $this->appSet = (
-				(isset($_GET['wapppress']) && $_GET['wapppress'] == 1) ||
-				(isset($_COOKIE['wapppress_app']) && $_COOKIE['wapppress_app'] === 'true')
-			);
-
+        if (empty($this->appSet) && $wapppress === 1) {
+            setcookie(
+                'wapppress_app',
+                'true',
+                time() + (DAY_IN_SECONDS * 30),
+                COOKIEPATH,
+                COOKIE_DOMAIN,
+                is_ssl()
+            );
         }
 
-        $wapppressSetting = get_option('WAPPPRESS_SETTINGS');
+        $this->appSet = ($wapppress === 1 || $wapppress_cookie === 'true');
 
-        $checkStatus = (@$wapppressSetting['wapppress_theme_setting'] && ((!$this->appSet && wp_is_mobile()) || $this->appSet || ($wapppressSetting['wapppress_theme_switch'] == 'on' && current_user_can('manage_options')) || $this->wappPress_customizer()));
+        $wapppressSetting = get_option('WAPPPRESS_SETTINGS', array());
 
-        if (!$checkStatus) {
+        $checkStatus = (
+            ! empty($wapppressSetting['wapppress_theme_setting']) &&
+            (
+                (! $this->appSet && wp_is_mobile()) ||
+                $this->appSet ||
+                ($wapppressSetting['wapppress_theme_switch'] === 'on' && current_user_can('manage_options')) ||
+                $this->wappPress_customizer()
+            )
+        );
+
+        if (! $checkStatus) {
             return;
         }
 
         $this->wappTheme = wp_get_theme($wapppressSetting['wapppress_theme_setting']);
 
-        if ((isset($_COOKIE['wapppress_app']) && ($_COOKIE['wapppress_app'] === 'true')) || (isset($_GET['wapppress']) && ($_GET['wapppress'] == 1))) {
+        if ($this->appSet || $wapppress === 1) {
             add_filter('option_template', array($this, 'templateRequest'), 10);
             add_filter('option_stylesheet', array($this, 'stylesheetRequest'), 10);
             add_filter('template', array($this, 'switchTheme'));
@@ -58,13 +77,23 @@ class wappPress_theme_switcher extends wappPress {
             return $this->wapp_customizer;
         }
 
-        $options = get_option('WAPPPRESS_SETTINGS');
-        $themeName = @$options['wapppress_theme_setting'];
+        $options   = get_option('WAPPPRESS_SETTINGS', array());
+        $themeName = isset($options['wapppress_theme_setting']) ? $options['wapppress_theme_setting'] : '';
 
-        if (isset($_GET['wapppress_theme_setting'], $_GET['theme']) || (isset($_GET['wp_customize'], $_GET['theme']) && $themeName == $_GET['theme'])) {
-            $this->wapp_customizer = true;
+        $theme                   = isset($_GET['theme']) ? sanitize_text_field(wp_unslash($_GET['theme'])) : '';
+        $wp_customize            = isset($_GET['wp_customize']) ? absint($_GET['wp_customize']) : 0;
+        $wapppress_theme_setting = isset($_GET['wapppress_theme_setting']) ? sanitize_text_field(wp_unslash($_GET['wapppress_theme_setting'])) : '';
+        $nonce                   = isset($_GET['_wpnonce']) ? sanitize_text_field(wp_unslash($_GET['_wpnonce'])) : '';
+
+        // Verify nonce before allowing customizer
+        if (($wapppress_theme_setting && $theme) || ($wp_customize && $themeName === $theme)) {
+            if (! wp_verify_nonce($nonce, 'wapppress_nonce_action')) {
+                $this->wapp_customizer = false;
+            } else {
+                $this->wapp_customizer = true;
+            }
         } else {
-            $this->wapp_customizer = false; // or any default value you prefer
+            $this->wapp_customizer = false;
         }
 
         return $this->wapp_customizer;
@@ -81,38 +110,47 @@ class wappPress_theme_switcher extends wappPress {
     }
 
     public function switchTheme($template = '', $stylesheetRequest = false) {
-        $wapppressSetting = get_option('WAPPPRESS_SETTINGS');
+        $wapppressSetting = get_option('WAPPPRESS_SETTINGS', array());
 
-        if (!$template) {
+        if (! $template) {
             $template = $stylesheetRequest ? $this->mainStylesheet : $this->mainTemplate;
         }
 
-        if (!$this->wappTheme) {
+        if (! $this->wappTheme) {
             return $template;
         }
 
-        $template = $stylesheetRequest ? $wapppressSetting['wapppress_theme_setting'] : $this->wappTheme->get_template();
+        $template = $stylesheetRequest
+            ? $wapppressSetting['wapppress_theme_setting']
+            : $this->wappTheme->get_template();
 
         return $template;
     }
 
     public function show_on_front() {
         $this->mainTheme = wp_get_theme();
-        if ($this->mainTheme->template == $this->switchTheme() && !is_admin()) {
+        if ($this->mainTheme->template === $this->switchTheme() && ! is_admin()) {
             return 'page';
         }
         return false;
     }
 
     public function page_on_front() {
-        if ((isset($_COOKIE['wapppress_app']) && ($_COOKIE['wapppress_app'] === 'true')) || (isset($_GET['wapppress']) && ($_GET['wapppress'] == 1))) {
-            $wapppressSetting = get_option('WAPPPRESS_SETTINGS');
-            $this->mainTheme = wp_get_theme();
-            if ($this->mainTheme->template == $this->switchTheme() && !is_admin()) {
-                return $wapppressSetting['wapppress_home_setting'];
+        $wapppress_cookie = isset($_COOKIE['wapppress_app']) ? sanitize_text_field(wp_unslash($_COOKIE['wapppress_app'])) : '';
+        $wapppress        = isset($_GET['wapppress']) ? absint($_GET['wapppress']) : 0;
+        $nonce            = isset($_GET['_wpnonce']) ? sanitize_text_field(wp_unslash($_GET['_wpnonce'])) : '';
+
+        // Verify nonce for safety
+        if (($wapppress_cookie === 'true' || $wapppress === 1) && wp_verify_nonce($nonce, 'wapppress_nonce_action')) {
+            $wapppressSetting = get_option('WAPPPRESS_SETTINGS', array());
+            $this->mainTheme  = wp_get_theme();
+            if ($this->mainTheme->template === $this->switchTheme() && ! is_admin()) {
+                return isset($wapppressSetting['wapppress_home_setting'])
+                    ? $wapppressSetting['wapppress_home_setting']
+                    : false;
             }
         }
+
         return false;
     }
-
 }

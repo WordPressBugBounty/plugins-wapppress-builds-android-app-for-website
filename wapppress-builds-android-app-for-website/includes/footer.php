@@ -1,17 +1,1 @@
-<style>
-#wpfooter{
-	padding:30px 20px;
-}
-</style><p>&nbsp;</p><p>&nbsp;</p>
-<div id="wpfooter" >
-		<p>&nbsp;</p>
-		<p class="alignleft" id="footer-left" style='margin-left:-30px !important;'>
-		&copy; <a href="http://wapppress.com/" target="_blank">wapppress.com</a>, <?php echo esc_html(gmdate('Y')); ?>. Unauthorized use and/or duplication of this plugin without express and written permission from this plugin's author and/or owner is strictly prohibited. A WappPress plugin can only be used for one wordpress website. If you want to  use it on second website, you have to purchase another license.</p>
-	
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-	<div class="clear"></div>
-</div>
-
-</body>
-</html>
+<?php/** * WappPress Footer * Secure, clean, and WordPress-compliant */?><style>#wpfooter {    padding: 30px 20px;    clear: both;}#wpfooter .footer-left {    margin-left: -30px;    float: left;    font-size: 14px;    line-height: 1.5;}#wpfooter a {    color: #0073aa;    text-decoration: none;}#wpfooter a:hover {    text-decoration: underline;}</style><div id="wpfooter">    <p class="footer-left">        &copy; <a href="https://wapppress.com/" target="_blank" rel="noopener noreferrer">wapppress.com</a>, <?php echo esc_html( gmdate( 'Y' ) ); ?>.        Unauthorized use and/or duplication of this plugin without express written permission from the plugin author or owner is strictly prohibited.        A WappPress plugin can only be used for one WordPress website. To use it on a second website, you must purchase another license.    </p>    <div style="clear: both;"></div></div></body></html>

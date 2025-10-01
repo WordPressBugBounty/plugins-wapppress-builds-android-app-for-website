@@ -1,19 +1,19 @@
-=== WordPress to Mobile App Builder - WappPress - Convert Site to App Fast - Flutter App Builder ===
+===WappPress - Convert Site to App Fast - WordPress to Mobile App Builder - Flutter App Builder ===
 Contributors: WappPress
-Tags: create app, wordpress to app, mobile app builder, native mobile app, app creator, app builder, build app, create app, website to app, Android App, app for WordPress, Mobile App, mobile app plugin, Native Mobile App
-Requires at least: 4.5
-Tested up to: 6.9
-Stable tag: 6.9
+Tags: create app, wordpress to app, mobile app builder, native mobile app, app creator
+Requires at least:4.5
+Tested up to: 6.8.3
+Stable tag: 6.9.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Convert your WordPress website into a real, installable Android app in just one click – no coding needed. Instantly generate an APK or AAB and go mobile!
+Short Description:Convert your website into  Mobile App in just one click – no coding needed. Instantly generate an APK or AAB.
 
 == Description ==
 
-### 🔹 Convert Your WordPress Website into a Native Android App — Instantly!
+### 🔹 Convert Your Website into a Native Android App — Instantly!
 
-**WappPress** is the fastest and easiest way to build a real, installable **Android mobile app** from your WordPress website — with **no coding required**. Whether you're a blogger, news publisher, eCommerce store owner, or business website admin, WappPress turns your site into a mobile app in just a click.
+**WappPress** is the fastest and easiest way to build a real, installable **Android mobile app** from your website — with **no coding required**. Whether you're a blogger, news publisher, eCommerce store owner, or business website admin, WappPress turns your site into a mobile app in just a click.
 
 Take your content mobile, engage users on the go, and boost your brand visibility with your own branded Android app on Google Play!
 
@@ -117,6 +117,25 @@ Apply a unique theme for the Android app, separate from your WordPress website. 
 
 5. Download the AAB file and publish it to the Google Play Store!
 
+== External services ==
+
+1. Push Notification Service
+This plugin connects to a push notification service hosted by WappPress.
+Purpose: To send push notifications to Android apps created by WappPress.
+Data sent: The push message content and a security nonce from WordPress.
+Terms: Provided by WappPress. Privacy policy: http://wapppress.com/privacy
+
+2. App Compilation Service
+This plugin connects to an Android app compilation service hosted by WappPress.
+Purpose: To compile Android apps from the WordPress website.
+Data sent: App configuration settings and security nonce from WordPress.
+Terms: Provided by WappPress. Privacy policy: http://wapppress.com/privacy
+
+3. QR Code Service
+This plugin connects to the third-party QR code generation service at https://qrcode.tec-it.com/API/QRCode.
+Purpose: To generate QR codes for downloading the compiled Android app.
+Data sent: The URL of the compiled app for generating QR code.
+Terms: https://www.tec-it.com/en/privacy
 
 == Frequently Asked Questions ==
 

@@ -1,23 +1,1 @@
-<?php
-class wappPress_customize extends wappPress {
-	public function __construct() {
-		if ( ! isset( $_GET['wapppress'] ) ){
-			return;
-		}
-		
-		if ( ! isset( $_GET['theme'] )) {
-			add_action( 'admin_init', array( $this, 'return_url' ) );
-		}
-		add_filter( 'clean_url', array( $this, 'back_button_url' ) );
-		add_filter( 'clean_url', array( $this, 'back_button_url' ) );
-	}
-	public function return_url() {
-		wp_redirect( esc_url(add_query_arg( 'page', 'wapppresstheme',  admin_url( 'admin.php' ) ) ) );
-	}
-	public function back_button_url( $changeUrl ) {
-		if ( $changeUrl == admin_url( 'themes.php' ) ) {
-			return  esc_url(add_query_arg( 'page', 'wapppresstheme', admin_url( 'admin.php' )) );
-		}
-		return $changeUrl;
-	}
-}		
+<?phpclass wappPress_customize extends wappPress {    public function __construct() {        // Run security checks *after* WordPress is fully loaded        add_action( 'init', array( $this, 'maybe_verify_nonce' ) );        // Redirect if theme param is missing        add_action( 'admin_init', array( $this, 'maybe_return_url' ) );        // Modify back button URL        add_filter( 'clean_url', array( $this, 'back_button_url' ) );    }    /**     * Verify nonce if 'wapppress' parameter is set     */    public function maybe_verify_nonce() {        if ( isset( $_GET['wapppress'] ) ) {            $nonce = isset( $_GET['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) : '';            if ( ! wp_verify_nonce( $nonce, 'wapppress_action' ) ) {                wp_die( esc_html__( 'Security check failed', 'wapppress-builds-android-app-for-website' ) );            }        }    }    /**     * Redirect back to theme page if 'theme' param is missing     */    public function maybe_return_url() {        if ( isset( $_GET['wapppress'] ) && ! isset( $_GET['theme'] ) ) {            $url = add_query_arg(                'page',                'wapppresstheme',                admin_url( 'admin.php' )            );            wp_redirect( esc_url( $url ) );            exit; // Always exit after wp_redirect        }    }    /**     * Change the back button URL     */    public function back_button_url( $changeUrl ) {        if ( $changeUrl === admin_url( 'themes.php' ) ) {            return esc_url(                add_query_arg(                    'page',                    'wapppresstheme',                    admin_url( 'admin.php' )                )            );        }        return $changeUrl;    }}
