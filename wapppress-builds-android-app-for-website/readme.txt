@@ -1,9 +1,9 @@
-===WappPress - Convert Site to App Fast - WordPress to Mobile App Builder - Flutter App Builder ===
+===WappPress - Convert Site to App Fast - WordPress to Mobile App Builder ===
 Contributors: WappPress
 Tags: create app, wordpress to app, mobile app builder, native mobile app, app creator
 Requires at least:4.5
-Tested up to: 6.8.3
-Stable tag: 6.9.3
+Tested up to: 6.9
+Stable tag: 7.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,7 +16,7 @@ Short Description:Convert your website into  Mobile App in just one click – no
 **WappPress** is the fastest and easiest way to build a real, installable **Android mobile app** from your website — with **no coding required**. Whether you're a blogger, news publisher, eCommerce store owner, or business website admin, WappPress turns your site into a mobile app in just a click.
 
 Take your content mobile, engage users on the go, and boost your brand visibility with your own branded Android app on Google Play!
-
+[youtube https://www.youtube.com/watch?v=AErXPVTVBdY]
 = ✅ Key Features =
 
 * ⚡ 1-Click App Generation – Build a fully functional Android app in seconds.
@@ -27,7 +27,7 @@ Take your content mobile, engage users on the go, and boost your brand visibilit
 * 📤 Upload to Google Play Store – Ready-to-publish APK / AAB file generated instantly.
 * 💼 Ideal for Bloggers, News Sites, Stores & Agencies – Monetize your content on mobile.
 
-= 🚀 Premium Features (Pro Version) =
+= 🚀 Premium Features =
 
 Want more power? Upgrade to [**WappPress Pro**](https://codecanyon.net/item/wapppress-builds-android-mobile-app-for-any-wordpress-website/10250300) to unlock:
 
@@ -183,3 +183,25 @@ To publish your app you need to register for a Publisher Account on Google. You 
 
 = Does WappPress Team provide customer support? =
 Yes, we provide 24/7 support to you for our product. You can contact WappPress Support Team by writing to info@wapppress.com
+
+== Changelog ==
+= 7.0.5 =
+* Fixed design issues
+= 7.0.4 =
+* Fixed custom push notification issues
+* Improved Google AdMob integration and stability
+* Minor admin UI improvements
+* Tested compatibility with WordPress 6.9
+
+= 6.x =
+* Performance improvements
+* Enhancements to app build and sync process
+* Improved compatibility with modern WordPress themes and plugins
+
+= 5.x =
+* Added support for Android App Bundle (AAB)
+* Launcher icon and splash screen customization
+* Stability and security improvements
+
+= 1.0.0 =
+* Initial release of WappPress

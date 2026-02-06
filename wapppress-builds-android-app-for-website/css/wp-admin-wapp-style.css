@@ -38,7 +38,7 @@
 	}
 
 .wrapper{
-	max-width:1024px;
+	max-width:90%;
 	margin:0 auto 0 auto;
 	}
 	
@@ -46,6 +46,10 @@
 background:url(../images/header-bg.jpg) repeat-x;
 border-bottom:1px solid #dadada;
 
+}
+.wapppress_field_markup_text ol
+{
+margin-left:25px;	
 }
 .logo{
 padding:10px 0;
@@ -334,7 +338,7 @@ margin:16px 0 0 0;
 
 .inner_left {
     float: left;
-    width: 615px;
+    width: 60%;
 }
 
 .contant-section p {
@@ -380,7 +384,7 @@ padding:0px 16px 0px;
 }
 .inner_left{
 float:left;
-width:615px;
+width:60%;
 }
 
 .phone_img{
@@ -610,7 +614,7 @@ color: #222222;
 font-weight: bold;
 }
 .supportForms_input{
-padding:0;
+padding:5px 0 5px 0;
 }
 .sve_change_btn2{
 padding-bottom:0px;
@@ -753,7 +757,7 @@ width:33%;
 	
 .inner_left{
 	float:left;
-	width:615px;
+	width:60%;
 	margin-bottom:35px;
 	}
 	
@@ -1569,13 +1573,10 @@ div, h1, h2, h3, h4, h5, span, p, input, form, img, hr, img, a {
 	padding: 0;
 	border: none;
 	text-decoration:none;
-	font-family: "Raleway", serif;
+
 }
 .clear {
 	clear: both;
-}
-body {
-	font-family: "Raleway", serif;
 }
 section.wapppress_section {
     position: relative;
@@ -1585,10 +1586,10 @@ section.wapppress_section {
 .wapppress_box1 {
     display: inline-block;
     vertical-align: top;
-    width: 476px;
+    width: 525px;
     margin: 0 20px;
     background-image: url(../images/mobile.png);
-    height: 100%;
+    height: auto;
     background-repeat: no-repeat;
     background-size: contain;
     padding: 80px 50px 60px;
@@ -1647,7 +1648,7 @@ section.wapppress_section {
 }
 .wapppress_box1 ul li b {
     display: block;
-    font-family: "Raleway", serif;
+    font-family: 'open_sansregular';
     font-size: 19px;
     font-weight: 900;
     line-height: 27px;
@@ -1656,7 +1657,7 @@ section.wapppress_section {
 }
 .wapppress_box1 ul li small {
     display: block;
-    font-family: "Raleway", serif;
+    font-family: 'open_sansregular';
 	color:#000000;
     font-size: 12px;
     font-weight: 500;
@@ -1665,7 +1666,7 @@ section.wapppress_section {
 }
 .wapppress_box1 button {
     display: block;
-    font-family: "Raleway", serif;
+    font-family: 'open_sansregular';
     color: #FFFFFF;
     font-size: 29px;
     font-weight: 900;
@@ -1694,7 +1695,7 @@ section.build_app_section {
     background: #638C6D;
     border-radius: 15px;
     padding: 20px 20px;
-    width: 1024px;
+    width: 90%;
     display: table;
     margin: 0 auto;
 }
@@ -1727,7 +1728,7 @@ section.build_app_section {
     background: #C84C05;
     border: 3px solid #FFFFFF;
     box-shadow: 0px 4px 4px 0px #0000001F;
-    width: 190px;
+    width: 275px;
     height: 50px;
     text-transform: uppercase;
     border-radius: 10px;
@@ -1855,9 +1856,32 @@ Specificity: (0,1,0)
 .btn-info
  {
     color: #fff;
-    background-color: #17a2b8;
-    border-color: #17a2b8;
+    background-color: #2271b1;
+    border-color: #2271b1;
 }
+.btn-info-dwd
+ {
+    color: #fff;
+    background-color: #ea2b11;
+    border-color: #ea2b11;
+    padding: 10px 20px 10px 20px;
+}
+.btn-info-dwd:hover
+ {
+    color: #c0cdd0;
+    background-color: #ea2b11;
+    border-color: #ea2b11;
+	padding: 10px 20px 10px 20px;
+}
+.wapppress-faq .accordion-body {
+    color:#2332be;          /* soft dark gray */
+    font-size: 14px;
+    line-height: 1.6;
+}
+.wapppress-faq .accordion-body strong {
+    color: #007cba;       /* WP blue */
+}
+
 /*********************************/
 /************************************************************************************
 RESPONSIVE

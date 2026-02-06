@@ -1,3 +1,8 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -54,47 +59,48 @@ jQuery(document).ready(function () {
 </style>
 <?php
 // Generate a nonce for the admin page
-$tab_nonce = wp_create_nonce( 'wapppress_admin_tab' );
+$wapppress_tab_nonce = wp_create_nonce( 'wapppress_admin_tab' );
 
-// Verify nonce before checking $_GET['page']
-// Safely retrieve and sanitize _wpnonce
 // Get the raw nonce from $_GET
-// Get the raw nonce from $_GET
-$raw_nonce = isset($_GET['_wpnonce']) ? sanitize_text_field(wp_unslash($_GET['_wpnonce'])) : '';
-
-// Sanitize the nonce
-$sanitized_nonce = sanitize_text_field( $raw_nonce );
+$wapppress_raw_nonce = isset($_GET['_wpnonce'])
+    ? sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) )
+    : '';
 
 // Verify the nonce
-$is_valid_nonce = ! empty($sanitized_nonce) && wp_verify_nonce( $sanitized_nonce, 'wapppress_admin_tab' );
+$wapppress_is_valid_nonce = ! empty( $wapppress_raw_nonce )
+    && wp_verify_nonce( $wapppress_raw_nonce, 'wapppress_admin_tab' );
 
-$current_page = isset($_GET['page']) && $is_valid_nonce ? sanitize_text_field( wp_unslash($_GET['page']) ) : '';
-
-
+// Get current page safely
+$wapppress_current_page = ( isset($_GET['page']) && $wapppress_is_valid_nonce )
+    ? sanitize_text_field( wp_unslash( $_GET['page'] ) )
+    : '';
 ?>
+
 <div class="tab-h" style="display:block">
     <div class="logo">
         <img src="<?php echo esc_url( plugins_url( '../images/logo.png', __FILE__ ) ); ?>" alt="">
     </div>
 
-    <button class="tablinks <?php echo ( $current_page === 'wapppresssettings' ) ? ' active' : ''; ?>" 
-        onclick="window.location.href='<?php echo esc_url( admin_url('admin.php?page=wapppresssettings&_wpnonce=' . $tab_nonce) ); ?>';">
-        Settings & Build App
-    </button>
-
-    <button class="tablinks <?php echo ( $current_page === 'advancesettings' ) ? ' active' : ''; ?>" 
-        onclick="window.location.href='<?php echo esc_url( admin_url('admin.php?_wpnonce=' . $tab_nonce.'&page=wapppresssettings#bulid') ); ?>';">
+    <button class="tablinks <?php echo ( $wapppress_current_page === 'wapppresssettings' ) ? ' active' : ''; ?>" 
+        onclick="window.location.href='<?php echo esc_url( admin_url('admin.php?page=wapppresssettings&_wpnonce=' . $wapppress_tab_nonce) ); ?>';">
         Build App
     </button>
 
-    <button class="tablinks <?php echo ( $current_page === 'wapppresspush' ) ? ' active' : ''; ?>" 
-        onclick="window.location.href='<?php echo esc_url( admin_url('admin.php?page=wapppresspush&_wpnonce=' . $tab_nonce) ); ?>';">
-        Push Notification <span>(Message)</span>
+    <button class="tablinks <?php echo ( $wapppress_current_page === 'advancesettings' ) ? ' active' : ''; ?>" 
+        onclick="window.location.href='<?php echo esc_url( admin_url('admin.php?page=advancesettings&_wpnonce=' . $wapppress_tab_nonce) ); ?>';">
+       
+      Advance Settings
     </button>
 
-    <button class="tablinks" onclick="window.location.href='https://wapppress.freshdesk.com';">
-        Help/Support
+    <button class="tablinks <?php echo ( $wapppress_current_page === 'wapppresspush' ) ? ' active' : ''; ?>" 
+        onclick="window.location.href='<?php echo esc_url( admin_url('admin.php?page=wapppresspush&_wpnonce=' . $wapppress_tab_nonce) ); ?>';">
+        Push Notification <span>(Message)</span>
     </button>
+	<button class="tablinks"
+			onclick="window.open('https://wapppress.freshdesk.com', '_blank', 'noopener');">
+		Help/Support
+	</button>
+
 </div>
 
 

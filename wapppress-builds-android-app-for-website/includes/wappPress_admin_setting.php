@@ -1,6 +1,9 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
 class wappPress_admin_setting extends wappPress {
-
+ protected $instantappy_pwa_admin;
 	function __construct() {
 
 			add_action( 'admin_menu', array( $this, 'maker_menu' ), 7);
@@ -12,63 +15,224 @@ class wappPress_admin_setting extends wappPress {
 			add_action( 'wp_ajax_create_push_app', array( $this, 'create_push_app' ) );
 
 			add_action( 'wp_ajax_get_app', array( $this, 'get_app' ) );
-
+		
+			//////////////////////////////////////////////////////
 			add_action( 'wp_ajax_search_post_handler', array( $this, 'search_post_results' ) );
+			add_filter( 'plugin_action_links_' . WAPPPRESS_PLUGIN_BASENAME, array( $this, 'wappPress_insert_action_links' ) );
+			add_filter( 'plugin_row_meta', array( $this, 'wappPress_plugin_row_meta' ), 10, 2 );
+			add_action( 'admin_notices', array( $this, 'wappPress_trial_expired_notice' ) );
+			add_action( 'wp_ajax_wapppress_check_trial', array( $this, 'wapppress_check_trial' ) );
 
+			add_action( 'admin_enqueue_scripts', array( $this, 'wapppress_enqueue_admin_assets' ) );
+			////////////////////////////////////////////////////
+			add_action('init', function () {
+				$data = get_option('wapppress_last_build');
+				if ( is_array($data) && time() - (int)$data['created_at'] > 72 * HOUR_IN_SECONDS ) {
+					delete_option('wapppress_last_build');
+				}
+			});
+
+			////////////////////////////////////////////////////
+			
+		$options = get_option('wapppress_settings');
 			//Custom Post New
 		if(@$options['wapppress_push_post']=='on'){			
-			add_action( 'publish_post', 'send_push_on_new_post', 10, 3 );
+			add_action( 'publish_post', [ $this, 'send_push_on_new_post' ], 10, 3 );
 			}		
 	    if(@$options['wapppress_push_post_edit']=='on'){			
-			add_action( 'publish_post', 'send_push_on_new_post', 10, 3 );
+			add_action( 'publish_post', [ $this, 'send_push_on_new_post' ], 10, 3 );
 			}
 		if(@$options['wapppress_push_product']=='on'){			
-			add_action( 'transition_post_status', 'send_push_on_product', 10, 3 );
+			add_action( 'transition_post_status',[ $this, 'send_push_on_product' ], 10, 3 );
 			}		
 	    if(@$options['wapppress_push_product_edit']=='on'){			
-			add_action( 'transition_post_status', 'send_push_on_product', 10, 3 );
+			add_action( 'transition_post_status',[ $this, 'send_push_on_product' ], 10, 3 );
 			}			
+
 
 			
 	}
 
+public function register_pwa_menu() {
+
+        $subPushMenu = add_submenu_page(
+            $maPlgin,
+            __( 'Instantappy PWA', 'wapppress-builds-android-app-for-website' ),
+            __( 'Instantappy PWA', 'wapppress-builds-android-app-for-website' ),
+            'manage_options',
+            $maPWA,
+            array( $this->instantappy_pwa_admin, 'instantappy_pwa_settings' )
+        );
+    }
+function wapppress_enqueue_admin_assets() {
+
+    wp_localize_script(
+        'wapppress-custom-js',
+        'wapppressAjax',
+        array(
+            'ajaxurl' => admin_url( 'admin-ajax.php' ),
+            'nonce'   => wp_create_nonce( 'wapppress_nonce' ),
+        )
+    );
+}
+
+
 	public function maker_menu() {
 
-		$dirPlgUrl  = trailingslashit( esc_url(plugins_url('wapppress-builds-android-app-for-website')) );
+	$pageTitle 		= __( 'WappPress', 'wapppress-builds-android-app-for-website' );
+	$maPlgin  		= 'wapppressplugin';
+	$maPlginBasic  	= 'wapppress-basic';
+	$whyPro 		= 'wapppress-why-pro';	
+	$maSett 		= 'wapppresssettings';
+	$advSett		= 'advancesettings';
+	$maPush 		= 'wapppresspush';
+	$maPro  		= 'wapppresspro';
+	$maFaq  		= 'wapppress-faq';
+	$maPWA  		= 'instantappy-pwa';
+	$dirPlgUrl  	= trailingslashit( esc_url(plugins_url('wapppress-builds-android-app-for-website')) );
+	$plgIcon  		= $dirPlgUrl  . 'images/view.png';
 
-		$pageTitle = __( 'WappPress', 'wapppress-builds-android-app-for-website' );
+	$dirInc1  		= $dirPlgUrl  . 'includes/';
 
-		$maPlgin = 'wapppressplugin';
+	$license 		= get_option( 'wapppress_license', '' );
+	$proactive=false;
+	if ( empty( $license ) || ! preg_match(
+		'/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i',
+		$license
+	) ) {
 
-		$maSett = 'wapppresssettings';
+		add_menu_page(
+			$pageTitle,
+			__( 'WappPress BASIC', 'wapppress-builds-android-app-for-website' ),
+			'manage_options',
+			$maPlgin,
+			array( $this, 'maker_settings_page' ),
+			$plgIcon
+		);
 
-		$maTheme = 'wapppresstheme';
+	} else {
 
-		$maPush = 'wapppresspush';
-
-		$plgIcon  = $dirPlgUrl  . 'images/view.png';
-
-		$dirInc1  = $dirPlgUrl  . 'includes/';
-
-		
-
-		// Create main menu 
-
-		$mainMenu = add_menu_page( $pageTitle,  __( 'wappPress BASIC', 'wapppress-builds-android-app-for-website' ), 'manage_options', $maPlgin, array( $this, 'maker_basic_page' ),$plgIcon  );
-
-		global $submenu;
-
-		// Settings page sub menu
-
-		$subSettingMenu = add_submenu_page($maPlgin, __( 'Settings', 'wapppress-builds-android-app-for-website' ), __( 'Settings', 'wapppress-builds-android-app-for-website' ),  'manage_options', $maSett, array( $this, 'maker_settings_page' ));
-		
-		$subPushMenu = add_submenu_page($maPlgin, __( 'Push Notification', 'wapppress-builds-android-app-for-website' ), __( 'Push Notification', 'wapppress-builds-android-app-for-website' ),  'manage_options', $maPush, array( $this, 'maker_push_page' ));
-
-		$subThemeMenu = add_submenu_page($maPlgin, __( 'Themes', 'wapppress-builds-android-app-for-website' ), __( 'Themes', 'wapppress-builds-android-app-for-website' ),  'manage_options', $maTheme, array( $this, 'maker_theme_page' ));
-
-				
-
+		add_menu_page(
+			$pageTitle,
+			__( 'WappPress', 'wapppress-builds-android-app-for-website' ),
+			'manage_options',
+			$maPlgin,
+			array( $this, 'maker_settings_page' ),
+			$plgIcon
+		);
+		$proactive=true;
 	}
+
+	// Submenus
+	add_submenu_page(
+		$maPlgin,
+		__( 'Build Android App', 'wapppress-builds-android-app-for-website' ),
+		__( 'Build Android App', 'wapppress-builds-android-app-for-website' ),
+		'manage_options',
+		$maSett,
+		array( $this, 'maker_settings_page' )
+	);
+	/*add_submenu_page(
+		$maPlgin,
+		__( 'Build App', 'wapppress-builds-android-app-for-website' ),
+		__( 'Build App', 'wapppress-builds-android-app-for-website' ),
+		'manage_options',
+		$maSett,
+		array( $this, 'maker_settings_page' )
+	);*/
+	add_submenu_page(
+		$maPlgin,
+		__( 'Advance Settings', 'wapppress-builds-android-app-for-website' ),
+		__( 'Advance Settings', 'wapppress-builds-android-app-for-website' ),
+		'manage_options',
+		$advSett,
+		array( $this, 'advance_settings_page' )
+	);
+	
+
+	add_submenu_page(
+		$maPlgin,
+		__( 'Push Notification', 'wapppress-builds-android-app-for-website' ),
+		__( 'Push Notification', 'wapppress-builds-android-app-for-website' ),
+		'manage_options',
+		$maPush,
+		array( $this, 'maker_push_page' )
+	);
+
+	add_submenu_page(
+		$maPlgin,
+		__( 'Activate Pro', 'wapppress-builds-android-app-for-website' ),
+		__( 'Activate Pro', 'wapppress-builds-android-app-for-website' ),
+		'manage_options',
+		$maPro,
+		array( $this, 'wapppress_pro_settings' )
+	);
+	
+	add_submenu_page(
+		$maPlgin,
+		__( 'Build PWA App', 'wapppress-builds-android-app-for-website' ),
+		__( 'Build PWA App', 'wapppress-builds-android-app-for-website' ),
+		'manage_options',
+		$maPWA,
+		array( new instantappy_pwa_admin_setting(), 'instantappy_pwa_settings' )
+	);
+	// Hide it from left menu
+	/*add_action( 'admin_head', function () {
+		echo '<style>
+			#toplevel_page_wapppressplugin .wp-submenu a[href$="page=wapppresssettings"] {
+				display:none !important;
+			}
+		</style>';
+	});*/
+	add_action( 'admin_head', function () {
+		echo '<style>
+			#toplevel_page_wapppressplugin .wp-submenu a[href$="page=advancesettings"] {
+				display:none !important;
+			}
+		</style>';
+	});
+	add_action( 'admin_head', function () {
+		echo '<style>
+			#toplevel_page_wapppressplugin .wp-submenu a[href$="page=wapppresspush"] {
+				display:none !important;
+			}
+		</style>';
+	});
+	add_action( 'admin_head', function () {
+		echo '<style>
+			#toplevel_page_wapppressplugin .wp-submenu a[href$="page=wapppresspro"] {
+				display:none !important;
+			}
+		</style>';
+	});
+	add_submenu_page(
+		$maPlgin,
+		__( 'FAQ', 'wapppress-builds-android-app-for-website' ),
+		__( 'FAQ', 'wapppress-builds-android-app-for-website' ),
+		'manage_options',
+		$maFaq,
+		array( $this, 'wapppress_faq' )
+	);
+	if(!$proactive)
+	{
+		$textWhyPro = "<span style='color: #C84C05;font-weight: 800;font-size: 16px;'>".__( 'Why Pro?', 'wapppress-builds-android-app-for-website' )."</span>";
+		add_submenu_page(
+		$maPlgin,
+		__( 'Why Pro?', 'wapppress-builds-android-app-for-website' ),
+		$textWhyPro,
+		'manage_options',
+		$whyPro,
+		array( $this, 'maker_basic_page' ),
+		);
+		
+	}
+	
+	// Remove duplicate submenu added by WP
+	add_action( 'admin_menu', function () use ( $maPlgin ) {
+		remove_submenu_page( $maPlgin, $maPlgin );
+	}, 999 );
+}
+
 
 	
 
@@ -86,60 +250,131 @@ class wappPress_admin_setting extends wappPress {
 			<div class="col-lg-12 col-md-12 col-sm-12">
 				<div class="build_app_box">
 					<div class="build_app_text1">
-						<figure><img src="<?php echo esc_url(plugins_url( '../images/img1.png',  __FILE__ )) ?>" alt="img" /></figure>
-						<p>Build Android App in real-time for any wordpress website</p>
-					</div>					
-					<a href="<?php echo esc_url(admin_url('admin.php?page=wapppresssettings')); ?>"><button>Build APP</button></a>
+						<figure>
+							<img src="<?php echo esc_url( plugins_url( '../images/img1.png', __FILE__ ) ); ?>" alt="Build Android App" />
+						</figure>
+						<p>
+							Turn your WordPress website into a <b>Google Play–ready Android App</b><br>
+							<span style="font-size:14px;">No coding • Real-time build • One-click setup</span>
+						</p>
+					</div>
+					<a href="<?php echo esc_url( admin_url( 'admin.php?page=wapppresssettings' ) ); ?>">
+						<button>Build Android App</button>
+					</a>
+				</div>
+				<div style="margin-top:10px; text-align:center">
+				<p >
+						<b>Why upgrade to Pro?</b><br>
+						Build & publish your Android app without limits — ideal for business and production use.
+					</p>
 				</div>
 			</div>
 		</div>
 	</div>
 </section>
+
 <section class="wapppress_section">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12 col-md-12 col-sm-12">
+
+				<!-- BASIC VERSION -->
 				<div class="wapppress_box1">
-					<h3>WappPress BASIC VERSION <span>(free)</span></h3>
+					<h3><br>
+						WappPress BASIC <br><br><br>
+					</h3>
+
 					<ul>
-						<li>Push Notification (New)</li>
-						<li>Monetize Your App with Google AdMob Interstitial Ads (New)</li>
-						<li><b>Android App Validity - 15 Days</b></li>
-						<li>Select different home page for Mobile app</li>
-						<li>Select Different theme for website & mobile app</li>
-						<li>Select and customize launcher icon</li>
-						<li>Upload your own custom icon</li>
-						<li>Select and customize splash screen</li>
-						<li>Upload your own splash screen
-						<small>( You can upload your own splash screen image, this will be used to capture the user's attention for a short time as a promotion or lead-in)</small></li>
-						<li>Ads Free - i.e. no ads/brand name include inside</li>
-						<li>Allow to Build Android App in Real Time</li>
+						<li><b>Limited Push Notifications</b></li>
+						<li><b>Limited Custom Push Notifications</b></li>
+						<li>
+							Monetize with Google AdMob Interstitial Ads
+							<b>(Limited Time)</b>
+						</li>
+						<li><b>Android App Validity – 15 Days</b></li>
+						<li>Select a different home page for mobile app</li>
+						<li>Select different theme for website & mobile app</li>
+						<li>Customize launcher icon</li>
+						<li>Upload your own app icon</li>
+						<li>Customize splash screen</li>
+						<li>
+							Upload custom splash screen
+							<small>( You can upload your own splash screen image, this will be used to capture the user's attention for a short time as a promotion or lead-in)</small>
+						</li>
+						<li>Ads free (no internal branding)</li>
+						<li>Real-time Android app build</li>
+						<p>&nbsp;</p>
+						<p>&nbsp;</p>
+						<p>&nbsp;</p>
+						<p>&nbsp;</p>
 					</ul>
-					<a href="<?php echo esc_url(admin_url('admin.php?page=wapppresssettings')); ?>"><button>Build APP</button></a>
+
+					<a href="<?php echo esc_url( admin_url( 'admin.php?page=wapppresssettings' ) ); ?>">
+						<button>Build App</button>
+					</a>
 				</div>
+
+				<!-- PRO VERSION -->
 				<div class="wapppress_box1">
-					<h3><b>WappPress</b> PRO VERSION FOR JUST <span>$24</span> ONLY</h3>
+					<h3>
+						<b>WappPress PRO <br/>(Lifetime App Validity) </b><br>
+						<span>$24</span> <br>
+						<small>One-time payment • No monthly fees</small>
+					</h3>
+
+					
+
 					<ul>
-						<li>Push Notification (New)</li>
-						<li>Monetize Your App with Google AdMob Interstitial Ads (New)</li>
-						<li><b>Android App Validity-Unlimited Time</b></li>
-						<li>Select different home page for Mobile app</li>
-						<li>Select Different theme for website & mobile app</li>
-						<li>Select and customize launcher icon</li>
-						<li>Upload your own custom icon</li>
-						<li>Select and customize splash screen</li>
-						<li>Upload your own splash screen
-						<small>( You can upload your own splash screen image, this will be used to capture the user's attention for a short time as a promotion or lead-in)</small></li>
-						<li>Ads Free - i.e. no ads/brand name include inside</li>
-						<li>Allow to Build Android App in Real Time</li>
+						<li><b>Unlimited Push Notifications (No Caps)</b></li>
+						<li><b>Advanced Custom Push Notifications</b></li>
+						<li>
+							Monetize with Google AdMob Interstitial Ads
+							<b>(Unlimited)</b>
+						</li>
+						<li><b>Lifetime Validity of App (No Expiry)</b></li>
+						<li>Select a different home page for mobile app</li>
+						<li>Select different theme for website & mobile app</li>
+						<li>Customize launcher icon</li>
+						<li>Upload your own app icon</li>
+						<li>Customize splash screen</li>
+						<li>
+							Upload custom splash screen
+							<small>( You can upload your own splash screen image, this will be used to capture the user's attention for a short time as a promotion or lead-in)</small>
+						</li>
+						<li><b>White-label App (No Branding)</b></li>
+						<li><b>Play Store–ready app structure</b></li>
+						<li>Real-time Android app build</li>
 					</ul>
-					<a href="http://goo.gl/bcEb25" target='_blank'  ><button>Buy PRO Version</button></a>
+
+					<a href="https://goo.gl/bcEb25" target="_blank">
+						<button>Upgrade to Pro</button>
+					</a>
+
+					<p style="margin-top:8px; font-size:12px;">
+						✅ One-time payment &nbsp;|&nbsp;
+						✅ No monthly fees &nbsp;|&nbsp;
+						✅ Safe WordPress plugin
+					</p>
 				</div>
+
 			</div>
 		</div>
 	</div>
 </section>
-	
+
+	<section>
+			<div style='float:right;display:inline-block;font-family:"open_sansbold";font-size:12px;'>
+
+				<a href="<?php echo esc_url( admin_url( 'admin.php?page=wapppresspro' ) ); ?>"
+				   class="submit-build btn btn-info btn-lg"
+				   style="background-color:#C84C05; color:#fff; text-decoration:none;">
+
+					Already Have Pro? Click Here
+				</a>
+
+			</div>
+		</section>
+
 	
 
 	<!---=== Pro PopUp Div  Start ===--->
@@ -169,6 +404,7 @@ class wappPress_admin_setting extends wappPress {
 		</div>	
 
 	<!---=== Pro PopUp Div  End ===--->
+		
 
 	
 
@@ -177,17 +413,15 @@ class wappPress_admin_setting extends wappPress {
 	require_once(  'footer.php' );
 
 	}
+		// Advance Setting Page 
 
-
-	// Setting Page 
-
-	public function maker_settings_page(){
-
+public function advance_settings_page()
+{
 	require_once(  'header.php' );
 
 	
 
-	$dirIncImg  = trailingslashit(esc_url(plugins_url('wapppress-builds-android-app-for-website')));
+	$dirIncImg  = trailingslashit(plugins_url('wappPress'));
 
 	$options = get_option('wapppress_settings');
 
@@ -195,7 +429,7 @@ class wappPress_admin_setting extends wappPress {
 
 	$all_themes = wp_get_themes( $args );
 
-	$check = isset( $options['wapppress_theme_switch'] ) ? esc_attr( $options['wapppress_theme_switch'] ) : '';
+	//$check = isset( $options['wapppress_theme_switch'] ) ? esc_attr( $options['wapppress_theme_switch'] ) : '';
 
 	$authorCheck = isset( $options['wapppress_theme_author'] ) ? esc_attr( $options['wapppress_theme_author'] ) : '';
 
@@ -204,35 +438,15 @@ class wappPress_admin_setting extends wappPress {
 	$commentCheck = isset( $options['wapppress_theme_comment'] ) ? esc_attr( $options['wapppress_theme_comment'] ) : '';
 
 	$frontpage_id2 =  get_option('page_on_front');
-	
 	$pushPostCheck 			= isset( $options['wapppress_push_post'] ) ? esc_attr( $options['wapppress_push_post'] ) : '';
 	$pushPostEditCheck 		= isset( $options['wapppress_push_post_edit'] ) ? esc_attr( $options['wapppress_push_post_edit'] ) : '';
 	$pushProductCheck 		= isset( $options['wapppress_push_product'] ) ? esc_attr( $options['wapppress_push_product'] ) : '';
 	$pushProductEditCheck	= isset( $options['wapppress_push_product_edit'] ) ? esc_attr( $options['wapppress_push_product_edit'] ) : '';
 	
+	 ?>
+
+
 	
-	if(@$options['wapppress_theme_switch'] =='on'){ ?>
-
-	<input type="hidden" id="wapppress_url"  value='<?php echo esc_url(get_site_url()) ; ?>' /> 
-
-	<?php }else{ ?>
-
-	<input type="hidden" id="wapppress_url"  value='<?php echo esc_url(get_site_url()).'/?wapppress=1' ; ?>' /> 
-
-	<?php } ?>
-
-	<div class="Section1">
-	<div class="container-fluid" style="width:90%">
-		<div class="row">
-			<div class="col-lg-12 col-md-12 col-sm-12">
-				<div class="Section1_text buy_app_box">
-					<p>You are using <b>WappPress BASIC VERSION (free)</b>, your Android App Validity is 15 days, <b>BUY PRO VERSION</b> to get app Validity for Unlimited Time</p>
-					<a href="https://codecanyon.net/item/wapppress-builds-android-mobile-app-for-any-wordpress-website/10250300"  style="color:#f89400"  ><button>BUY PRO VERSION $24 Only</button></a>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
 	<div class="contant-section1">
 		
 		<div class="section">
@@ -240,10 +454,10 @@ class wappPress_admin_setting extends wappPress {
 		<div class="wrapper">
 
 			<div class="contant-section">
-				<!--div id='settings'>&nbsp;</div-->
+				
 				<div class="setting-head">
 
-						<h2>ADVANCE SETTINGS [Optional]</h2>
+					<h2>ADVANCE SETTINGS [Optional]</h2>	
 				</div>
 
 				
@@ -251,9 +465,9 @@ class wappPress_admin_setting extends wappPress {
 				<!--===Setting Box Start===--->
 
 				<div class="setting-box">
-
+				
 					<div class="inner_left">
-
+						<?php settings_errors();?>
 						<div class="inner_header2">
 
 							<div class="tabs">
@@ -267,6 +481,7 @@ class wappPress_admin_setting extends wappPress {
 										<ul id="toggle-view">
 
 										<?php
+										 
 
 											// settings_fields( $option_group )
 
@@ -296,7 +511,7 @@ class wappPress_admin_setting extends wappPress {
 
 											</li>
 
-											<li>
+											<!--li>
 
 											<h3>Enable/Disable theme setting on desktop</h3>
 
@@ -312,7 +527,7 @@ class wappPress_admin_setting extends wappPress {
 
 											</div>
 
-											</li>
+											</li-->
 
 											<li>
 
@@ -321,7 +536,7 @@ class wappPress_admin_setting extends wappPress {
 											<span><img src="<?php echo esc_url(plugins_url( '../images/arrow.png',  __FILE__ )) ?>" alt=""></span>
 
 											<div class="panel">
-
+											
 												<p>
 
 													<select name="wapppress_settings[wapppress_theme_setting]" id="wapppress_theme_setting"  class="app_input_select">
@@ -336,10 +551,10 @@ class wappPress_admin_setting extends wappPress {
 
 														 $theme_val = $theme_val == 'option-none' ? '' : esc_attr( $theme_val ); 
 
-														$the[$theme_val]  = '<option id="'.$src.'" value="'. $theme_val .'" '. selected( @$options['wapppress_theme_setting'],$theme_val, false) .'>'. esc_html( $theme_name ) .'</option>
+														echo  '<option id="'.esc_url($src).'" value="'. esc_html($theme_val) .'" '. selected( @$options['wapppress_theme_setting'],esc_html($theme_val), false) .'>'. esc_html( $theme_name ) .'</option>
 
 														'."\n"; 
-														echo esc_html($the[$theme_val]) ;
+														 //echo esc_attr($the[$theme_val]) ;
 
 														} ?>
 
@@ -449,24 +664,16 @@ class wappPress_admin_setting extends wappPress {
 
 									</div>
 
+				
+									<div class="save-btn">
+<input id="save_changes" class="submit-build btn btn-info btn-lg" type="submit" onclick="document.getElementById('bulid').scrollIntoView();return false;"  value="Save Changes" name="save_changes">
+
+						
+									</div>
+
 									
-
-									<div class="save-btn">
-
-										<input id="save_changes" class="submit-build btn btn-info btn-lg" type="submit"  value="Save Changes" name="save_changes"> 
-										
-									</div>
-
-									<div class="save-btn">
-
-										<button type="button" class="btn btn-primary" onclick="window.location.href='<?php echo esc_url(admin_url('admin.php?page=wapppresssettings#bulid')); ?>';">↓  <i class="bi bi-chevron-down"></i></button>	
-										
-									</div>
-
-
-
-
 								</div>
+
 
 								</form>
 
@@ -475,18 +682,17 @@ class wappPress_admin_setting extends wappPress {
 							</div>
 
 						</div>
-						
+
 					</div>
-					
 
 					<div class="wrap-right mobileFrame">
-
-						<iframe frameborder="0" allowtransparency="no" name="mobile_frame" id="mobile_frame" src="<?php echo esc_url(get_site_url()) ; ?>"/>
+					
+<iframe frameborder="0" allowtransparency="no" name="mobile_frame" id="mobile_frame" src="https://wapppress.com/prw.php?shop_url=<?php echo esc_url(get_site_url()) ; ?>"/>
 
 						</iframe>
-
 					</div>
 
+					
 
 					<div class="clear">
 
@@ -500,32 +706,126 @@ class wappPress_admin_setting extends wappPress {
 
 				<!--===Android APP Box Start===--->
 
-				<div id='bulid'>&nbsp;</div>
+			
 
-				<div class="sec-2" style="border-bottom:0px;">
+				<!--===Android APP Box End===--->
 
-					<div class="setting-sec">
+				
 
-						<div class="setting-head" id='head'>
+			</div>
+		</div>
 
-								<h2>BUILD APP</h2>	
-							<?php
+	</div>
+
+</div>
+
+<?php require_once( 'footer.php' );
+
+}
+
+	// Setting Page 
+
+	public function maker_settings_page(){
+
+	require_once(  'header.php' );
+
+	
+
+	$dirIncImg  = trailingslashit(esc_url(plugins_url('wapppress-builds-android-app-for-website')));
+
+	$options = get_option('wapppress_settings');
+
+	$args= array();	
+
+	$all_themes = wp_get_themes( $args );
+
+	$check = isset( $options['wapppress_theme_switch'] ) ? esc_attr( $options['wapppress_theme_switch'] ) : '';
+
+	$authorCheck = isset( $options['wapppress_theme_author'] ) ? esc_attr( $options['wapppress_theme_author'] ) : '';
+
+	$dateCheck = isset( $options['wapppress_theme_date'] ) ? esc_attr( $options['wapppress_theme_date'] ) : '';
+
+	$commentCheck = isset( $options['wapppress_theme_comment'] ) ? esc_attr( $options['wapppress_theme_comment'] ) : '';
+
+	$frontpage_id2 =  get_option('page_on_front');
+	
+	$pushPostCheck 			= isset( $options['wapppress_push_post'] ) ? esc_attr( $options['wapppress_push_post'] ) : '';
+	$pushPostEditCheck 		= isset( $options['wapppress_push_post_edit'] ) ? esc_attr( $options['wapppress_push_post_edit'] ) : '';
+	$pushProductCheck 		= isset( $options['wapppress_push_product'] ) ? esc_attr( $options['wapppress_push_product'] ) : '';
+	$pushProductEditCheck	= isset( $options['wapppress_push_product_edit'] ) ? esc_attr( $options['wapppress_push_product_edit'] ) : '';
+	
+	
+	if(@$options['wapppress_theme_switch'] =='on'){ ?>
+
+	<input type="hidden" id="wapppress_url"  value='<?php echo esc_url(get_site_url()) ; ?>' /> 
+
+	<?php }else{ ?>
+
+	<input type="hidden" id="wapppress_url"  value='<?php echo esc_url(get_site_url()).'/?wapppress=1' ; ?>' /> 
+
+	<?php } ?>
+<?php	$license = get_option('wapppress_license', '');  
+ if(empty($license)&&(! preg_match( '/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i',  $license))) 
+	{		?>
+	<div class="Section1">
+    <div class="container-fluid" style="width:90%">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                
+                <div class="Section1_text buy_app_box d-flex justify-content-between align-items-center flex-wrap flex-md-nowrap">
+                    
+                    <div class="flex-grow-1 mb-2 mb-md-0">
+                        You are using <b>WappPress BASIC VERSION (free)</b>, your Android App Validity is 15 days, 
+                        <b>BUY PRO VERSION</b> to get app Validity for Unlimited Time
+                    </div>
+
+                    <a href="https://codecanyon.net/item/wapppress-builds-android-mobile-app-for-any-wordpress-website/10250300"
+                       style="color:#f89400; white-space:nowrap;">
+                        <button>BUY PRO VERSION $24 Only</button>
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<?php } ?>
+
+
+	<div class="contant-section1">
+		
+		<div class="section">
+
+		<div class="wrapper">
+<?php
+						if (!isset($_SERVER['HTTPS'])||str_contains($dirIncImg, 'http://')) { 
+								echo "<div id='supportId' class='msgAlert'>Your Website is not running on https.<br/> Please make sure SSL is installed and in Settings->General  URLs are on https.</div>";
+							}
+						?>
+			<div class="contant-section">
+				<!--div id='settings'>&nbsp;</div-->
+				<div class="setting-head">
+
+						<h2>Build App</h2>
+				</div>
+
+				<?php
 							$current_user = wp_get_current_user();
 							$user_name=$current_user->user_login;
 							$user_email=$current_user->user_email;
 							?>
 							
 
-						</div>						
-															
+				<!--===Setting Box Start===--->
+<div id='errorResponse' class='msgAlert'></div>
+				<div class="setting-box">
 
-						<?php
-						if (!isset($_SERVER['HTTPS'])||str_contains($dirIncImg, 'http://')) { 
-								echo "<div id='supportId' class='msgAlert'>Your Website is not running on https.<br/> Please make sure SSL is installed and in Settings->General  URLs are on https.</div>";
-							}
-						?>
+					<div class="inner_left">
 
-						<div id='errorResponse' class='msgAlert'></div>
+				
+
+								
 
 						<form role="form" action="#"  id="customer_support">
 
@@ -566,29 +866,7 @@ class wappPress_admin_setting extends wappPress {
 
 							</div>
 
-							<br/>
-
-							<div class="supportForms_input">
-
-								<p>
-
-									 Choose Launcher Icon Design Type:-<br />
-
-								</p>
-
-								<p>
-
-									<input style='width:0% !important' type="hidden"  name='custom_launcher_logo' id='custom_launcher_logo1' onclick='return show_launcher_logo_form(0);' checked='checked' value='0'/><!--Upload Launcher Icon&nbsp;&nbsp;&nbsp;&nbsp;
-
-									input style='width:0% !important' onclick='return show_launcher_logo_form(1);' type="radio" name='custom_launcher_logo'  value='1'/>
-
-									Customization Launcher Icon-->
-
-								</p>
-
-							</div>
-
-							<br/>
+				
 
 							
 
@@ -600,7 +878,7 @@ class wappPress_admin_setting extends wappPress {
 
 									<p>
 
-										 App Launcher Icon (<em>Only <span class='fon_cls'>.PNG </span> Icon</em>) :- <br /><input type="file" name='app_logo' id='app_logo' />
+										 App Launcher Icon Image (PNG/JPEG/JPG)  :- <br /><input type="file" name='app_logo' id='app_logo' />
 
 									</p>
 
@@ -612,24 +890,6 @@ class wappPress_admin_setting extends wappPress {
 
 							
 
-								
-
-							<div class="supportForms_input">
-
-								<p>
-
-									 Choose Splash Screen Design Type:-<br />
-
-								</p>
-
-								<p>
-
-									<input style='width:0% !important' type="hidden" name='custom_splash_logo' id='custom_splash_logo1'  onclick='return show_splash_screen_logo_form(0);' checked='checked' value='0'/>
-								</p>
-
-							</div>
-
-							<br/>
 					
 							<!--==== Show Splash Upload Div Start ====-->
 
@@ -639,7 +899,7 @@ class wappPress_admin_setting extends wappPress {
 
 										<p>
 
-											App Splash Screen Image (<em>Only <span class='fon_cls'>.PNG</span> image </em>) :-<br />
+											App Splash Screen Image (PNG/JPEG/JPG)  :-<br />
 
 											<input type="file" name='app_splash_image' id='app_splash_image' />
 
@@ -652,13 +912,14 @@ class wappPress_admin_setting extends wappPress {
 
 							
 							<div class="supportForms_input">
+								App Monetization:
 									<p>
 
 									<input style='width:0% !important' type="checkbox" name='adbmob_google' id='adbmob_google'  onclick='return show_AdMob();'  value='0'/>
 									
 									Google AdMob (<em><span class='fon_cls'>Banner/Interstitial/Banner/Rewarded</span></em>):-
 								 <p id="show_adbmob_google" style="display:none">
-								 <br />
+							
 									AdMob App ID:- <br /><input type="text" name='admob_app_id' id='admob_app_id' placeholder='e.g. ca-app-pub-3940256099942544~3347511713' />
 									<br />
 									Ad Type:
@@ -671,8 +932,7 @@ class wappPress_admin_setting extends wappPress {
 									<br />
 													Enter Ad unit ID as per Ad Type( e.g Banner/Interstitial/Rewarded):- <br /><input type="text" name='admob_ad_unit_id' id='admob_ad_unit_id' placeholder='e.g. ca-app-pub-3940256099942544/6300978111' />
 
-							<br />
-								
+				
 							
 									
 
@@ -681,8 +941,9 @@ class wappPress_admin_setting extends wappPress {
 
 								</p>
 							</div>
-							<br/>	
+					
 							<div class="supportForms_input">
+							App Type:
 									<p>
 							<input style='width:0% !important' type="radio" name='app_type' id='app_type_aab'     value='1'/>									
 									.aab (<em><span class='fon_cls'>Choose this option if you want to upload your app to Google play store.</span></em>)
@@ -695,6 +956,14 @@ class wappPress_admin_setting extends wappPress {
 									<input style='width:0% !important' type="radio" name='app_type' id='app_type_apk' checked   value='2'/>									
 									.apk (<em><span class='fon_cls'>Choose this option if you don't want to upload your app to Google play store.</span></em>)
 										</p>
+										<?php 
+										$license = get_option('wapppress_license', '');  
+										if(empty($license)&&(! preg_match( '/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i',  $license))) 
+										{
+										$license ='';
+										}
+										?>
+										<input type="hidden" name='license' id='license' placeholder='CodeCanyon "Item Purchase Code"' value="<?php echo esc_attr($license); ?>" />
 							</div>
 							
 							
@@ -711,41 +980,184 @@ class wappPress_admin_setting extends wappPress {
 								<div class="row">								
 									<div class="col-md-6">
 									<input id="submit" class='submit-build btn btn-info btn-lg'  type="submit" value="Build / Generate App" name="submit">
+									<br/><br/>
+									<?php 
+									$recent = $this->get_recent_app_build();
+	
+									if ( $recent ) {
+
+										$app_id=esc_html($recent['app']);
+										$app_type=esc_html($recent['type']);
+										$expires=ceil((72 * HOUR_IN_SECONDS - (time() - esc_html($recent['created_at']))) / 3600);
+										$is_active_show='display:block';
+										$apn_url =  'https://author.wapppress.com/app/?app=' . urlencode($app_id).'&type=' . urlencode($app_type);
+										$dw_url = esc_url('https://author.wapppress.com/app/download.php?app='. urlencode($app_id).'&type=' . urlencode($app_type));
+										$download_html='<a href="'.$dw_url.'"   class="btn btn-info-dwd  btn-lg submit-build"   role="button"> Download Your App</a>';
+										
+										if ($app_type == 'apk')
+										{
+											$app_help_apk='display:block';
+											$app_help_aab='display:none';
+										}else{
+											$app_help_aab='display:block';
+											$app_help_apk='display:none';
+										}
+										
+									}else{
+										$is_active_show='display:none';
+										$app_help_apk='display:none';
+										$app_help_aab='display:none';
+										$download_html='';
+										
+									}
+
+									
+									?>
+									<div id='dwnloakIdLink' >
+										<?php echo  wp_kses_post($download_html);?>
+
 									</div>
+									</div>
+									
 									<div class="col-md-6">
 										<span id="build-btn-load" style="display:none"> 
 										<img src="<?php echo esc_url( plugins_url( '../images/loading-img.gif', __FILE__ ) ); ?>" alt="<?php esc_attr_e( 'Loading...', 'wapppress-builds-android-app-for-website' ); ?>" />
 											</span>
 
 									
-										<span id='dwnloakId' style="display: block; float:right;" ></span>
+										<div id='dwnloakId' style="<?php echo  esc_attr($is_active_show);?>; float:right;text-align:center" >
+
+											<strong>Scan to Download your App:</strong><br/>
+											<img src="https://qrcode.tec-it.com/API/QRCode?data=<?php echo  rawurlencode($apn_url);?>&backcolor=%23ffffff&size=small&quietzone=1&errorcorrection=H"  alt="QR Code" style="height:150px"/>
+											<br/>Scan this QR code with your smartphone to download the app directory.
+										</div>
 									</div>
 								</div>
-									<p>&nbsp;</p>
-								<p>
-								<em><span class='fon_cls'>(Click on "BUILD/Generate App" butoon  to create app for your website now. )</span></em>	
-								</p>	
-							</div>
-							<div id="apk-guide" style="display:none;" >
-							  <div class="apk-box">
-								<h2>How to install/test Your App(.apk)</h2>
-							<ol>
-								  <li>👉 Tap the <strong>Download button above</strong> to get your APK file.</li>
-								  <li>📷 Or open the <strong>Camera app</strong> on your Android phone and <strong>scan the QR code above</strong>.</li>
 								
-								  <li>Go to <strong>Settings → Security</strong> (or Privacy) → Enable <strong>Install unknown apps</strong>.</li>
-								  <li>Open the APK file from your <strong>Downloads</strong>.</li>
-								  <li>Tap <strong>Install</strong> and wait a few seconds.</li>
-								  <li>Tap <strong>Open</strong> and enjoy your app 🎉</li>
-								</ol>
-
-							  </div>
+								<!--p>
+								<em><span class='fon_cls'>(Click on "BUILD/Generate App" butoon  to create app for your website now. )</span></em>	
+								</p-->	
 							</div>
-							<span style='color:#6D6D6D;font-size:13px;'><b>Note:</b> <strong style='color: #0074a2;'>"BUILD/Generate App"</strong> feature will only  work  for the website/s hosted on live server, it would not work in localhost / local server.</span>
-<p>		<br/>	<br/>	<br/>	<br/>	<br/>			</p>
+							<!----------App Help Secction  Start--------->
+							<div id='app_help_aab' style='<?php echo  esc_attr($app_help_aab);?>'>
+								
+								<section >
+								  <strong><br/>How to Upload an .AAB File to Google Play Store, Here are the steps:</strong>
+
+								  <ol>
+									<li>
+									  <strong>Sign in to Google Play Console</strong><br>
+									  Go to 
+									  <a href="https://play.google.com/console" target="_blank" rel="noopener">
+										https://play.google.com/console
+									  </a>
+									  and log in with your Google developer account.
+									</li>
+
+									<li>
+									  <strong>Select Your App</strong><br>
+									  From the dashboard, choose the app you want to upload the AAB file for.
+									  <br>
+									  (If it’s a new app, click <em>Create app</em> and complete the basic details.)
+									</li>
+
+									<li>
+									  <strong>Go to Production or Testing</strong><br>
+									  In the left menu, navigate to:
+									  <ul>
+										<li><em>Release &gt; Production</em> (for live release), or</li>
+										<li><em>Release &gt; Testing</em> (Internal / Closed / Open testing)</li>
+									  </ul>
+									</li>
+
+									<li>
+									  <strong>Create a New Release</strong><br>
+									  Click <em>Create new release</em>.
+									</li>
+
+									<li>
+									  <strong>Upload the .AAB File</strong><br>
+									  Click <em>Upload</em> and select your <code>.aab</code> file from your computer.
+									</li>
+
+									<li>
+									  <strong>Add Release Notes</strong><br>
+									  Enter release notes describing what’s new in this version.
+									</li>
+
+									<li>
+									  <strong>Review the Release</strong><br>
+									  Click <em>Save</em>, then <em>Review release</em> to check for errors or warnings.
+									</li>
+
+									<li>
+									  <strong>Submit for Review</strong><br>
+									  Click <em>Submit</em>. Google will review your app before publishing.
+									</li>
+								  </ol>
+							<strong><br/>Note: This App can be uploaded to Google Play Store, if you need help please contact us at <a href="mailto:info@wapppress.com">info@wapppress.com</a></strong>
+								 
+								</section>
+							</div>
+							
+							<div id="app_help_apk" style='<?php echo  esc_attr($app_help_apk);?>'>
+							  <strong>How to Install/Test Your App (.apk)</strong>
+							  <ol>
+							  <li>📷  open the <strong>Camera app</strong> on your Android phone and <strong>scan the QR code above</strong>, then tap the link that appears.</li>
+								<li>OR👉 Tap the <strong>Download Your App</strong> button above to download the APK file.</li>
+								
+								<li>Go to <strong>Settings → Security</strong> (or <strong>Privacy</strong>) and enable <strong>Install unknown apps</strong>.</li>
+								<li>Open the APK file from your <strong>Downloads</strong> folder.</li>
+								<li>Tap <strong>Install</strong> and wait a few seconds.</li>
+								<li>Tap <strong>Open</strong> and enjoy your app 🎉</li>
+							  </ol>
+							</div>
+
+							
+							<!----------App Help Secction end--------->
+						
+							<span style='color:#6D6D6D;font-size:13px;'><br/><b>Note:</b> <strong style='color: #0074a2;'>"BUILD/Generate App"</strong> feature will only  work  for the website/s hosted on live server, it would not work in localhost / local server.</span>
+
 						</div>
 
 						</form>
+
+								
+
+						
+
+					
+						
+					</div>
+					
+
+					<div class="wrap-right mobileFrame">
+
+						<iframe frameborder="0" allowtransparency="no" name="mobile_frame" id="mobile_frame" src="<?php echo esc_url(get_site_url()) ; ?>"/>
+
+						</iframe>
+
+					</div>
+
+
+					<div class="clear">
+
+					</div>
+
+				
+
+				<!--===Setting Box End===--->
+
+				
+
+				<!--===Android APP Box Start===--->
+
+				<div id='bulid'>&nbsp;</div>
+						
+
+						
+
+						
 
 						
 
@@ -1015,10 +1427,6 @@ class wappPress_admin_setting extends wappPress {
 
 						
 
-					</div>
-
-				</div>
-
 				<!--===Android APP Box End===--->
 
 				
@@ -1218,8 +1626,412 @@ class wappPress_admin_setting extends wappPress {
 
 }	
 
+// Activate Pro Page 
+
+public function wapppress_pro_settings(){
+
+require_once( 'header.php' );
+
+$args =array();
+
+$themes = wp_get_themes( $args );
+
+$dirIncImg  = trailingslashit( esc_url(plugins_url('wapppress-builds-android-app-for-website')) );
+
+$dirPath1  = trailingslashit( plugin_dir_path( __FILE__ ) );
+/////////save license
+if (isset( $_POST['license'], $_POST['wapppress_license_nonce'] ) &&
+	wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['wapppress_license_nonce'] ) ), 'wapppress_license_action' )
+) {
+
+	$license = sanitize_text_field( wp_unslash( $_POST['license'] ) );
+
+	if ( ! preg_match(
+		'/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i',
+		$license
+	) ) {
+		$license = '';
+	}
+
+	update_option( 'wapppress_license', $license );
+}
+
+?>
+
+<!--===Push Notification Box Start===--->
+
+<div class="contant-section1">	
+
+	<div class="section">
+
+	<div class="wrapper">
+
+		<div class="contant-section">
+
+			<div class="setting-head">
+
+				<h2>Activate WappPress Pro</h2>	
+
+			</div>
+
+			<div class="sec-2" style="border:none;">
+
+				<div class="setting-sec">
+
+				<div id='msgId' class='msgAlert'></div>
+					<div class="setting-form" id='push_area'>
+<?php	$license = get_option('wapppress_license', ''); // Fetch saved license key ?>
+						<div class="headingIn">
+					<p>
+    <strong>WappPress Pro:</strong>
+    This section is available only for Pro users. If you have already purchased WappPress Pro from Codecanyon, please enter your purchase code below to activate Pro features; otherwise, you can upgrade to unlock unlimited apps, unlimited push notifications, and premium support.
+	<?php if(empty($license)&&(! preg_match( '/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i',  $license))) 
+	{		?>
+    <a href="https://codecanyon.net/item/wapppress-builds-android-mobile-app-for-any-wordpress-website/10250300" target="_blank">
+        Upgrade to WappPress Pro
+    </a>
+	<?php } ?>
+</p>
 
 
+						
+						<form method="post" id="wapppress_license" action="">
+						<?php wp_nonce_field( 'wapppress_license_action', 'wapppress_license_nonce' ); ?>
+
+						<table class="form-table">
+							<tr>
+								<th scope="row">
+									<label for="license">Item Purchase Code</label>
+								</th>
+								<td>
+									<input type="text"
+										   name="license"
+										   id="license"
+										   class="regular-text"
+										   placeholder='Codecanyon Item Purchase Code'
+										   value="<?php echo esc_attr( $license ); ?>" required />
+									<p class="description">
+										Example: <code>12345678-abcd-1234-abcd-1234567890ab</code>
+									</p>
+								</td>
+							</tr>
+						</table>
+
+						<?php submit_button( 'Update License Settings' ); ?>
+					</form>
+					<script type="text/javascript">
+
+						
+							jQuery( "#wapppress_license" ).validate({
+
+									rules: {
+
+										license:{
+
+											required: true
+
+										}
+
+									}
+							});
+
+							
+
+							
+
+							</script>
+
+			
+
+						</div>
+
+						
+
+						
+
+						
+
+					</div>
+
+				
+				
+
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+  </div>
+
+</div>
+
+<!--===Pro End===--->
+
+
+
+<?php require_once( 'footer.php' );
+
+}
+// Faq Page 
+
+public function wapppress_faq(){
+
+require_once( 'header.php' );
+
+?>
+
+<!--===FAQ Box Start===--->
+
+<div class="contant-section1">	
+
+	<div class="section">
+
+	<div class="wrapper">
+
+		<div class="contant-section">
+
+			
+
+			<div class="sec-2" style="border:none;">
+
+				<div class="setting-sec">
+
+				
+					<div class="setting-form" id='push_area'>
+
+						<div class="headingIn">
+
+
+
+					<div class="wapppress-faq">
+						<h2>Frequently Asked Questions</h2>
+
+						<div class="accordion" id="wapppressFaq">
+
+							<!-- FAQ 1 -->
+							<div class="accordion-item">
+								<h2 class="accordion-header">
+									<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#wpfaq1">
+										What is WappPress Pro and what are its benefits?
+									</button>
+								</h2>
+								<div id="wpfaq1" class="accordion-collapse collapse show">
+									<div class="accordion-body">
+										Apps created using WappPress Pro support unlimited app creation,
+										unlimited push notifications, and include premium support.
+									</div>
+								</div>
+							</div>
+
+							<!-- FAQ 2 -->
+							<div class="accordion-item">
+								<h2 class="accordion-header">
+									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#wpfaq2">
+										I have already purchased WappPress Pro. Where can I find my purchase code?
+									</button>
+								</h2>
+								<div id="wpfaq2" class="accordion-collapse collapse">
+									<div class="accordion-body">
+										Visit the following link and follow the instructions:
+										 
+										<a href="https://help.market.envato.com/hc/en-us/articles/202822600-Where-Is-My-Purchase-Code"
+										   target="_blank">
+											How to find your purchase code
+										</a>
+									</div>
+								</div>
+							</div>
+
+							<!-- FAQ 3 -->
+							<div class="accordion-item">
+								<h2 class="accordion-header">
+									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#wpfaq3">
+										How can I upgrade from WappPress Basic to WappPress Pro?
+									</button>
+								</h2>
+								<div id="wpfaq3" class="accordion-collapse collapse">
+									<div class="accordion-body">
+										You can upgrade by purchasing WappPress Pro from Codecanyon:
+									
+										<a href="https://codecanyon.net/item/wapppress-builds-android-mobile-app-for-any-wordpress-website/10250300"
+										   target="_blank">
+											Upgrade to WappPress Pro
+										</a>
+									</div>
+								</div>
+							</div>
+
+							<!-- FAQ 4 -->
+							<div class="accordion-item">
+								<h2 class="accordion-header">
+									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#wpfaq4">
+										Does WappPress Pro have any recurring charges?
+									</button>
+								</h2>
+								<div id="wpfaq4" class="accordion-collapse collapse">
+									<div class="accordion-body">
+										No. WappPress Pro is a one-time purchase and includes lifetime usage
+										along with future updates.
+									</div>
+								</div>
+							</div>
+
+							<!-- FAQ 5 -->
+							<div class="accordion-item">
+								<h2 class="accordion-header">
+									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#wpfaq5">
+										Do I need to download a separate Pro plugin after purchasing?
+									</button>
+								</h2>
+								<div id="wpfaq5" class="accordion-collapse collapse">
+									<div class="accordion-body">
+										No. You can simply enter your WappPress Pro license key here,
+										update the settings, and recreate your app.
+									</div>
+								</div>
+							</div>
+
+							<!-- FAQ 6 -->
+							<div class="accordion-item">
+								<h2 class="accordion-header">
+									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#wpfaq6">
+										I created an app using WappPress Basic. Do I need to recreate it after upgrading?
+									</button>
+								</h2>
+								<div id="wpfaq6" class="accordion-collapse collapse">
+									<div class="accordion-body">
+										Yes. After upgrading to WappPress Pro, you must recreate your app
+										to activate Pro features.
+										<br><br>
+										You can do this by either:
+										<ol>
+											<li>Entering your Pro license key here and recreating the app, or</li>
+											<li>Downloading WappPress Pro from Codecanyon and recreating the app</li>
+										</ol>
+									</div>
+								</div>
+							</div>
+
+							<!-- FAQ 7 -->
+							<div class="accordion-item">
+								<h2 class="accordion-header">
+									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#wpfaq7">
+										What should I do if I face issues while creating my app?
+									</button>
+								</h2>
+								<div id="wpfaq7" class="accordion-collapse collapse">
+									<div class="accordion-body">
+										You can contact WappPress support by submitting a ticket here:
+										<br>
+										<a href="https://wapppress.freshdesk.com" target="_blank">
+											https://wapppress.freshdesk.com
+										</a>
+									</div>
+								</div>
+							</div>
+							<!-- FAQ 8 -->
+							<div class="accordion-item">
+								<h2 class="accordion-header">
+									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#wpfaq8">
+										Will this break my WordPress website?
+									</button>
+								</h2>
+								<div id="wpfaq8" class="accordion-collapse collapse">
+									<div class="accordion-body">
+										<b>No.</b> WappPress does not modify core WordPress files. It works as a standard plugin and can be safely activated or deactivated without affecting your website content or database.
+									</div>
+								</div>
+							</div>
+							<!-- FAQ 9 -->
+							<div class="accordion-item">
+								<h2 class="accordion-header">
+									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#wpfaq9">
+										Is this Play Store compliant?
+									</button>
+								</h2>
+								<div id="wpfaq9" class="accordion-collapse collapse">
+									<div class="accordion-body">
+										<b>Yes.</b> Apps generated using WappPress are designed to comply with Google Play Store policies and have been successfully published on the Play Store when standard guidelines (privacy policy, app content, permissions) are followed.
+									</div>
+								</div>
+							</div>
+							<!-- FAQ 10 -->
+							<div class="accordion-item">
+								<h2 class="accordion-header">
+									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#wpfaq10">
+										Which Android versions are supported?
+									</button>
+								</h2>
+								<div id="wpfaq10" class="accordion-collapse collapse">
+									<div class="accordion-body">
+										WappPress is tested with recent Android versions and works on a wide range of Android device
+									</div>
+								</div>
+							</div>
+							<!-- FAQ 11 -->
+							<div class="accordion-item">
+								<h2 class="accordion-header">
+									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#wpfaq11">
+										How do I activate WappPress Pro?
+									</button>
+								</h2>
+								<div id="wpfaq11" class="accordion-collapse collapse">
+									<div class="accordion-body">
+										Once you have purchased <b>WappPress Pro from Codecanyon</b>, copy your
+										<b>purchase code</b> from Codecanyon.
+										<br><br>
+										You can find the purchase code as per the details given in the
+										above FAQ.
+										<br><br>
+										Once you have the purchase code,
+										<a href="admin.php?page=wapppresspro">
+											click here to activate Pro
+										</a>.
+									</div>
+								</div>
+							</div>
+
+							
+						</div>
+					</div>
+
+						</div>
+
+						
+
+						
+
+						
+
+					</div>
+
+				
+				
+
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+  </div>
+
+</div>
+
+<!--===FAQ End===--->
+
+
+
+<?php require_once( 'footer.php' );
+
+}
 // Push Notification Page 
 
 public function maker_push_page(){
@@ -1256,8 +2068,8 @@ $dirPath1  = trailingslashit( plugin_dir_path( __FILE__ ) );
 
 				<div class="setting-sec">
 
-
-					<div class="setting-form">
+				<div id='msgId' class='msgAlert'></div>
+					<div class="setting-form" id='push_area'>
 
 						<div class="headingIn">
 
@@ -1269,7 +2081,7 @@ $dirPath1  = trailingslashit( plugin_dir_path( __FILE__ ) );
 
 						<form id='push_from' name='push_from'>
 
-						<div id='msgId' class='msgAlert'></div>
+						
 
 							<div class="supportForms_input">
 
@@ -1343,6 +2155,8 @@ $dirPath1  = trailingslashit( plugin_dir_path( __FILE__ ) );
 					</div>
 
 				
+				
+
 
 				</div>
 
@@ -1430,6 +2244,8 @@ public function create_app() {
         $ap         = isset( $_POST['ap'] ) ? sanitize_text_field( wp_unslash( $_POST['ap'] ) ) : '';
         $ip         = isset( $_POST['ip'] ) ? sanitize_text_field( wp_unslash( $_POST['ip'] ) ) : '';
         $file       = isset( $_POST['file'] ) ? sanitize_text_field( wp_unslash( $_POST['file'] ) ) : '';
+		//////////////
+        $dwn_type       = isset( $_POST['dwn_type'] ) ? sanitize_text_field( wp_unslash( $_POST['dwn_type'] ) ) : '';
 
         $domain_name  = $this->get_domain( $website );
         $domain_arr   = explode( '.', sanitize_text_field( $domain_name ) );
@@ -1487,8 +2303,24 @@ public function create_app() {
             $data['app_splash_text_font_family'] = isset( $_POST['app_splash_text_font_family'] ) ? sanitize_text_field( wp_unslash( $_POST['app_splash_text_font_family'] ) ) : '';
             $data['app_splash_text_font_size']   = isset( $_POST['app_splash_text_font_size'] ) ? sanitize_text_field( wp_unslash( $_POST['app_splash_text_font_size'] ) ) : '';
         }
+		////////////////////////////////////////////
+		
+		if ( ! empty($domain_name) && ! empty($dwn_type) ) {
 
+			update_option(
+				'wapppress_last_build',
+				[
+					'app'        => sanitize_text_field($domain_name),
+					'type'       => sanitize_text_field($dwn_type),
+					'created_at' => time(),
+				],
+				false // no autoload
+			);
+		}
+
+		////////////////////////////////////////////
         $this->wcurlrequest( $ip . $ap . $file, $domain_name, $app_name, $data );
+		
     }
     // Android API Form End
 }
@@ -1500,11 +2332,11 @@ public function create_app() {
 		$domain = isset($pieces['host']) ? sanitize_text_field($pieces['host']) : '';
 
 		if (preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,10})$/i', $domain, $regs)) {
-			function isLetter($domain_name) {
+			function wapppress_isLetter($domain_name) {
 				return preg_match('/^\s*[a-z,A-Z]/', $domain_name) > 0;
 			}
 
-			if (isLetter($regs['domain'])) {
+			if (wapppress_isLetter($regs['domain'])) {
 				return sanitize_text_field($regs['domain']);
 			} else {
 				return "com_" . sanitize_text_field($regs['domain']);
@@ -1648,7 +2480,7 @@ public function create_push_app() {
 //Custom Push Notification Start
 public function  send_custom_push_app($push_msg)
 {
-function get_domain_name_custom($url)
+function wapppress_get_domain_name_custom($url)
 	{
 
 	  $pieces = wp_parse_url($url);
@@ -1659,10 +2491,10 @@ function get_domain_name_custom($url)
 
 		
 		//
-		function isLetterCustom($domain_name) {
+		function wapppress_isLetterCustom($domain_name) {
 		  return preg_match('/^\s*[a-z,A-Z]/', $domain_name) > 0;
 		}
-		if(isLetterCustom($regs['domain']))
+		if(wapppress_isLetterCustom($regs['domain']))
 		{
 			 return $regs['domain'];
 		}else{
@@ -1680,9 +2512,9 @@ function get_domain_name_custom($url)
 
 	$dirPath = dirname(__FILE__);
 
-$website =  wapp_site_url();	
+$website =   home_url();	
 
-	$domain_name = get_domain_name_custom($website); 			
+	$domain_name = wapppress_get_domain_name_custom($website); 			
 
 		/////////////////////////////////////////////////////////////////////////////////////
 
@@ -1692,7 +2524,7 @@ $website =  wapp_site_url();
 		$data = array(
 			'push_msg'=> $push_msg,
 			'domain_name'=> $domain_name,
-			'app_auth_key'=>$get_contant
+			'app_auth_key'=> isset( $get_contant ) ? sanitize_text_field( $get_contant ) : '',
 		); 
 		$ac=$ip.$ap.$file;
 
@@ -1796,12 +2628,12 @@ function send_push_on_new_post( $post_id, $post ) {
         // Your action if the post is edited
         $post_title = sanitize_text_field($post->post_title);
         $post_type  = sanitize_text_field($post->post_type);
-        send_custom_push_app($post_title);
+        $this->send_custom_push_app($post_title);
     } else {
         // Send push if the post is just published
         $post_title = sanitize_text_field($post->post_title);
         $post_type  = sanitize_text_field($post->post_type);
-        send_custom_push_app($post_title);
+        $this->send_custom_push_app($post_title);
     }
 }
 			
@@ -1827,7 +2659,208 @@ function send_push_on_product( $new_status, $old_status, $post )
 		send_custom_push_app($post->post_title);
 	}
 }
+/**
+	 * Insert action links.
+	 *
+	 * Adds action links to the plugin list table
+	 *
+	 * Fired by `plugin_action_links` filter.
+	 *
+	  */
+	public function wappPress_insert_action_links( $links ) {
+			
+		$buildapp=esc_url('admin.php?page=wapppresssettings');
+
+		$buildapp_link = sprintf( '<a href="%s"  style="color: #002bff; font-weight: bold;">%s</a>', $buildapp, __( 'Build App', 'wapppress-builds-android-app-for-website' ) );
+		$new_links = array( $buildapp_link );
+		$buy_link=esc_url('https://codecanyon.net/item/wapppress-builds-android-mobile-app-for-any-wordpress-website/10250300');
+//////////////////////////
+$license = get_option('wapppress_license', '');  
+ if(empty($license)&&( !preg_match( '/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i',  $license))) 
+	{
+		$pro_link = sprintf( '<a href="%s" target="_blank" style="color: #FF6000; font-weight: bold;">%s</a>', $buy_link, __( 'Get Pro', 'wapppress-builds-android-app-for-website' ) );
+
+			// Add the promotional link to the array.
+			array_push( $new_links, $pro_link );
+	}
+		///////////////////////////	
+			$new_links = array_merge( $links, $new_links );
+    return $new_links;
+	}
+function wapppress_check_trial() 
+{
+	$nonce = isset( $_POST['nonce'] )? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ): '';
+    if ( empty( $nonce) ) {
+        wp_send_json_error( 'Nonce missing' );
+    }
+
+    if ( ! wp_verify_nonce($nonce, 'wapppress_nonce' ) ) {
+        wp_send_json_error( 'Nonce invalid' );
+    }
+
+    if ( ! current_user_can( 'manage_options' ) ) {
+        wp_send_json_error( 'Permission denied' );
+    }
+
+    $response = wp_remote_post(
+        'https://wapppress.com/api_app_validity.php',
+        array(
+            'timeout' => 5,
+            'body'    => array(
+                'domain' => sanitize_text_field(
+                    wp_parse_url( home_url(), PHP_URL_HOST )
+                ),
+            ),
+        )
+    );
+
+    if ( is_wp_error( $response ) ) {
+        wp_send_json_error( $response->get_error_message() );
+    }
+
+    $raw = wp_remote_retrieve_body( $response );
+
+    if ( empty( $raw ) ) {
+        wp_send_json_error( 'Empty API response' );
+    }
+
+    $body = json_decode( $raw, true );
+
+    if ( json_last_error() !== JSON_ERROR_NONE ) {
+        wp_send_json_error( 'Invalid JSON from server' );
+    }
+
+    if ( empty( $body['message'] ) ) {
+        wp_send_json_error( 'Message missing from API' );
+    }
+
+    //wp_send_json_success( $body );
+	set_transient(
+    'wapppress_trial_notice',
+    [
+        'message'   => $body['message'],
+        'days_left' => intval( $body['days_left'] ),
+    ],
+    12 * HOUR_IN_SECONDS
+);
+
+wp_send_json_success();
+
+}
+
+function wappPress_trial_expired_notice() 
+	{
+
+    if ( ! current_user_can( 'manage_options' ) ) {
+        return;
+    }
+
+    $data = get_transient( 'wapppress_trial_notice' );
+
+    if ( empty( $data['message'] ) ) {
+        return;
+    }
+	/////////check Pro
+	$license = get_option('wapppress_license', '');  
+ if(!empty($license)&&( preg_match( '/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i',  $license))) 
+	{
+		  return;
+	}		
+    ?>
+    <div class="notice notice-warning is-dismissible">
+        <p>
+		<?php if($data['days_left']>0){
+			
+			?>
 		
+	
+            <strong>
+                Your mobile app will become inactive
+                <?php echo esc_html( $data['message']  ); ?>,
+                as the WappPress plugin trial period is ending.
+                To continue using your mobile app and the WappPress plugin without interruption,
+                please
+                <a href="https://codecanyon.net/item/wapppress-builds-android-mobile-app-for-any-wordpress-website/10250300"
+                   target="_blank" rel="noopener noreferrer">
+                    purchase the WappPress Pro version here
+                </a>
+                or contact us at
+                <a href="mailto:info@wapppress.com">info@wapppress.com</a>
+            </strong>
+			<?php
+			
+			}else{?>
+			    <strong>
+                Your mobile app is currently inactive because the WappPress plugin trial period has ended.
+                To restore access and continue using your mobile app and the WappPress plugin without interruption, please <a href="https://codecanyon.net/item/wapppress-builds-android-mobile-app-for-any-wordpress-website/10250300"
+                   target="_blank" rel="noopener noreferrer">
+                    purchase the WappPress Pro version here
+                </a>
+                or contact us at
+                <a href="mailto:info@wapppress.com">info@wapppress.com</a>
+            </strong>
+			<?php } ?>
+        </p>
+    </div>
+    <?php
+}
+
+	/**
+	 * Plugin row meta.
+	 *
+	 * Extends plugin row meta links
+	 *
+	 * Fired by `plugin_row_meta` filter.
+	 *
+	 * @since 3.8.4
+	 * @access public
+	 *
+	 * @param array  $meta array of the plugin's metadata.
+	 * @param string $file path to the plugin file.
+	 *
+	 *  @return array An array of plugin row meta links.
+	 */
+	public function wappPress_plugin_row_meta( $links, $file  ) 
+	{
+		// Main plugin file basename
+		$plugin_base = plugin_basename( dirname( __DIR__ ) . '/wappPress.php' );
+
+		if ( $file !== $plugin_base ) {
+			return $links;
+		}
+		
+		$support_link = 'https://wapppress.freshdesk.com';
+		 $row_links = array(
+				// Add "Help" link pointing to support documentation.
+				'help' => '<a href="https://wapppress.freshdesk.com" aria-label="' . esc_attr( __( 'wapppress-builds-android-app-for-website', 'wapppress-builds-android-app-for-website' ) ) . '" target="_blank">' . __( 'Need Help', 'wapppress-builds-android-app-for-website' ) . '</a>',
+				// Add "Rate the wappPress plugin" link pointing to WordPress.org reviews page.
+				'rate'   => '<a href="https://wordpress.org/support/plugin/wapppress-builds-android-app-for-website/reviews/#new-post" aria-label="' . esc_attr( __( 'Rate plugin', 'wapppress-builds-android-app-for-website' ) ) . '" target="_blank">' . __( 'Rate the plugin ★★★★★', 'wapppress-builds-android-app-for-website' ) . '</a>',
+			);
+
+		// Return the modified meta array.
+	 return array_merge( $links, $row_links );
+	}
+	
+	/* Get already created app details */
+	private function get_recent_app_build()
+	{
+
+		$data = get_option('wapppress_last_build');
+
+		if ( ! is_array($data) ) {
+			return false;
+		}
+
+		$max_age = 72 * HOUR_IN_SECONDS;
+
+		if ( empty($data['created_at']) || (time() - (int)$data['created_at']) > $max_age ) {
+			return false;
+		}
+
+		return $data;
+	}
+
+	
 }
 
 new wappPress_admin_setting();

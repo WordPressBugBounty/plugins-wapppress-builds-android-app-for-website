@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: WappPress - Convert Site to App Fast - WordPress to Mobile App Builder - Flutter App Builder
+ * Plugin Name: WappPress
  * Plugin URI:  https://wapppress.com/plugin
  * Description: Convert any WordPress site into an Android App in just 1 click. Easy-to-use WordPress mobile app plugin.
- * Version:     6.9.3
+ * Version:     7.0.5
  * Author:      WappPress Team
  * Author URI:  https://wapppress.com
  * License:     GPL v2 or later
@@ -17,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Define plugin constants
 define( 'WAPPPRESS_PLUGIN_FILE', __FILE__ );
+define( 'WAPPPRESS_PLUGIN_BASENAME', plugin_basename( WAPPPRESS_PLUGIN_FILE ) );
 define( 'WAPPPRESS_PLUGIN_DIR', plugin_dir_path( WAPPPRESS_PLUGIN_FILE ) );
 define( 'WAPPPRESS_PLUGIN_URL', plugin_dir_url( WAPPPRESS_PLUGIN_FILE ) );
 define( 'WAPPPRESS_COMPILE_ID', 'https://wapppress.com' );
@@ -28,17 +29,24 @@ class wappPress {
     public static $dirJs;
     public static $dirCss;
     public static $dirImg;
+    public static $dirInsPWA;
 
     public function __construct() {
 
-         self::$dirInc 		 = WAPPPRESS_PLUGIN_DIR . 'includes/';
+        self::$dirInc 		 = WAPPPRESS_PLUGIN_DIR . 'includes/';
         self::$dirCss		 = WAPPPRESS_PLUGIN_URL . 'css/';
         self::$dirJs 		 = WAPPPRESS_PLUGIN_URL . 'js/';
         self::$dirImg 		 = WAPPPRESS_PLUGIN_URL . 'images/';
+		///////////
+		/** * Instantappy PWA – load once */
+		add_action( 'plugins_loaded', array( $this, 'load_instantappy_pwa' ), 5 );
+
+	
         // Load plugin
         add_action( 'plugins_loaded', array( $this, 'load_plugin' ) );
         add_action( 'admin_enqueue_scripts', array( $this, 'admin_custom_scripts' ) );
-
+		///////
+		//add_action( 'plugins_loaded', array( $this, 'load_instantappy_pwa_plugin' ) );
         // Include required files
         require_once self::$dirInc . 'wappPress_admin_setting.php';
         require_once self::$dirInc . 'wappPress_customize.php';
@@ -67,12 +75,36 @@ class wappPress {
             $this->disable_comments();
         }
     }
+	public function load_instantappy_pwa() {
+
+		$instantappy_dir = WAPPPRESS_PLUGIN_DIR . 'instantappy-pwa/';
+
+		// Core (always)
+		require_once $instantappy_dir . 'instantappy-pwa.php';
+		require_once $instantappy_dir . 'includes/instantappy-config-and-functions.php';
+		require_once $instantappy_dir . 'includes/instantappy-common-functions.php';
+		require_once $instantappy_dir . 'public/public-manifest-sw-functions.php';
+
+		// Admin only
+		if ( is_admin() ) {
+			require_once $instantappy_dir . 'includes/instantappy-pwa-admin-setting.php';
+
+			// Ensure class is instantiated only once
+			if ( class_exists( 'instantappy_pwa_admin_setting' ) ) {
+				new instantappy_pwa_admin_setting();
+			}
+		}
+	}
 
     public function load_plugin() {
         require_once self::$dirInc . 'wappPress_theme_switcher.php';
         new WappPress_theme_switcher();
     }
-
+	//////Instantappy PWA///////
+	public function load_instantappy_pwa_plugin() {
+	
+	
+     }
    public function admin_custom_scripts() {
     // Use plugin version or filemtime for cache busting
     $plugin_version = defined( 'WAPPPRESS_VERSION' ) ? WAPPPRESS_VERSION : time();

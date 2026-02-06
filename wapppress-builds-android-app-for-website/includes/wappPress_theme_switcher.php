@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
 class wappPress_theme_switcher extends wappPress {
 
     public $appSet = null;
