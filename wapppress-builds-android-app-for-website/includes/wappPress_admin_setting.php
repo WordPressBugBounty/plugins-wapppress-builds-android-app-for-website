@@ -281,7 +281,7 @@ function wapppress_enqueue_admin_assets() {
 				<!-- BASIC VERSION -->
 				<div class="wapppress_box1">
 					<h3><br>
-						WappPress BASIC <br><br><br>
+						WappPress BASIC <br><span>Free</span>  <br><br>
 					</h3>
 
 					<ul>
