@@ -1712,6 +1712,8 @@ if (isset( $_POST['license'], $_POST['wapppress_license_nonce'] ) &&
 										   value="<?php echo esc_attr( $license ); ?>" required />
 									<p class="description">
 										Example: <code>12345678-abcd-1234-abcd-1234567890ab</code>
+										<br/><a href="https://help.market.envato.com/hc/en-us/articles/202822600-Where-Is-My-Purchase-Code"
+										   target="_blank"><strong>Click here to find your purchase code </strong></a>
 									</p>
 								</td>
 							</tr>
