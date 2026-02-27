@@ -2769,13 +2769,13 @@ function wappPress_trial_expired_notice()
 		  return;
 	}		
     ?>
-    <div class="notice notice-warning is-dismissible">
-        <p>
-		<?php if($data['days_left']>0){
+
+		<?php 
+		if(($data['days_left']>0)&&($data['days_left']<5)){
 			
 			?>
 		
-	
+	    <div class="notice notice-warning is-dismissible">
             <strong>
                 Your mobile app will become inactive
                 <?php echo esc_html( $data['message']  ); ?>,
@@ -2789,9 +2789,11 @@ function wappPress_trial_expired_notice()
                 or contact us at
                 <a href="mailto:info@wapppress.com">info@wapppress.com</a>
             </strong>
+			  </div>
 			<?php
 			
-			}else{?>
+			}else if($data['days_left']<=0){?>
+			<div class="notice notice-warning is-dismissible">
 			    <strong>
                 Your mobile app is currently inactive because the WappPress plugin trial period has ended.
                 To restore access and continue using your mobile app and the WappPress plugin without interruption, please <a href="https://codecanyon.net/item/wapppress-builds-android-mobile-app-for-any-wordpress-website/10250300"
@@ -2801,9 +2803,10 @@ function wappPress_trial_expired_notice()
                 or contact us at
                 <a href="mailto:info@wapppress.com">info@wapppress.com</a>
             </strong>
+			  </div>
 			<?php } ?>
-        </p>
-    </div>
+        
+  
     <?php
 }
 
