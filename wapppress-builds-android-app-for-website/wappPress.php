@@ -3,7 +3,7 @@
  * Plugin Name: WappPress
  * Plugin URI:  https://wapppress.com/plugin
  * Description: Convert any WordPress site into an Android App in just 1 click. Easy-to-use WordPress mobile app plugin.
- * Version:     7.0.8
+ * Version:     7.0.9
  * Author:      WappPress Team
  * Author URI:  https://wapppress.com
  * License:     GPL v2 or later

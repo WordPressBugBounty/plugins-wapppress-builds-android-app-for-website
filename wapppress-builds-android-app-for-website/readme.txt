@@ -185,6 +185,8 @@ To publish your app you need to register for a Publisher Account on Google. You 
 Yes, we provide 24/7 support to you for our product. You can contact WappPress Support Team by writing to info@wapppress.com
 
 == Changelog ==
+= 7.0.9 =
+* General Bug fixes
 = 7.0.8 =
 * General fixes
 = 7.0.7 =
