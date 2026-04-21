@@ -860,7 +860,7 @@ public function advance_settings_page()
 
 								<p>
 
-									 App Name (<em><span class='fon_cls'>Please enter only unique app name.</span></em>) :- <br /><input type="text" name='app_name' id='app_name' value="<?php echo  esc_html(@$options['wapppress_name']); ?>" />
+									 App Name (<em><span class='fon_cls'>Choose a unique name related to your brand or website.</span></em>) :- <br /><input type="text" name='app_name' id='app_name' value="<?php echo  esc_html(@$options['wapppress_name']); ?>" />
 
 								</p>
 
