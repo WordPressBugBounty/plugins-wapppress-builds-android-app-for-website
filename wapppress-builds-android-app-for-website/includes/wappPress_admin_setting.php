@@ -2480,98 +2480,66 @@ public function create_push_app() {
         exit();
     }
 //Custom Push Notification Start
-public function  send_custom_push_app($push_msg)
-{
-function wapppress_get_domain_name_custom($url)
-	{
+public function send_custom_push_app( $push_msg ) {
 
-	  $pieces = wp_parse_url($url);
+	$website = home_url();
 
-	  $domain = isset($pieces['host']) ? $pieces['host'] : '';
+	// Replace wapppress_get_domain_name_custom with direct conditions
+	$pieces = wp_parse_url( $website );
+	$domain = isset( $pieces['host'] ) ? $pieces['host'] : '';
 
-	  if(preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,10})$/i', $domain, $regs)) {
+	$domain_name = false;
 
-		
-		//
-		function wapppress_isLetterCustom($domain_name) {
-		  return preg_match('/^\s*[a-z,A-Z]/', $domain_name) > 0;
+	if ( preg_match( '/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,10})$/i', $domain, $regs ) ) {
+
+		// Check if domain starts with letter
+		if ( preg_match( '/^\s*[a-zA-Z]/', $regs['domain'] ) ) {
+
+			$domain_name = $regs['domain'];
+
+		} else {
+
+			$domain_name = 'com_' . $regs['domain'];
+
 		}
-		if(wapppress_isLetterCustom($regs['domain']))
-		{
-			 return $regs['domain'];
-		}else{
-			 return "com_".$regs['domain'];			
-		}
-		//
-		
-
-	  }
-
-	  return false;
-
 	}
-//Custom Push Notification Start
 
-	$dirPath = dirname(__FILE__);
+	/////////////////////////////////////////////////////////////////////////////////////
 
-$website =   home_url();	
+	$ip   = 'http://199.38.85.107/aapi';
+	$file = 'api-push-msg-v.0.4-t.php';
 
-	$domain_name = wapppress_get_domain_name_custom($website); 			
+	$data = array(
+		'push_msg'     => $push_msg,
+		'domain_name'  => $domain_name,
+		'app_auth_key' => isset( $get_contant ) ? sanitize_text_field( $get_contant ) : '',
+	);
 
-		/////////////////////////////////////////////////////////////////////////////////////
+	$url = trailingslashit( $ip ) . $file;
 
-		$ap = '/';
-		$ip = 'http://199.38.85.107/aapi';
-		$file ='api-push-msg-v.0.4-t.php';	
-		$data = array(
-			'push_msg'=> $push_msg,
-			'domain_name'=> $domain_name,
-			'app_auth_key'=> isset( $get_contant ) ? sanitize_text_field( $get_contant ) : '',
-		); 
-		$ac=$ip.$ap.$file;
-
-	
-
-			$fields = '';
-
-			foreach ($data as $key => $value) {
-
-				$fields .= $key . '=' . $value . '&';
-
-			}
-
-			rtrim($fields, '&');
-		///////////////////////////////////////////////////
-		$url = $ac;
-	
 	$args = array(
-    'method'      => 'POST',
-    'timeout'     => 300,
-    'redirection' => 5,
-    'httpversion' => '1.0',
-    'blocking'    => true,
-    'headers'     => array(
-        'User-Agent' => ! empty( $_SERVER['HTTP_USER_AGENT'] )
-            ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) )
-            : 'Mozilla/5.0 (X11; U; Linux x86_64; pl-PL; rv:1.9.2.22) Gecko/20110905 Ubuntu/10.04 (lucid) Firefox/3.6.22',
-    ),
-    'body'        => $fields,
-    'cookies'     => array(),
-    'sslverify'   => false,
-);
+		'method'      => 'POST',
+		'timeout'     => 300,
+		'redirection' => 5,
+		'httpversion' => '1.0',
+		'blocking'    => true,
+		'headers'     => array(
+			'User-Agent' => ! empty( $_SERVER['HTTP_USER_AGENT'] )
+				? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) )
+				: 'Mozilla/5.0',
+		),
+		'body'        => $data,
+		'cookies'     => array(),
+		'sslverify'   => false,
+	);
 
-	
-	$response = wp_safe_remote_post($url, $args);
+	$response = wp_safe_remote_post( $url, $args );
 
-	$result = wp_remote_retrieve_body($response);
-	
-/////////////////////////////////////////////////////////////////////////////////////
-		
+	$result = wp_remote_retrieve_body( $response );
+
+	return $result;
 }
-
-//Custom Push Notification End
-
-
+// Custom Push Notification End
 
 //Search Home Page  
 public function search_post_results() {
