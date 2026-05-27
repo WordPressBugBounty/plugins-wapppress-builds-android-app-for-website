@@ -1698,7 +1698,7 @@ if (isset( $_POST['license'], $_POST['wapppress_license_nonce'] ) &&
 						<form method="post" id="wapppress_license" action="">
 						<?php wp_nonce_field( 'wapppress_license_action', 'wapppress_license_nonce' ); ?>
 
-						<!--table class="form-table">
+						<table class="form-table">
 							<tr>
 								<th scope="row">
 									<label for="license">Item Purchase Code</label>
@@ -1717,9 +1717,9 @@ if (isset( $_POST['license'], $_POST['wapppress_license_nonce'] ) &&
 									</p>
 								</td>
 							</tr>
-						</table-->
+						</table>
 
-						<?php /* submit_button( 'Update License Settings' );*/ ?>
+						<?php  submit_button( 'Update License Settings' ); ?>
 					</form>
 					<script type="text/javascript">
 

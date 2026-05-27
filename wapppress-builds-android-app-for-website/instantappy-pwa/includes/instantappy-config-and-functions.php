@@ -282,7 +282,7 @@ function INSTANTAPPY_description_settings() {
 		<input type="text" name="INSTANTAPPY_settings[description]" class="regular-text" value="<?php if ( isset( $settings['description'] ) && ( ! empty( $settings['description'] ) ) ) echo esc_attr( $settings['description'] ); ?>"/>
 		
 		<p class="description">
-			<?php esc_html( 'A brief description of what your app is about.', 'wapppress-builds-android-app-for-website' ); ?>
+			<?php esc_html_e( 'A brief description of what your app is about.', 'wapppress-builds-android-app-for-website' ); ?>
 		</p>
 		
 	</fieldset>
@@ -371,12 +371,11 @@ function INSTANTAPPY_manifest_status_settings() {
 
 	} else {
 		
-				printf(
-			'<p><span class="dashicons dashicons-no-alt" style="color: #dc3232;"></span> %s</p>',
-			sprintf(
-				esc_html( 'Manifest generation failed. Check if WordPress can write to your root folder (the same folder with wp-config.php). <a href="%s" target="_blank">Read more &rarr;</a>', 'wapppress-builds-android-app-for-website' ),
-				esc_url( 'YOUR_READ_MORE_LINK' ) // Replace with actual link
-			)
+		printf(
+			'<p><span class="dashicons dashicons-no-alt" style="color: #dc3232;"></span> %s <a href="%s" target="_blank">%s</a></p>',
+			esc_html__( 'Manifest generation failed. Check if WordPress can write to your root folder (the same folder with wp-config.php).', 'wapppress-builds-android-app-for-website' ),
+			esc_url( 'https://wordpress.org/documentation/article/changing-file-permissions/' ),
+			esc_html__( 'Read more', 'wapppress-builds-android-app-for-website' )
 		);
 
 	}
