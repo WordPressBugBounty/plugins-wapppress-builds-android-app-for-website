@@ -97,7 +97,7 @@ $wapppress_current_page = ( isset($_GET['page']) && $wapppress_is_valid_nonce )
         Push Notification <span>(Message)</span>
     </button>
 	<button class="tablinks"
-			onclick="window.open('https://wapppress.freshdesk.com', '_blank', 'noopener');">
+			onclick="window.open('https://wapppress.com/support', '_blank', 'noopener');">
 		Help/Support
 	</button>
 

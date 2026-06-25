@@ -799,10 +799,16 @@ public function advance_settings_page()
 
 		<div class="wrapper">
 <?php
-						if (!isset($_SERVER['HTTPS'])||str_contains($dirIncImg, 'http://')) { 
-								echo "<div id='supportId' class='msgAlert'>Your Website is not running on https.<br/> Please make sure SSL is installed and in Settings->General  URLs are on https.</div>";
-							}
-						?>
+if (
+    !isset($_SERVER['HTTPS']) ||
+    strpos($dirIncImg, 'http://') !== false
+) {
+    echo "<div id='supportId' class='msgAlert'>
+            Your Website is not running on https.<br/>
+            Please make sure SSL is installed and in Settings->General URLs are on https.
+          </div>";
+}
+?>
 			<div class="contant-section">
 				<!--div id='settings'>&nbsp;</div-->
 				<div class="setting-head">
