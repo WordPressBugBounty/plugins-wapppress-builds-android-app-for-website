@@ -768,21 +768,45 @@ public function advance_settings_page()
  if(empty($license)&&(! preg_match( '/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i',  $license))) 
 	{		?>
 	<div class="Section1">
-    <div class="container-fluid" style="width:90%">
+    <div class="container-fluid" style="max-width:1200px;">
         <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12">
-                
-                <div class="Section1_text buy_app_box d-flex justify-content-between align-items-center flex-wrap flex-md-nowrap">
-                    
-                    <div class="flex-grow-1 mb-2 mb-md-0">
-                        You are using <b>WappPress BASIC VERSION (free)</b>, your Android App Validity is 15 days, 
-                        <b>BUY PRO VERSION</b> to get app Validity for Unlimited Time
+            <div class="col-12">
+
+                <div class="Section1_text buy_app_box d-flex flex-column flex-lg-row justify-content-between align-items-center p-4">
+
+                    <!-- Left Content -->
+                    <div class="me-lg-4 text-center text-lg-start mb-3 mb-lg-0">
+                        <h5 class="mb-2">
+                     You're using <strong>WappPress BASIC (Free)</strong>
+                        </h5>
+
+                        <p class="mb-0">
+                            Your generated Android app is valid for <strong>15 days only</strong>.
+                            Upgrade to the <strong>PRO Version</strong> and enjoy:
+                        </p>
+
+                        <ul class="mb-0 mt-2">
+                            <li>✅ Unlimited App Validity</li>
+                            <li>✅ Lifetime Updates</li>
+                            <li>✅ Unlimited Push Notifications</li>
+                            <li>✅ One-Time Payment</li>
+                        </ul>
                     </div>
 
-                    <a href="https://codecanyon.net/item/wapppress-builds-android-mobile-app-for-any-wordpress-website/10250300"
-                       style="color:#f89400; white-space:nowrap;">
-                        <button>BUY PRO VERSION $24 Only</button>
-                    </a>
+                    <!-- Right CTA -->
+                    <div class="text-center">
+
+                        <a href="https://codecanyon.net/item/wapppress-builds-android-mobile-app-for-any-wordpress-website/10250300"
+                           target="_blank"
+                           class="btn btn-warning btn-lg px-4 fw-bold">
+                            BUY PRO VERSION - $24
+                        </a>
+
+                        <div class="small mt-2 text-muted">
+                            One-time payment • Lifetime updates • No monthly fees
+                        </div>
+
+                    </div>
 
                 </div>
 
