@@ -83,7 +83,7 @@ $wapppress_current_page = ( isset($_GET['page']) && $wapppress_is_valid_nonce )
 
     <button class="tablinks <?php echo ( $wapppress_current_page === 'wapppresssettings' ) ? ' active' : ''; ?>" 
         onclick="window.location.href='<?php echo esc_url( admin_url('admin.php?page=wapppresssettings&_wpnonce=' . $wapppress_tab_nonce) ); ?>';">
-        Build App
+        Build Android App
     </button>
 
     <button class="tablinks <?php echo ( $wapppress_current_page === 'advancesettings' ) ? ' active' : ''; ?>" 
@@ -96,6 +96,10 @@ $wapppress_current_page = ( isset($_GET['page']) && $wapppress_is_valid_nonce )
         onclick="window.location.href='<?php echo esc_url( admin_url('admin.php?page=wapppresspush&_wpnonce=' . $wapppress_tab_nonce) ); ?>';">
         Push Notification <span>(Message)</span>
     </button>
+	<button class="tablinks"
+			onclick="window.open('https://iwapppress.wapppress.com/iosapp', '_blank', 'noopener');">
+		 Build iOS App
+	</button>
 	<button class="tablinks"
 			onclick="window.open('https://wapppress.com/support', '_blank', 'noopener');">
 		Help/Support

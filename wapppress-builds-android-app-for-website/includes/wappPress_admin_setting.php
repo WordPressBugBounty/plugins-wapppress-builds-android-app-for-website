@@ -362,7 +362,7 @@ function wapppress_enqueue_admin_assets() {
 	</div>
 </section>
 
-	<!--section>
+	<section>
 			<div style='float:right;display:inline-block;font-family:"open_sansbold";font-size:12px;'>
 
 				<a href="<?php echo esc_url( admin_url( 'admin.php?page=wapppresspro' ) ); ?>"
@@ -373,7 +373,7 @@ function wapppress_enqueue_admin_assets() {
 				</a>
 
 			</div>
-		</section-->
+		</section>
 
 	
 
