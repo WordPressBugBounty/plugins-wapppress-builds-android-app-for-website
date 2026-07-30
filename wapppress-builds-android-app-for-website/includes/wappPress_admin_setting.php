@@ -225,6 +225,17 @@ function wapppress_enqueue_admin_assets() {
 		array( $this, 'maker_basic_page' ),
 		);
 		
+	}else{
+		$textWhyPro = "<span style='color: #C84C05;font-weight: 800;font-size: 16px;'>".__( 'Pro Setting', 'wapppress-builds-android-app-for-website' )."</span>";
+		add_submenu_page(
+		$maPlgin,
+		__( 'Pro Setting', 'wapppress-builds-android-app-for-website' ),
+		$textWhyPro,
+		'manage_options',
+		$whyPro,
+		array( $this, 'wapppress_pro_settings' ),
+		);
+		
 	}
 	
 	// Remove duplicate submenu added by WP
@@ -1728,7 +1739,7 @@ if (isset( $_POST['license'], $_POST['wapppress_license_nonce'] ) &&
 						<form method="post" id="wapppress_license" action="">
 						<?php wp_nonce_field( 'wapppress_license_action', 'wapppress_license_nonce' ); ?>
 
-						<!--table class="form-table">
+						<table class="form-table">
 							<tr>
 								<th scope="row">
 									<label for="license">Item Purchase Code</label>
@@ -1747,9 +1758,9 @@ if (isset( $_POST['license'], $_POST['wapppress_license_nonce'] ) &&
 									</p>
 								</td>
 							</tr>
-						</table-->
+						</table>
 
-						<?php /* submit_button( 'Update License Settings' );*/ ?>
+						<?php  submit_button( 'Update License Settings' ); ?>
 					</form>
 					<script type="text/javascript">
 
