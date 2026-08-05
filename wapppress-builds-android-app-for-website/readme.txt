@@ -3,7 +3,7 @@ Contributors: WappPress
 Tags: create app, wordpress to app, mobile app builder, native mobile app, app creator
 Requires at least:4.5
 Tested up to: 7.1
-Stable tag: 8.0.7
+Stable tag: 8.0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -185,6 +185,10 @@ To publish your app you need to register for a Publisher Account on Google. You 
 Yes, we provide 24/7 support to you for our product. You can contact WappPress Support Team by writing to info@wapppress.com
 
 == Changelog ==
+= 8.0.8 =
+* custom package fixes
+= 8.0.7 =
+* General fixes
 = 8.0.6 =
 * General fixes
 = 8.0.5 =

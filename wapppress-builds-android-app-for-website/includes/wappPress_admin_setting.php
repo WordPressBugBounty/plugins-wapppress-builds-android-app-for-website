@@ -982,7 +982,16 @@ if (
 
 								</p>
 							</div>
-					
+							<div class="supportForms_input">
+	
+								<p>
+
+									 Please enter Package name(<em><span class='fon_cls'>( e.g. example.com) .</span></em>) :- <br />
+									 <input type="text" required="" class="input" placeholder="Bundle ID" value="<?php echo  esc_html( wp_parse_url(home_url(), PHP_URL_HOST)); ?>" id="app_bundle_id" name="app_bundle_id">
+
+								</p>
+
+							</div>
 							<div class="supportForms_input">
 							App Type:
 									<p>
@@ -2294,7 +2303,7 @@ public function create_app() {
         $domain_arr   = explode( '.', sanitize_text_field( $domain_name ) );
         $domain_fname = isset( $domain_arr[0] ) ? sanitize_text_field( $domain_arr[0] ) : '';
         $app_name     = isset( $_POST['app_name'] ) ? sanitize_text_field( wp_unslash( $_POST['app_name'] ) ) : '';
-
+		$app_bundle_id     = isset( $_POST['app_bundle_id'] ) ? sanitize_text_field( wp_unslash( $_POST['app_bundle_id'] ) ) : '';
         // Get and encode logo
         $base64_app_logo = '';
         if ( ! empty( $app_logo_temp ) && file_exists( $app_logo_temp ) ) {
@@ -2310,6 +2319,7 @@ public function create_app() {
         $data = array(
             'name'              => $name,
             'app_name'          => $app_name,
+			'app_bundle_id'     => $app_bundle_id,
             'base64_app_logo'   => $base64_app_logo,
             'base64_app_splash' => $base64_app_splash,
             'email'             => $email,
