@@ -10,9 +10,9 @@ class wappPress_admin_setting extends wappPress {
 
 			add_action( 'admin_init', array( $this, 'register_settings' ) );
 
-			add_action( 'wp_ajax_create_app', array( $this, 'create_app' ) );
+			add_action( 'wp_ajax_wapppress_create_app', array( $this, 'wapppress_create_app' ) );
 
-			add_action( 'wp_ajax_create_push_app', array( $this, 'create_push_app' ) );
+			add_action( 'wp_ajax_wapppress_create_push_app', array( $this, 'wapppress_create_push_app' ) );
 
 			add_action( 'wp_ajax_get_app', array( $this, 'get_app' ) );
 		
@@ -1244,11 +1244,11 @@ if (
 							
 
 						});	
-						//
+						/*
 							jQuery(window).load(function () {
 									jQuery("#build-btn-load").hide();
 							});	
-						//
+					*/
 						function show_launcher_logo_form(fromId){
 
 							if(fromId==0){
@@ -2233,7 +2233,7 @@ $dirPath1  = trailingslashit( plugin_dir_path( __FILE__ ) );
 //Create App 
 
 // Create App
-public function create_app() {
+public function wapppress_create_app() {
     // Verify the nonce
     if ( ! check_ajax_referer( 'wapppress_nonce', 'security', false ) ) {
         wp_send_json_error( 'Invalid nonce' );
@@ -2450,7 +2450,7 @@ public function wcurlrequest($ac, $d_name, $an, $data)
  }
 
 //Create App end
-public function create_push_app() {
+public function wapppress_create_push_app() {
     // Verify the nonce
     if ( ! check_ajax_referer( 'wapppress_nonce', 'security', false ) ) {
         wp_send_json_error( 'Invalid nonce' );
