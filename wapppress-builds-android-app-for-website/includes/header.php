@@ -101,7 +101,7 @@ $wapppress_current_page = ( isset($_GET['page']) && $wapppress_is_valid_nonce )
 		 Build iOS App
 	</button>
 	<button class="tablinks"
-			onclick="window.open('https://wapppress.com/support?=3', '_blank', 'noopener');">
+			onclick="window.open('https://wapppress.zohodesk.in/portal', '_blank', 'noopener');">
 		Help/Support
 	</button>
 
