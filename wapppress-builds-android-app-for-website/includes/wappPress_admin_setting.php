@@ -1354,7 +1354,17 @@ if (
 							});
 
 						
+							jQuery.validator.addMethod("androidPackage", function(value, element) {
 
+								// Android package name format:
+								// example.com
+								// com.example.app
+								// com.cjsacademy.app
+
+								return this.optional(element) ||
+									/^[a-z][a-z0-9]*(\.[a-z][a-z0-9]*)+$/.test(value);
+
+							}, "Please enter a valid Android package name.");
 							jQuery( "#customer_support" ).validate({
 
 									rules: {
@@ -1425,6 +1435,10 @@ if (
 
 											required: true
 
+										},
+										app_bundle_id: {
+										required: true,
+										androidPackage: true
 										}
 
 									},
@@ -1461,6 +1475,10 @@ if (
 
 												required: "Please enter your app splash screen text."
 
+											},
+											app_bundle_id: {
+												required: "Please enter package name.",
+												androidPackage: "Invalid Android package name. Example: com.example.myapp"
 											}
 
 										},
