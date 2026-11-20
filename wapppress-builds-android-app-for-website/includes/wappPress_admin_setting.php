@@ -49,8 +49,6 @@ class wappPress_admin_setting extends wappPress {
 			add_action( 'transition_post_status',[ $this, 'send_push_on_product' ], 10, 3 );
 			}			
 
-
-			
 	}
 
 public function register_pwa_menu() {
